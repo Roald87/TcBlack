@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
-  <POU Name="Sum" Id="{267ee07b-df51-4d9e-9956-8cf1d2e5412a}" SpecialFunc="None">
+  <POU Name="Sum" Id="{5ef86b57-8d8e-4047-bb1e-6f2aaafbe9aa}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION Sum : LREAL
 VAR_INPUT
     var1 : LREAL;

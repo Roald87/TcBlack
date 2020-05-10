@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TcBlack
 {
@@ -22,7 +23,10 @@ namespace TcBlack
         public List<StatementBase> Tokenize()
         {
             List<StatementBase> statements = new List<StatementBase>();
-            foreach (string line in _unformattedCode.Split(_lineEnding))
+            string[] lines = _unformattedCode.Split(
+                new[] {_lineEnding}, StringSplitOptions.None
+            );
+            foreach (string line in lines)
             {
                 StatementBase statement;
                 if (line.StartsWith("END_VAR"))

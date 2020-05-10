@@ -5,7 +5,7 @@ namespace TcBlackTests
 {
     public class TcPouReaderTests
     {
-        const string _tcProjectPath = "../../../../TwinCATBlack/PLC/";
+        const string _tcProjectPath = "../../../../TwinCATBlack/PLC/POUs/";
 
         [Theory]
         [InlineData(_tcProjectPath + "Sum.TcPOU")]

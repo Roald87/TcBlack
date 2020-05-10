@@ -156,8 +156,6 @@ namespace TcBlackTests
             AssertEquals(expectedDecl, varDecl.Tokenize());
         }
 
-        //TODO: add tests and code to recognize "nVar : INT; {info 'TODO: should get another name'}"
-
         private void AssertEquals(TcDeclaration expected, TcDeclaration actual)
         {
             Assert.Equal(expected.Name, actual.Name);
