@@ -47,7 +47,7 @@ namespace TcBlack
                 }
                 else if (line.StartsWith("FUNCTION") || line.StartsWith("METHOD"))
                 {
-                    statement = new FunctionDefinition(
+                    statement = new ObjectDefinition(
                         unformattedCode: line,
                         singleIndent: _singleIndent,
                         lineEnding: _lineEnding

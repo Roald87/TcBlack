@@ -2,17 +2,17 @@
 
 namespace TcBlack
 {
-    public class FunctionDefinition : StatementBase
+    public class ObjectDefinition : StatementBase
     {
-        public struct TcProgrammingEntity
+        public struct TcObject
         {
-            public TcProgrammingEntity(
-                string entityType,
+            public TcObject(
+                string objectType,
                 string name,
                 string dataType
             )
             {
-                EntityType = entityType;
+                EntityType = objectType;
                 Name = name;
                 DataType = dataType;
             }
@@ -22,7 +22,7 @@ namespace TcBlack
             public string DataType { get; }
         }
 
-        public FunctionDefinition(
+        public ObjectDefinition(
             string unformattedCode,
             string singleIndent,
             string lineEnding
@@ -32,7 +32,7 @@ namespace TcBlack
 
         public override string Format(ref uint indents)
         {
-            TcProgrammingEntity tokens = Tokenize();
+            TcObject tokens = Tokenize();
 
             string formattedCode =
                 _singleIndent.Repeat(indents) 
@@ -43,7 +43,7 @@ namespace TcBlack
             return formattedCode;
         }
 
-        private TcProgrammingEntity Tokenize()
+        private TcObject Tokenize()
         {
             string entityType = @"(?:\s+)?(FUNCTION\w*|METHOD)(?:\s+)";
             string name = @"(\w+)(?:\s+)?(?::)";
@@ -52,19 +52,19 @@ namespace TcBlack
             string pattern = $@"{entityType}{name}{dataType}";
 
             MatchCollection matches = Regex.Matches(_unformattedCode, pattern);
-            TcProgrammingEntity functionDefinition;
+            TcObject functionDefinition;
             if (matches.Count > 0)
             {
                 Match match = matches[0];
-                functionDefinition = new TcProgrammingEntity(
-                    entityType: match.Groups[1].Value,
+                functionDefinition = new TcObject(
+                    objectType: match.Groups[1].Value,
                     name: match.Groups[2].Value,
                     dataType: match.Groups[3].Value
                 );
             }
             else
             {
-                functionDefinition = new TcProgrammingEntity("", "", "");
+                functionDefinition = new TcObject("", "", "");
             }
 
             return functionDefinition;

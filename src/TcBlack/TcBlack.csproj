@@ -47,7 +47,7 @@
   <ItemGroup>
     <Compile Include="CompositeStatement.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="FunctionDefinition.cs" />
+    <Compile Include="ObjectDefinition.cs" />
     <Compile Include="IStatementOperations.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -15,7 +15,7 @@ namespace TcBlackTests
                 lineEnding:"\n"
             );
 
-            statements.Add(new FunctionDefinition(
+            statements.Add(new ObjectDefinition(
                 unformattedCode: "FUNCTION    AddIntegers:DINT",
                 singleIndent: singleIndent,
                 lineEnding: "\n"

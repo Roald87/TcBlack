@@ -3,7 +3,7 @@ using Xunit;
 
 namespace TcBlackTests
 {
-    public class FunctionDefinitionTests
+    public class ObjectDefinitionTests
     {
         [Theory]
         [InlineData("      FUNCTION Sum : BOOL", 1, "    FUNCTION Sum : BOOL", 1)]
@@ -19,8 +19,8 @@ namespace TcBlackTests
             uint expectedIndents
         )
         {
-            FunctionDefinition var =
-                new FunctionDefinition(originalCode, "    ", "\n");
+            ObjectDefinition var =
+                new ObjectDefinition(originalCode, "    ", "\n");
             Assert.Equal(expectedCode, var.Format(ref indents));
             Assert.Equal(expectedIndents, indents);
         }

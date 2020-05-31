@@ -69,7 +69,7 @@ namespace TcBlackTests
             );
             List<StatementBase> actual = assigner.Tokenize();
 
-            Assert.IsType<FunctionDefinition>(actual[0]);
+            Assert.IsType<ObjectDefinition>(actual[0]);
             Assert.Equal($"{code}\n", FormatStatements(actual));
         }
 
