@@ -1,18 +1,26 @@
 # TcBlack: TwinCAT code formatter
 Opnionated code formatter for TwinCAT.
 
+## Status
+There is an idea, but it doesn't work yet. When [Milestone 0.1](https://github.com/Roald87/TcBlack/milestone/1) 
+is completed there should be a first working version. 
+
+You're more then welcome to help if you'd like! See the [contributing guidelines](https://github.com/Roald87/TcBlack/blob/master/CONTRIBUTING.md)
+for more info.
+
 ## Idea
 
 Change
 
 ```
+FUNCTION_BLOCK   DoSomething
 VAR
 	Condition : ARRAY[1..5] OF BOOL;
 SomeText: STRING;
 	Counter		: DINT:= 1 ;
 	Result		: DINT :=2;
 END_VAR
-
+===================================
 SomeText:= 'Current counts';
 
 IF Condition[1] AND Condition[2]  AND CONDITION[3] AND CONDITION[4] AND CONDITION[5] THEN
@@ -34,13 +42,14 @@ AddTwo(First:= Counter,
 Into
 
 ```
+FUNCTION_BLOCK DoSomething
 VAR
 	Condition : ARRAY[1..5] OF BOOL;
 	SomeText : STRING;
 	Counter : DINT := 1;
 	Result : DINT := 2;
 END_VAR
-
+===================================
 SomeText := 'Current counts';
 
 IF (
@@ -101,6 +110,3 @@ The number doesn't change when you alter whitespaces, add/change comments
 or add brackets around a long if statement. Only if the actual code changes
 then the number also changes. For example, if you add a variable, add a line 
 of code or change the order of variables.
-
-The project will be build using the [Twincat API](https://infosys.beckhoff.com/content/1033/tc3_automationinterface/63050395025936267.html?id=4055881424125395371)
-and [Visual Studio DevEnv](https://infosys.beckhoff.com/content/1033/tc3_automationinterface/1520210443.html?id=2562914764838059793).

@@ -5,9 +5,15 @@ VisualStudioVersion = 15.0.28307.1062
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcBlack", "TcBlack\TcBlack.csproj", "{6E641F94-D4BE-4576-A2A1-AE02BC173716}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcBlackTests", "TcBlackTests\TcBlackTests.csproj", "{5A4C1DE0-EB61-4661-BB58-F246A7AF371F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TcBlackTests", "TcBlackTests\TcBlackTests.csproj", "{5A4C1DE0-EB61-4661-BB58-F246A7AF371F}"
 EndProject
 Project("{B1E792BE-AA5F-4E3C-8C82-674BF9C0715B}") = "TwinCATBlack", "TwinCATBlack\TwinCATBlack.tsproj", "{04451302-432C-44C5-9EE9-62BB3DC70AFA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7081C59B-F88D-4CA8-80B6-0E5502E47BD7}"
+	ProjectSection(SolutionItems) = preProject
+		..\CONTRIBUTING.md = ..\CONTRIBUTING.md
+		..\README.md = ..\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
