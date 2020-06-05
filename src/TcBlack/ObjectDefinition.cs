@@ -38,7 +38,7 @@ namespace TcBlack
                 _singleIndent.Repeat(indents) 
                 + tokens.EntityType
                 + $" {tokens.Name}"
-                + $" : {tokens.DataType}";
+                + (tokens.DataType.Length > 0 ? $" : {tokens.DataType}" : "");
 
             return formattedCode;
         }
@@ -46,8 +46,8 @@ namespace TcBlack
         private TcObject Tokenize()
         {
             string entityType = @"(?:\s+)?(FUNCTION\w*|METHOD)(?:\s+)";
-            string name = @"(\w+)(?:\s+)?(?::)";
-            string dataType = @"(?:\s+)?(\w+)";
+            string name = @"(\w+)(?:\s+)?(?::)?";
+            string dataType = @"(?:\s+)?(\w+)?";
 
             string pattern = $@"{entityType}{name}{dataType}";
 

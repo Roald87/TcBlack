@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
 using Xunit;
 using TcBlack;
 
@@ -72,7 +71,6 @@ namespace TcBlackTests
             Assert.IsType<ObjectDefinition>(actual[0]);
             Assert.Equal($"{code}\n", FormatStatements(actual));
         }
-
 
         [Fact]
         public void DetectBLockStartEndAndLineOfCode()

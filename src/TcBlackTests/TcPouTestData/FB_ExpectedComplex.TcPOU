@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <POU Name="FB_InputComplex" Id="{5fb61836-2acb-4f66-ab9e-42a9d92a5d8d}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_InputComplex
+VAR_INPUT
+    var1 : BOOL;
+    array1 : ARRAY[1..2] OF INT;
+    array2 : ARRAY[1..5] OF REAL := [5(3.14)];
+END_VAR
+VAR_OUTPUT
+    outVar : STRING;
+END_VAR
+VAR
+    someString : STRING := 'This is a string';
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// No code here]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

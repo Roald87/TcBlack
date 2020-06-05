@@ -1,6 +1,7 @@
 using System;
-using System.Diagnostics;
-using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using CommandLine;
 
 namespace TcBlack
 {
@@ -8,52 +9,127 @@ namespace TcBlack
     {
         static void Main(string[] args)
         {
-            string devenvPath = "\"C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/Common7/IDE/devenv.exe\"";
-            string slnPath = "\"C:/Users/roald/Source/Repos/TcBlack/src/TcBlack.sln\"";
-            string projectPath = "\"TwinCATBlack/PLC/PLC.plcproj\"";
-            BuildTwinCatProject(devenvPath, slnPath, projectPath);
-            
-            Console.ReadKey();
-        }
+            Parser.Default.ParseArguments<Options>(args)
+                .WithParsed(o =>
+                {
+                    string files = string.Join("\n", o.Filenames);
 
-        static void BuildTwinCatProject(string devenvPath, string slnPath, string projectPath)
-        {
-            string currentDirectory = Directory.GetCurrentDirectory();
-            string buildScript = Path.Combine(
-                currentDirectory, "BuildTwinCatProject.bat"
-            );
-
-            ExecuteCommand($"{buildScript} {devenvPath} {slnPath} {projectPath}");
+                    if (o.Safe)
+                    {
+                        Console.WriteLine(
+                            $"Formatting file(s) in safe mode:\n{files}\n"
+                        );
+                        SafeFormat(o);
+                    }
+                    else
+                    {
+                        Console.WriteLine(
+                            $"Formatting file(s) in fast non-safe mode:\n{files}\n"
+                        );
+                        CreateBackups(o.Filenames.ToArray());
+                        FormatAll(o.Filenames.ToArray());
+                    }
+                });
         }
 
         /// <summary>
-        /// Source: https://stackoverflow.com/a/5519517/6329629
+        /// Compiles project before and after formatting to check if nothing changed.
+        /// It does this by comparing the compile hash.
         /// </summary>
-        /// <param name="command"></param>
-        static void ExecuteCommand(string command)
+        /// <param name="options">Input from the command line.</param>
+        static void SafeFormat(Options options)
         {
-            var processInfo = new ProcessStartInfo("cmd.exe", "/c " + command)
+            Console.WriteLine("Building project before formatting.");
+            TcProjectBuilder tcProject = new TcProjectBuilder(
+                options.Filenames.First()
+            );
+            string hashBeforeFormat = string.Empty;
+            try
             {
-                CreateNoWindow = false,
-                UseShellExecute = false,
-                RedirectStandardError = true,
-                RedirectStandardOutput = true
-            };
+                hashBeforeFormat = tcProject.Build(options.Verbose).Hash;
+            }
+            catch(ProjectBuildFailed)
+            {
+                Console.WriteLine(
+                    "Initial project build failed! No formatting will be done."
+                );
+                return;
+            }
 
-            var process = Process.Start(processInfo);
+            List<Backup> backups = CreateBackups(options.Filenames.ToArray());
+            FormatAll(options.Filenames.ToArray());
 
-            process.OutputDataReceived += (object sender, DataReceivedEventArgs e) =>
-                Console.WriteLine("output>>" + e.Data);
-            process.BeginOutputReadLine();
+            string hashAfterFormat = string.Empty;
+            try
+            {
+                hashAfterFormat = tcProject.Build(options.Verbose).Hash;
+            }
+            catch(ProjectBuildFailed)
+            {
+                Console.WriteLine(
+                    "Project build failed after formatting! Undoing it."
+                );
+                backups.ForEach(backup => backup.Restore().Delete());
+                return;
+            }
 
-            process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) =>
-                Console.WriteLine("error>>" + e.Data);
-            process.BeginErrorReadLine();
+            if (hashBeforeFormat != hashAfterFormat)
+            {
+                Console.WriteLine(
+                    "Something when wrong during formatting! Undoing it."
+                );
+                backups.ForEach(backup => backup.Restore().Delete());
+            }
+        }
 
-            process.WaitForExit();
+        /// <summary>
+        /// Reformat all TcPou files.
+        /// </summary>
+        /// <param name="filenames">Filesnames which should be formatted.</param>
+        static void FormatAll(string[] filenames)
+        {
+            foreach (string filename in filenames)
+            {
+                new TcPou(filename).Format().Save();
+            }
+            Console.WriteLine($"Formatted {filenames.Length} file(s).");
+        }
 
-            Console.WriteLine("ExitCode: {0}", process.ExitCode);
-            process.Close();
+        /// <summary>
+        /// Creates .bak files of the files.
+        /// </summary>
+        /// <param name="filenames">File to back-up.</param>
+        /// <returns>List of files which were backed-up and can be restored.</returns>
+        static List<Backup> CreateBackups(string[] filenames)
+        {
+            return filenames.Select(filename => new Backup(filename)).ToList();
+        }
+
+        /// <summary>
+        /// Options for command line interface.
+        /// </summary>
+        class Options
+        {
+            [Option(
+                'f', "filenames",
+                HelpText = "File(s) you want to reformat.",
+                Required = true
+            )]
+            public IEnumerable<string> Filenames { get; set; }
+
+            [Option(
+                's', "safe",
+                HelpText =
+                    "Compiles project before and after formatting, in order to check "
+                    + "if the code has changed. WARNING: Takes > 30 seconds!"
+            )]
+            public bool Safe { get; set; }
+
+            [Option(
+                'v', "verbose",
+                HelpText = "Outputs build info. Has no effect in non-safe mode."
+            )]
+            public bool Verbose { get; set; }
         }
     }
 }

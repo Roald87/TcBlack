@@ -10,7 +10,7 @@ namespace TcBlackTests
         [InlineData("FUNCTION Sum_2     :  BOOL ", 1, "    FUNCTION Sum_2 : BOOL", 1)]
         [InlineData("   METHOD Adder :LREAL", 2, "        METHOD Adder : LREAL", 2)]
         [InlineData(
-            "   FUNCTION_BLOCK Subtract: REAL", 0, "FUNCTION_BLOCK Subtract : REAL", 0
+            "   FUNCTION_BLOCK Subtract", 0, "FUNCTION_BLOCK Subtract", 0
         )]
         public void DifferentIndents(
             string originalCode,
