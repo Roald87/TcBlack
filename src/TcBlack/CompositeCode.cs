@@ -90,9 +90,17 @@ namespace TcBlack
                         lineEnding: _lineEnding
                     ));
                 }
-                else
+                else if (LooksLikeVariableDeclaration(line))
                 {
                     Add(new VariableDeclaration(
+                        unformattedCode: line,
+                        singleIndent: _singleIndent,
+                        lineEnding: _lineEnding
+                    ));
+                }
+                else
+                {
+                    Add(new UnknownCodeType(
                         unformattedCode: line,
                         singleIndent: _singleIndent,
                         lineEnding: _lineEnding
@@ -121,6 +129,20 @@ namespace TcBlack
                     break;
                 }
             }
+        }
+
+        /// <summary>
+        /// Uses a regex pattern match in Tokenize to check if the code looks like a 
+        /// declaration.
+        /// </summary>
+        /// <param name="codeLine">Code line to inspect</param>
+        /// <returns>Returns true if it thinks the code is a declaration.</returns>
+        private bool LooksLikeVariableDeclaration(string codeLine)
+        {
+            var code = new VariableDeclaration(codeLine, _singleIndent, _lineEnding)
+                .Tokenize();
+
+            return code.Name != "";
         }
     }
 }

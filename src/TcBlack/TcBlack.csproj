@@ -55,6 +55,7 @@
     <Compile Include="CodeLineBase.cs" />
     <Compile Include="TcPou.cs" />
     <Compile Include="TcProjectBuilder.cs" />
+    <Compile Include="UnknownCodeType.cs" />
     <Compile Include="VariableBlockEnd.cs" />
     <Compile Include="VariableBlockStart.cs" />
     <Compile Include="VariableDeclaration.cs" />
