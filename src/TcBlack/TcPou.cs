@@ -30,17 +30,12 @@ namespace TcBlack
         public TcPou Format()
         {
             string lineEnding = "\r\n";
-            List<StatementBase> statements = new StatementAssigner(
+            var declarationToFormat = new CompositeStatement(
                     Declaration, "    ", lineEnding
                 ).Tokenize();
 
             uint indents = 0;
-            string formattedStatements = "";
-            foreach (var statement in statements)
-            {
-                formattedStatements += statement.Format(ref indents) + lineEnding;
-            }
-            Declaration = formattedStatements;
+            Declaration = declarationToFormat.Format(ref indents);
 
             return this;
         }
