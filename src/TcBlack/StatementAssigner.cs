@@ -29,7 +29,15 @@ namespace TcBlack
             foreach (string line in lines)
             {
                 StatementBase statement;
-                if (line.StartsWith("END_VAR"))
+                if (line.Trim().Length == 0)
+                {
+                    statement = new EmptyLine(
+                        unformattedCode: line,
+                        singleIndent: _singleIndent,
+                        lineEnding: _lineEnding
+                    );
+                }
+                else if (line.StartsWith("END_VAR"))
                 {
                     statement = new VariableBlockEnd(
                         unformattedCode: line,

@@ -6,8 +6,8 @@ namespace TcBlackTests
 {
     public class StatementAssignerTests
     {
-        private string lineEnding = "\n";
-        private string singleIndent = "    ";
+        private readonly string lineEnding = "\n";
+        private readonly string singleIndent = "    ";
 
         [Fact]
         public void DetectSingleBlockStart()
@@ -72,8 +72,22 @@ namespace TcBlackTests
             Assert.Equal($"{code}\n", FormatStatements(actual));
         }
 
+        [Theory]
+        [InlineData("")]
+        public void DetectEmptyLine(string code)
+        {
+            StatementAssigner assigner = new StatementAssigner(
+                unformattedCode: code,
+                singleIndent: singleIndent,
+                lineEnding: lineEnding
+            );
+            List<StatementBase> actual = assigner.Tokenize();
+            Assert.IsType<EmptyLine>(actual[0]);
+            Assert.Equal(lineEnding, FormatStatements(actual));
+        }
+
         [Fact]
-        public void DetectBLockStartEndAndLineOfCode()
+        public void DetectBlockStartEndAndLineOfCode()
         {
             string code = 
                 "VAR_INPUT\n"
