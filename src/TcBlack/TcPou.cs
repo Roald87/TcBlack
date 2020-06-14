@@ -30,7 +30,7 @@ namespace TcBlack
         public TcPou Format()
         {
             string lineEnding = "\r\n";
-            var declarationToFormat = new CompositeStatement(
+            var declarationToFormat = new CompositeCode(
                     Declaration, "    ", lineEnding
                 ).Tokenize();
 

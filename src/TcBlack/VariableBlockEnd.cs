@@ -1,6 +1,6 @@
 ﻿namespace TcBlack
 {
-    public class VariableBlockEnd : StatementBase
+    public class VariableBlockEnd : CodeLineBase
     {
         public VariableBlockEnd(
             string unformattedCode,

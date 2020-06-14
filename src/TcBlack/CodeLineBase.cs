@@ -1,12 +1,12 @@
 ﻿namespace TcBlack
 {
-    public abstract class StatementBase
+    public abstract class CodeLineBase
     {
         protected string _unformattedCode;
         protected string _singleIndent;
         protected string _lineEnding;
 
-        public StatementBase(
+        public CodeLineBase(
             string unformattedCode,
             string singleIndent,
             string lineEnding

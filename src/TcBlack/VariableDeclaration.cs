@@ -27,7 +27,7 @@ namespace TcBlack
         public string Comment { get; }
     }
 
-    public class VariableDeclaration : StatementBase
+    public class VariableDeclaration : CodeLineBase
     {
         public VariableDeclaration(
             string unformattedCode,

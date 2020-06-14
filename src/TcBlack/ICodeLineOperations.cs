@@ -1,6 +1,6 @@
 ﻿namespace TcBlack
 {
-    internal interface IStatementOperations
+    internal interface ICodeLineOperations
     {
         string Format(ref uint indent);
     }

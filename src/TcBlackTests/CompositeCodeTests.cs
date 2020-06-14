@@ -3,7 +3,7 @@ using Xunit;
 
 namespace TcBlackTests
 {
-    public class CompositeStatementTests
+    public class CompositeCodeTests
     {
         private readonly string lineEnding = "\n";
         private readonly string singleIndent = "    ";
@@ -19,7 +19,7 @@ namespace TcBlackTests
                 "\n\n\n" +
                 "anotherBool : BOOL:=TRUE;\n" +
                 "END_VAR\n\n\n";
-            CompositeStatement statements = new CompositeStatement(
+            CompositeCode statements = new CompositeCode(
                 unformattedCode: unformattedCode, 
                 singleIndent: singleIndent, 
                 lineEnding: lineEnding

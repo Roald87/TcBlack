@@ -2,7 +2,7 @@
 
 namespace TcBlack
 {
-    public class ObjectDefinition : StatementBase
+    public class ObjectDefinition : CodeLineBase
     {
         public struct TcObject
         {

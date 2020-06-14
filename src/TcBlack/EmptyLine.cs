@@ -1,6 +1,6 @@
 ﻿namespace TcBlack
 {
-    public class EmptyLine : StatementBase
+    public class EmptyLine : CodeLineBase
     {
         public EmptyLine(
             string unformattedCode,

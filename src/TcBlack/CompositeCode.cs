@@ -4,26 +4,26 @@ using System.Linq;
 
 namespace TcBlack
 {
-    public class CompositeStatement : StatementBase, IStatementOperations
+    public class CompositeCode : CodeLineBase, ICodeLineOperations
     {
-        private List<StatementBase> statements;
+        private List<CodeLineBase> codeLines;
 
-        public CompositeStatement(
+        public CompositeCode(
             string unformattedCode,
             string singleIndent,
             string lineEnding
         ) : base(unformattedCode, singleIndent, lineEnding)
         {
-            statements = new List<StatementBase>();
+            codeLines = new List<CodeLineBase>();
         }
 
         /// <summary>
-        /// Adds a new statement (code line) to the list.
+        /// Adds a new code line to the list.
         /// </summary>
-        /// <param name="statement">The code line to add.</param>
-        public void Add(StatementBase statement)
+        /// <param name="codeLine">The code line to add.</param>
+        public void Add(CodeLineBase codeLine)
         {
-            statements.Add(statement);
+            codeLines.Add(codeLine);
         }
 
         /// <summary>
@@ -35,9 +35,9 @@ namespace TcBlack
         {
             string formattedString = "";
 
-            foreach (StatementBase statement in statements)
+            foreach (CodeLineBase codeLine in codeLines)
             {
-                formattedString += statement.Format(ref indents) + _lineEnding;
+                formattedString += codeLine.Format(ref indents) + _lineEnding;
             }
 
             return formattedString;
@@ -47,7 +47,7 @@ namespace TcBlack
         /// Assigns a specific type to each line.
         /// </summary>
         /// <returns>The CompositeStatement class itself.</returns>
-        public CompositeStatement Tokenize()
+        public CompositeCode Tokenize()
         {
             string[] lines = _unformattedCode.Split(
                 new[] { _lineEnding }, StringSplitOptions.None
@@ -56,7 +56,7 @@ namespace TcBlack
             {
                 if (line.Trim().Length == 0)
                 {
-                    if (statements.Last() is EmptyLine)
+                    if (codeLines.Last() is EmptyLine)
                     {
                         continue;
                     }
@@ -110,11 +110,11 @@ namespace TcBlack
         /// </summary>
         private void RemoveAllEmptyLinesAtTheEnd()
         {
-            for (int i = statements.Count - 1; i >= 0; i--)
+            for (int i = codeLines.Count - 1; i >= 0; i--)
             {
-                if (statements[i] is EmptyLine)
+                if (codeLines[i] is EmptyLine)
                 {
-                    statements.RemoveAt(i);
+                    codeLines.RemoveAt(i);
                 }
                 else
                 {
