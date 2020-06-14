@@ -16,7 +16,9 @@ namespace TcBlackTests
                 "VAR_INPUT\n" +
                 "var1:      LREAL  :=9.81 ;      // Comment\n" +
                 "var2  AT %Q*:  BOOL     ;   \n" +
-                "END_VAR";
+                "\n\n\n" +
+                "anotherBool : BOOL:=TRUE;\n" +
+                "END_VAR\n\n\n";
             CompositeStatement statements = new CompositeStatement(
                 unformattedCode: unformattedCode, 
                 singleIndent: singleIndent, 
@@ -26,11 +28,13 @@ namespace TcBlackTests
             uint indents = 0;
             string actual = statements.Format(ref indents);
             string expected =
-                "FUNCTION AddIntegers : DINT\n" 
-                + "VAR_INPUT\n" 
-                + "    var1 : LREAL := 9.81; // Comment\n"
-                + "    var2 AT %Q* : BOOL;\n"
-                + "END_VAR\n";
+                "FUNCTION AddIntegers : DINT\n" +
+                "VAR_INPUT\n" +
+                "    var1 : LREAL := 9.81; // Comment\n" +
+                "    var2 AT %Q* : BOOL;\n" +
+                "\n" +
+                "    anotherBool : BOOL := TRUE;\n" +
+                "END_VAR\n";
 
             Assert.Equal(expected, actual);
         } 

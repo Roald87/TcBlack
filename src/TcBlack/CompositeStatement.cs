@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TcBlack
 {
@@ -16,11 +17,20 @@ namespace TcBlack
             statements = new List<StatementBase>();
         }
 
+        /// <summary>
+        /// Adds a new statement (code line) to the list.
+        /// </summary>
+        /// <param name="statement">The code line to add.</param>
         public void Add(StatementBase statement)
         {
             statements.Add(statement);
         }
 
+        /// <summary>
+        /// Format all the code.
+        /// </summary>
+        /// <param name="indents">The number of indents.</param>
+        /// <returns>The formatted code.</returns>
         public override string Format(ref uint indents)
         {
             string formattedString = "";
@@ -33,6 +43,10 @@ namespace TcBlack
             return formattedString;
         }
 
+        /// <summary>
+        /// Assigns a specific type to each line.
+        /// </summary>
+        /// <returns>The CompositeStatement class itself.</returns>
         public CompositeStatement Tokenize()
         {
             string[] lines = _unformattedCode.Split(
@@ -42,6 +56,10 @@ namespace TcBlack
             {
                 if (line.Trim().Length == 0)
                 {
+                    if (statements.Last() is EmptyLine)
+                    {
+                        continue;
+                    }
                     Add(new EmptyLine(
                         unformattedCode: line,
                         singleIndent: _singleIndent,
@@ -82,7 +100,27 @@ namespace TcBlack
                 }
             }
 
+            RemoveAllEmptyLinesAtTheEnd();
+
             return this;
+        }
+
+        /// <summary>
+        /// Removes all the empty lines which are in the end of the statement list.
+        /// </summary>
+        private void RemoveAllEmptyLinesAtTheEnd()
+        {
+            for (int i = statements.Count - 1; i >= 0; i--)
+            {
+                if (statements[i] is EmptyLine)
+                {
+                    statements.RemoveAt(i);
+                }
+                else
+                {
+                    break;
+                }
+            }
         }
     }
 }
