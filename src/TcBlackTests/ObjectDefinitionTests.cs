@@ -12,7 +12,7 @@ namespace TcBlackTests
         [InlineData(
             "   FUNCTION_BLOCK Subtract", 0, "FUNCTION_BLOCK Subtract", 0
         )]
-        public void DifferentIndents(
+        public void FormatObjectDefinitionsWithDifferentIndentsAndSpacings(
             string originalCode,
             uint indents,
             string expectedCode,
@@ -24,5 +24,37 @@ namespace TcBlackTests
             Assert.Equal(expectedCode, var.Format(ref indents));
             Assert.Equal(expectedIndents, indents);
         }
+
+        [Theory]
+        [InlineData(
+            "FUNCTION_BLOCK Sum IMPLEMENTS   Interface",
+            "FUNCTION_BLOCK Sum IMPLEMENTS Interface"
+        )]
+        [InlineData(
+            "FUNCTION_BLOCK Sum IMPLEMENTS   Interface1,   Interface2",
+            "FUNCTION_BLOCK Sum IMPLEMENTS Interface1, Interface2"
+        )]
+        [InlineData(
+            "FUNCTION_BLOCK Sum IMPLEMENTS   Interface1     EXTENDS FB_Base",
+            "FUNCTION_BLOCK Sum EXTENDS FB_Base IMPLEMENTS Interface1"
+        )]
+        [InlineData(
+            "FUNCTION_BLOCK Sum     EXTENDS FB_Base,FB_Base2,FB_Base3",
+            "FUNCTION_BLOCK Sum EXTENDS FB_Base, FB_Base2, FB_Base3"
+        )]
+        [InlineData(
+            "FUNCTION_BLOCK Sum     EXTENDS FB_Base,FB_Base2,FB_Base3\nIMPLEMENTS   Interface1,   Interface2",
+            "FUNCTION_BLOCK Sum EXTENDS FB_Base, FB_Base2, FB_Base3 IMPLEMENTS Interface1, Interface2"
+        )]
+        public void FormatFunctionBlockDefinitionsWithInterfaceAndInherit(
+            string originalCode, string expectedCode
+        )
+        {
+            ObjectDefinition var =
+                new ObjectDefinition(originalCode, "    ", "\n");
+            uint indents = 0;
+            Assert.Equal(expectedCode, var.Format(ref indents));
+        }
+
     }
 }
