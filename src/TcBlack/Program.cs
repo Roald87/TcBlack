@@ -13,19 +13,22 @@ namespace TcBlack
             Parser.Default.ParseArguments<Options>(args)
                 .WithParsed(o =>
                 {
-                    string files = string.Join("\n", o.Filenames);
+                    string files = string.Join(
+                        "\n", 
+                        o.Filenames.Select(filename => $"  - {filename}").ToArray()
+                    );
 
                     if (o.Safe)
                     {
                         Console.WriteLine(
-                            $"Formatting file(s) in safe mode:\n{files}\n"
+                            $"\nFormatting file(s) in safe mode:\n{files}\n"
                         );
                         SafeFormat(o);
                     }
                     else
                     {
                         Console.WriteLine(
-                            $"Formatting file(s) in fast non-safe mode:\n{files}\n"
+                            $"\nFormatting file(s) in fast non-safe mode:\n{files}\n"
                         );
                         try
                         {
