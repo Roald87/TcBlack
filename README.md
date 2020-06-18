@@ -1,29 +1,31 @@
 # TcBlack: TwinCAT code formatter
 Opnionated code formatter for TwinCAT.
 
-## Status
-There is an idea, but it doesn't work yet. When [Milestone 0.1](https://github.com/Roald87/TcBlack/milestone/1) 
-is completed there should be a first working version. 
+## Current state 
 
-You're more then welcome to help if you'd like! See the [contributing guidelines](https://github.com/Roald87/TcBlack/blob/master/CONTRIBUTING.md)
-for more info.
+`FB_Child` from ShowcaseProject.
 
-## Idea
-
-Change
-
-```
-FUNCTION_BLOCK   DoSomething
+```diff
+-FUNCTION_BLOCK  FB_Child EXTENDS FB_Base  IMPLEMENTS I_Interface,I_Interface2
++FUNCTION_BLOCK FB_Child EXTENDS FB_Base IMPLEMENTS I_Interface, I_Interface2
 VAR
-	Condition : ARRAY[1..5] OF BOOL;
-SomeText: STRING;
-	Counter		: DINT:= 1 ;
-	Result		: DINT :=2;
+-SomeText: STRING;
+-	Counter		: DINT:= 1 ;
+-	Result		: DINT :=2;
+-    
+-    
+-      Base:FB_Base;
++    SomeText : STRING;
++    Counter : DINT := 1;
++    Result : DINT := 2;
++
++    Base : FB_Base;
 END_VAR
++
 ===================================
 SomeText:= 'Current counts';
 
-IF Condition[1] AND Condition[2]  AND CONDITION[3] AND CONDITION[4] AND CONDITION[5] THEN
+IF Conditions[1] AND Conditions[2]  AND Conditions[3] AND Conditions[4] AND Conditions[5]AND Conditions[6] THEN
 	Counter :=Counter+ 1;
 
 	IF Counter > 2 THEN
@@ -31,50 +33,86 @@ IF Condition[1] AND Condition[2]  AND CONDITION[3] AND CONDITION[4] AND CONDITIO
 	END_IF
 END_IF
 
-Method(Variable1:=2, Variable2:=3 , Variable3:= 5, Condition :=Counter, Output=>Result);
+Base(Variable1:=2, Variable2:=3 , Variable3:= 5,Sentence:='', Conditions :=Conditions);
 
 
-AddTwo(First:= Counter, 
-	Second := Result);
+AddTwoInts(    Variable1 :=4,
+    Variable2:=4);
+```
 
+## Idea
+
+Change
+
+```
+FUNCTION_BLOCK  FB_Child EXTENDS FB_Base  IMPLEMENTS I_Interface,I_Interface2
+VAR
+SomeText: STRING;
+	Counter		: DINT:= 1 ;
+	Result		: DINT :=2;
+    
+    
+      Base:FB_Base;
+END_VAR
+===================================
+SomeText:= 'Current counts';
+
+IF Conditions[1] AND Conditions[2]  AND Conditions[3] AND Conditions[4] AND Conditions[5]AND Conditions[6] THEN
+	Counter :=Counter+ 1;
+
+	IF Counter > 2 THEN
+	Counter := Counter + 5 ;
+	END_IF
+END_IF
+
+Base(Variable1:=2, Variable2:=3 , Variable3:= 5,Sentence:='Entropy is a real bitch.', Conditions :=Conditions);
+
+
+AddTwoInts(    Variable1 :=4,
+    Variable2:=4);
 ```
 
 Into
 
 ```
-FUNCTION_BLOCK DoSomething
+FUNCTION_BLOCK FB_Child 
+EXTENDS FB_Base 
+IMPLEMENTS I_Interface, I_Interface2
 VAR
-	Condition : ARRAY[1..5] OF BOOL;
-	SomeText : STRING;
-	Counter : DINT := 1;
-	Result : DINT := 2;
+    SomeText : STRING;
+    Counter : DINT := 1;
+    Result : DINT := 2;
+
+    Base : FB_Base;
 END_VAR
+
 ===================================
 SomeText := 'Current counts';
 
-IF (
-	Condition[1] 
-	AND Condition[2] 
-	AND CONDITION[3] 
-	AND CONDITION[4] 
-	AND CONDITION[5]
-) THEN
-	Counter := Counter + 1;
+IF 
+    Conditions[1] 
+    AND Conditions[2]
+    AND Conditions[3] 
+    AND Conditions[4] 
+    AND Conditions[5]
+    AND Conditions[6] 
+THEN
+    Counter := Counter + 1;
 
-	IF Counter > 2 THEN
-		Counter := Counter + 5;
-	END_IF
+    IF Counter > 2 THEN
+        Counter := Counter + 5 ;
+    END_IF
 END_IF
 
-Method(
-	Variable1:=2, 
-	Variable2:=3, 
-	Variable3:=5, 
-	Condition:=Counter, 
-	Output=>Result
+Base(
+    Variable1:=2, 
+    Variable2:=3 , 
+    Variable3:=5,
+    Sentence:='Entropy is a real bitch.', 
+    Conditions:=Conditions
 );
 
-AddTwo(First:=Counter, Second:=Result);
+AddTwoInts(Variable1:=4, Variable2:=4);
 
 ```
 
@@ -110,3 +148,7 @@ The number doesn't change when you alter whitespaces, add/change comments
 or add brackets around a long if statement. Only if the actual code changes
 then the number also changes. For example, if you add a variable, add a line 
 of code or change the order of variables.
+
+## Contributing
+You're more then welcome to help if you'd like! See the [contributing guidelines](https://github.com/Roald87/TcBlack/blob/master/CONTRIBUTING.md)
+for more info.

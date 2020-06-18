@@ -75,8 +75,15 @@ is available in the TwinCAT XAE under
 **Tools → Options → TwinCAT → Write options → Separate LineIDs** (set this to TRUE, 
 more information is available [here](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_userinterface/18014403202147467.html&id=)).
 
+## Testing 
+If you've implemented a new feature, you can try it by formatting or adding a file to 
+the ShowcaseProject. Please only commit pre-formatted versions of these files, 
+otherwise others can't use it. To show the new feature you can update the README's 
+Current state section.
+
 ## License
 By contributing, you agree that your contributions will be licensed under its MIT License.
 
 ## References
 This document was adapted from TcUnits's excellent [contribution guidelines](https://github.com/tcunit/TcUnit/blob/master/CONTRIBUTING.md).
+

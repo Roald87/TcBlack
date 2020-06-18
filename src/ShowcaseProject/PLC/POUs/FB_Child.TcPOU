@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <POU Name="FB_Child" Id="{0e65befd-f733-4035-9cb9-b4c563001612}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK  FB_Child EXTENDS FB_Base  IMPLEMENTS I_Interface,I_Interface2
+VAR
+SomeText: STRING;
+	Counter		: DINT:= 1 ;
+	Result		: DINT :=2;
+    
+    
+      Base:FB_Base;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[SomeText:= 'Current counts';
+
+IF Conditions[1] AND Conditions[2]  AND Conditions[3] AND Conditions[4] AND Conditions[5]AND Conditions[6] THEN
+	Counter :=Counter+ 1;
+
+	IF Counter > 2 THEN
+	Counter := Counter + 5 ;
+	END_IF
+END_IF
+
+Base(Variable1:=2, Variable2:=3 , Variable3:= 5,Sentence:='', Conditions :=Conditions);
+
+
+AddTwoInts(    Variable1 :=4,
+    Variable2:=4);]]></ST>
+    </Implementation>
+    <Method Name="AddTwoInts" Id="{23f713d2-c352-414b-b960-d775eabe0823}">
+      <Declaration><![CDATA[METHOD AddTwoInts : DINT
+VAR_INPUT
+    Variable1 :DINT;
+    Variable2:DINT ;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[AddTwoInts:=Variable1+Variable2 ;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>
