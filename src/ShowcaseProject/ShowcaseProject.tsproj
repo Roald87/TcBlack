@@ -9,10 +9,13 @@
 			</Tasks>
 		</System>
 		<Plc>
-			<Project GUID="{BDD00A0B-9FFE-4A2C-B504-1A16BFE106B2}" Name="PLC" PrjFilePath="PLC\PLC.plcproj" TmcFilePath="PLC\PLC.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2">
-					<Name>PLC Instance</Name>
+			<Project GUID="{BDD00A0B-9FFE-4A2C-B504-1A16BFE106B2}" Name="PLC3" PrjFilePath="PLC3\PLC3.plcproj" TmcFilePath="PLC3\PLC3.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="PLC3\PLC3.tmc">
+					<Name>PLC3 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<TaskPouOids>
+						<TaskPouOid Prio="20" OTCID="#x08502001"/>
+					</TaskPouOids>
 				</Instance>
 			</Project>
 		</Plc>

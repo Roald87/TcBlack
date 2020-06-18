@@ -10,7 +10,7 @@ namespace TcBlackTests
         public void GetHashOfProjectWithHash()
         {
             var plcProject = new TcProjectBuilder(
-                "../../../../TwinCATBlack/PLC/PLC.plcproj"
+                "../../../../WorkingProjectForUnitTests/PLC/PLC.plcproj"
             );
 
             Assert.Equal("7526D772-C42C-771C-E7F5-8B6DA4DF5F84", plcProject.Hash);
@@ -25,14 +25,25 @@ namespace TcBlackTests
         }
 
         [Fact]
-        public void BuildBrokenProjectShouldRaiseException()
+        public void BuildMockBrokenProjectShouldRaiseException()
         {
             var plcProject = new MockTcProjectBuilder(
-                "../../../../BrokenProject/PLC/PLC.plcproj",
+                "../../../../BrokenProjectForUnitTests/PLC2/PLC2.plcproj",
                 "../../../TcProjectBuildTestData/failedBuildWithExtraTextBelow.log"
             );
             Assert.Throws<ProjectBuildFailed>(() => plcProject.Build(verbose:true));
         }
+
+        //// Only uncomment this if you want to test the real build process. 
+        //// Takes 15 s to complete.
+        //[Fact]
+        //public void BuildRealBrokenProjectShouldRaiseException()
+        //{
+        //    var plcProject = new TcProjectBuilder(
+        //        "../../../../BrokenProjectForUnitTests/PLC2/PLC2.plcproj"
+        //    );
+        //    Assert.Throws<ProjectBuildFailed>(() => plcProject.Build(verbose: true));
+        //}
 
         [Theory]
         [InlineData("PLC.plcproj")]
@@ -59,8 +70,8 @@ namespace TcBlackTests
         }
 
         [Theory]
-        [InlineData("../../../../TwinCATBlack/PLC/POUs/Sum.TcPOU")]
-        [InlineData("../../../../TwinCATBlack/PLC/POUs/MAIN.TcPOU")]
+        [InlineData("../../../../WorkingProjectForUnitTests/PLC/POUs/Sum.TcPOU")]
+        [InlineData("../../../../WorkingProjectForUnitTests/PLC/POUs/MAIN.TcPOU")]
         public void GetProjectHashFromSingleTcPouFilename(string filename)
         {
             var plcProject = new TcProjectBuilder(filename);
