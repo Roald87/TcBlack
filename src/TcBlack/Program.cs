@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using CommandLine;
@@ -26,7 +27,18 @@ namespace TcBlack
                         Console.WriteLine(
                             $"Formatting file(s) in fast non-safe mode:\n{files}\n"
                         );
-                        CreateBackups(o.Filenames.ToArray());
+                        try
+                        {
+                            CreateBackups(o.Filenames.ToArray());
+                        }
+                        catch (FileNotFoundException)
+                        {
+                            Console.WriteLine(
+                                $"One of the files doesn't exist. " +
+                                $"Check the filesnames and try again."
+                            );
+                            return;
+                        }
                         FormatAll(o.Filenames.ToArray());
                     }
                 });
@@ -56,7 +68,19 @@ namespace TcBlack
                 return;
             }
 
-            List<Backup> backups = CreateBackups(options.Filenames.ToArray());
+            List<Backup> backups;
+            try
+            {
+                backups = CreateBackups(options.Filenames.ToArray());
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine(
+                    $"One of the files doesn't exist. " +
+                    $"Check the filesnames and try again."
+                );
+                return;
+            }
             FormatAll(options.Filenames.ToArray());
 
             string hashAfterFormat = string.Empty;
