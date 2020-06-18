@@ -61,7 +61,7 @@ namespace TcBlack
             string variable_pattern = @"(\w+)";
             string possible_space = @"(?:\s+)?";
             string address_pattern = @"(?:AT\s+)?([\w+%.*]*)?";
-            string array_pattern = @"ARRAY\[.*\]\s+OF\s+\w+";
+            string array_pattern = @"ARRAY\[.*\]\s+OF\s+[\w.]+";
             string unit_pattern =
                 $@"({array_pattern}\(.*\)|{array_pattern}\[.*\]|{array_pattern}"
                 + @"|\w+\(.*\)|\w+\[.*\]|[^;:]*)"; 

@@ -16,6 +16,7 @@ namespace TcBlackTests
         [InlineData("aSample1 ", "ARRAY[1..5] OF INT")]
         [InlineData("aSample1 ", "ARRAY[1..nInt - 1] OF INT")]
         [InlineData("aSample1 ", "ARRAY[nInt + 1..3] OF INT")]
+        [InlineData("trigger ", "ARRAY[1..3] OF Tc2_Standard.R_TRIG")]
         [InlineData("pSample ", "POINTER TO INT")]
         [InlineData("refInt ", "REFERENCE TO INT")]
         [InlineData("aSample ", "ARRAY[*] OF INT")]
