@@ -61,10 +61,10 @@ namespace TcBlack
             string variable_pattern = @"(\w+)";
             string possible_space = @"(?:\s+)?";
             string address_pattern = @"(?:AT\s+)?([\w+%.*]*)?";
-            string unit_pattern = 
-                @"(\w+\(\d+\)" // matches STRING(number)
-                + @"|[\w.,\[\] *]*\([\w:=.,\s\(\)]*[,\s]*[\]]?" // matches function blocks with FB_init
-                + @"|[\w.,\[\] *]*)"; // matches all other units e.g. INT, ARRAY[1, 4] of BOOL, ARRAY[*] OF BYTE
+            string array_pattern = @"ARRAY\[.*\]\s+OF\s+\w+";
+            string unit_pattern =
+                $@"({array_pattern}\(.*\)|{array_pattern}\[.*\]|{array_pattern}"
+                + @"|\w+\(.*\)|\w+\[.*\]|[^;:]*)"; 
             string initialization = $@"(?::=)?(?s){possible_space}(.*?)?";
             string comment = $@"{possible_space}(\/\/[^\n]+|\(\*.*?\*\))?";
             string pattern = $@"{variable_pattern}{possible_space}"

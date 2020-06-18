@@ -14,6 +14,8 @@ namespace TcBlackTests
         [InlineData("   _internalVar4", "DWORD ")]
         [InlineData("   SHOUTING ", " int ")]
         [InlineData("aSample1 ", "ARRAY[1..5] OF INT")]
+        [InlineData("aSample1 ", "ARRAY[1..nInt - 1] OF INT")]
+        [InlineData("aSample1 ", "ARRAY[nInt + 1..3] OF INT")]
         [InlineData("pSample ", "POINTER TO INT")]
         [InlineData("refInt ", "REFERENCE TO INT")]
         [InlineData("aSample ", "ARRAY[*] OF INT")]
@@ -86,7 +88,9 @@ namespace TcBlackTests
         [InlineData("pid_controller ", "", "ST_Struct  ", " (nVar1:=1, nVar2:=4)")]
         [InlineData("Light", "", "photons  ", "2.4 ")]
         [InlineData("SomeWords ", "", "T_MaxString ", " 'Black quartz watch my vow.'")]
-        [InlineData("aSample_3  ", "", "ARRAY[1..2, 2..3, 3..4] OF INT ", "[2(0),4(4),2,3]")]
+        [InlineData(
+            "aSample_3  ", "", "ARRAY[1..2, 2..3, 3..4] OF INT ", "[2(0),4(4),2,3]"
+        )]
         [InlineData(
             "aSample4", " AT %Q*", " ARRAY[1..3] OF ST_STRUCT1 ", 
             "[(n1:= 1, n2:= 10, n3:= 4723),\n"
@@ -94,7 +98,9 @@ namespace TcBlackTests
             + "(n1:= 14, n2:= 5, n3:= 112)]"
         )]
         [InlineData("wsWSTRING ", "", "WSTRING", "\"abc\"")]
-        [InlineData("dtDATEANDTIME ", "", "DATE_AND_TIME    ", "DT#2017-02-20-11:07:00  ")]
+        [InlineData(
+            "dtDATEANDTIME ", "", "DATE_AND_TIME    ", "DT#2017-02-20-11:07:00  "
+        )]
         [InlineData("   tdTIMEOFDAY ", "", "  TIME_OF_DAY ", "    TOD#11:07:00")]
         [InlineData("nDINT", "", "DINT", "-12345")]
         [InlineData(" nDWORD", "", "DWORD", "16#6789ABCD")]
