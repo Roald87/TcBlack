@@ -89,6 +89,7 @@ namespace TcBlackTests
         [InlineData("pid_controller ", "", "ST_Struct  ", " (nVar1:=1, nVar2:=4)")]
         [InlineData("Light", "", "photons  ", "2.4 ")]
         [InlineData("SomeWords ", "", "T_MaxString ", " 'Black quartz watch my vow.'")]
+        [InlineData(" Character ", "", " STRING(1)", "' '")]
         [InlineData(
             "aSample_3  ", "", "ARRAY[1..2, 2..3, 3..4] OF INT ", "[2(0),4(4),2,3]"
         )]
@@ -123,7 +124,7 @@ namespace TcBlackTests
             TcDeclaration expectedDecl = new TcDeclaration(
                 variable.Trim(), 
                 _allocation.Trim(),
-                varDecl.RemoveWhiteSpaceIfPossible(type.Trim()), 
+                varDecl.RemoveWhiteSpaceIfPossible(type), 
                 varDecl.RemoveWhiteSpaceIfPossible(initialization), ""
             );
 
@@ -184,8 +185,10 @@ namespace TcBlackTests
             "fbSample : FB_Sample(nId_Init:=11, fIn_Init:=33.44);"
         )]
         [InlineData(
-            "var1   :   REAL := 8   ; // Comment",
-            "var1 : REAL := 8; // Comment"
+            "var1   :   REAL := 8   ; // Comment", "var1 : REAL := 8; // Comment"
+        )]
+        [InlineData(
+            "character   :   STRING(1) :=  ' ' ; ", "character : STRING(1) := ' ';"
         )]
         public void FormatVariableDeclaration(string unformattedCode, string expected)
         {

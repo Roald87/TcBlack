@@ -94,11 +94,9 @@ namespace TcBlack
 
         public string RemoveWhiteSpaceIfPossible(string str)
         {
-            // https://stackoverflow.com/a/49386152/6329629 
-            string spacesRemoved = Regex.Replace(str, @"(?!\b\s+\b)\s+", "");
-            string spaceAfterArray = spacesRemoved.Replace("]OF", "] OF");
+            string pattern = @"\s+(?=[^[\]]*\])|\s+(?=[^()]*\))";
 
-            return spaceAfterArray;
+            return Regex.Replace(str, pattern, "").Trim();
         }
     }
 
