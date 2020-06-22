@@ -42,16 +42,17 @@ namespace TcBlack
             TcDeclaration tokens = Tokenize();
 
             string formattedCode = (
-                _singleIndent.Repeat(indents)
-                + tokens.Name
-                + (tokens.Allocation.Length > 0 ? $" AT {tokens.Allocation}" : "")
-                + $" : {tokens.DataType}"
-                + (tokens.Initialization.Length > 0 ? 
-                    $" := {tokens.Initialization}" : ""
+                    _singleIndent.Repeat(indents)
+                    + tokens.Name
+                    + (tokens.Allocation.Length > 0 ? $" AT {tokens.Allocation}" : "")
+                    + $" : {tokens.DataType}"
+                    + (tokens.Initialization.Length > 0 ? 
+                        $" := {tokens.Initialization}" : ""
+                    )
+                    + ";"
+                    + (tokens.Comment.Length > 0 ? $" {tokens.Comment}" : "")
                 )
-                + ";"
-                + (tokens.Comment.Length > 0 ? $" {tokens.Comment}" : "")
-            ).Replace(",", ", ");
+                .Replace(",", ", ");
 
             return formattedCode;
         }
@@ -67,7 +68,8 @@ namespace TcBlack
                 + @"|\w+\(.*\)|\w+\[.*\]|[^;:]*)"; 
             string initialization = $@"(?::=)?(?s){possible_space}(.*?)?";
             string comment = $@"{possible_space}(\/\/[^\n]+|\(\*.*?\*\))?";
-            string pattern = $@"{variable_pattern}{possible_space}"
+            string pattern = 
+                $@"{variable_pattern}{possible_space}"
                 + $@"{address_pattern}{possible_space}(?::){possible_space}"
                 + $@"{unit_pattern}{possible_space}{initialization}(?:;){comment}";
 
@@ -108,7 +110,8 @@ namespace TcBlack
         public static string Repeat(this string s, uint n)
         {
             string _repeatedString = new StringBuilder(s.Length * (int)n)
-                .Insert(0, s, (int)n).ToString();
+                .Insert(0, s, (int)n)
+                .ToString();
 
             return _repeatedString;
         }

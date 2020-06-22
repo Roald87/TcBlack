@@ -86,7 +86,8 @@ namespace TcBlack
                 .Split(
                     _unformattedCode,
                     @",|\s+",
-                    RegexOptions.IgnorePatternWhitespace)
+                    RegexOptions.IgnorePatternWhitespace
+                )
                 .Where(s => !string.IsNullOrEmpty(s))
                 .ToArray();
 

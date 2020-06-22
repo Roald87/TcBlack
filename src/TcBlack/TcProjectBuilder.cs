@@ -104,7 +104,8 @@ namespace TcBlack
         /// <param name="buildLog">The </param>
         public bool BuildFailed(string buildLog)
         {
-            string pattern = @"(?:========== Build: )(\d+)(?:[a-z \-,]*)(\d+)(?:[a-z \-,]*)";
+            string pattern = 
+                @"(?:========== Build: )(\d+)(?:[a-z \-,]*)(\d+)(?:[a-z \-,]*)";
             MatchCollection matches = Regex.Matches(buildLog, pattern);
             if (matches.Count > 0)
             {
@@ -167,12 +168,12 @@ namespace TcBlack
 
             if (verbose)
             {
-                process.OutputDataReceived += (object sender, DataReceivedEventArgs e) =>
-                    Console.WriteLine("output >> " + e.Data);
+                process.OutputDataReceived += (object sender, DataReceivedEventArgs e)
+                    => Console.WriteLine("output >> " + e.Data);
                 process.BeginOutputReadLine();
 
-                process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) =>
-                    Console.WriteLine("error >> " + e.Data);
+                process.ErrorDataReceived += (object sender, DataReceivedEventArgs e)
+                    => Console.WriteLine("error >> " + e.Data);
                 process.BeginErrorReadLine();
             }
 

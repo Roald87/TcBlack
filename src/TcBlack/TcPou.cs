@@ -32,7 +32,8 @@ namespace TcBlack
             string lineEnding = "\r\n";
             var declarationToFormat = new CompositeCode(
                     Declaration, "    ", lineEnding
-                ).Tokenize();
+                )
+                .Tokenize();
 
             uint indents = 0;
             Declaration = declarationToFormat.Format(ref indents);
