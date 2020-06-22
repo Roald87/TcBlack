@@ -4,8 +4,6 @@ Opnionated code formatter for TwinCAT. Currently in the **alpha state**. Use at 
 ## Usage
 
 1. [Download](https://github.com/Roald87/TcBlack/releases/tag/v0.1.0) the binaries and unpack them. 
-1. Open the folder containing the binaries and make a `build.log` file if it doesn't 
-exist yet, see also [#19](https://github.com/Roald87/TcBlack/issues/19).
 1. Open the windows command prompt and navigate to the folder containing `TcBlack.exe`.
 1. Reformat one or more file by giving their full path names,  see also [#19](https://github.com/Roald87/TcBlack/issues/19):
 
