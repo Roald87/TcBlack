@@ -29,9 +29,8 @@ namespace TcBlack
         /// <returns>The formatted TcPOU object.</returns>
         public TcPou Format()
         {
-            string lineEnding = "\r\n";
             var declarationToFormat = new CompositeCode(
-                    Declaration, "    ", lineEnding
+                    Declaration, Indentation, LineEnding
                 )
                 .Tokenize();
 
@@ -46,7 +45,14 @@ namespace TcBlack
         /// </summary>
         public void Save()
         {
-            doc.Save(_path);
+            using (var w = XmlWriter.Create(_path, new XmlWriterSettings
+            {
+                Indent = true,
+                NewLineChars = LineEnding,
+            }))
+            {
+                doc.Save(w);
+            }
         }
 
         /// <summary>
@@ -57,6 +63,16 @@ namespace TcBlack
             get => doc.SelectSingleNode(declarationNode).InnerText;
             private set => doc.SelectSingleNode(declarationNode).InnerXml = 
                 $"<![CDATA[{value}]]>";
+        }
+
+        private string LineEnding
+        {
+            get => Declaration.Contains("\r\n") ? "\r\n" : "\n";
+        }
+
+        private string Indentation
+        {
+            get => Declaration.Contains("\t") ? "\t" : "    ";
         }
     }
 }
