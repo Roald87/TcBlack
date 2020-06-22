@@ -1,5 +1,5 @@
 # TcBlack: TwinCAT code formatter
-Opnionated code formatter for TwinCAT.
+Opnionated code formatter for TwinCAT. Currently in the **alpha state**. Use at your **own risk** and only with files which are under source control.
 
 ## Usage
 
