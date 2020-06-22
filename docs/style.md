@@ -7,15 +7,14 @@ _This document is an edited version of _Black_'s
 
 _TcBlack_ reformats entire files in place and creates a `.bak` file of the original one. 
 It is not configurable. It doesn't take previous formatting into account. It doesn't reformat 
-blocks that start with `// fmt: off` and end with `// fmt: on` (#16). 
+blocks that start with `// fmt: off` and end with `// fmt: on` [#16](https://github.com/Roald87/TcBlack/issues/16). 
 
 ### How _TcBlack_ wraps lines (Milestone 0.5+)
 
 _TcBlack_ ignores previous formatting and applies uniform horizontal and vertical
 whitespace to your code. The rules for horizontal whitespace can be summarized as: do
 whatever makes `pycodestyle` happy. The coding style used by _TcBlack_ can be viewed as a
-strict subset of PEP 8/
-[Black](https://raw.githubusercontent.com/psf/black/master/docs/the_TcBlack_code_style.md). 
+strict subset of PEP 8/[Black](https://raw.githubusercontent.com/psf/black/master/docs/the_TcBlack_code_style.md). 
 Furthermore, formatting is done in such a way to reduce potential diffs.
 
 As for vertical whitespace, _TcBlack_ tries to render one full expression or simple
@@ -87,7 +86,8 @@ significantly shorter files than sticking with 80 (the most popular), or even 79
 by the standard library). In general,
 [90-ish seems like the wise choice](https://youtu.be/wf-BqAjZb8M?t=260).
 
-If you're paid by the line of code you write, you can pass `--line-length` (#17) with a lower
+If you're paid by the line of code you write, you can pass `--line-length` 
+[#17](https://github.com/Roald87/TcBlack/issues/17) with a lower
 number. _TcBlack_ will try to respect that. However, sometimes it won't be able to without
 breaking other rules. In those rare cases, auto-formatted code will exceed your allotted
 limit.
@@ -148,7 +148,7 @@ Counts := Counts + 1;
 </TcPlcObject>
 ```
 
-### Trailing commas (Milestone 0.5+, #18)
+### Trailing commas (Milestone 0.5+, [#18](https://github.com/Roald87/TcBlack/issues/18))
 
 _TcBlack_ will add trailing commas to expressions that are split by comma where each
 element is on its own line.
