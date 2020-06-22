@@ -6,16 +6,17 @@ namespace TcBlackTests
     public class EmptyLineTests
     {
         [Theory]
-        [InlineData("")]
-        [InlineData("\t\t")]
-        [InlineData("\t      ")]
-        public void DifferentEmptyLines(string emptyLine)
+        [InlineData("", 0, "")]
+        [InlineData("\t\t", 1, " ")]
+        [InlineData("\t      ", 2, "  ")]
+        public void DifferentEmptyLines(string unformattedCode, uint initialIndents, string expected)
         {
             string lineEnding = "\n";
-            EmptyLine line = new EmptyLine(emptyLine, " ", lineEnding);
+            string indent = " ";
+            EmptyLine line = new EmptyLine(unformattedCode, indent, lineEnding);
 
-            uint indents = 0;
-            Assert.Equal("", line.Format(ref indents));
+            uint indents = initialIndents;
+            Assert.Equal(expected, line.Format(ref indents));
         }
     }
 }
