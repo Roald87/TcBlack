@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Xml;
+﻿using System.Xml;
 
 namespace TcBlack
 {
@@ -9,7 +8,6 @@ namespace TcBlack
     public class TcPou
     {
         private XmlDocument doc;
-        private readonly string declarationNode = "/TcPlcObject/POU/Declaration";
         private string _path;
 
         /// <summary>
@@ -29,13 +27,16 @@ namespace TcBlack
         /// <returns>The formatted TcPOU object.</returns>
         public TcPou Format()
         {
-            var declarationToFormat = new CompositeCode(
-                    Declaration, Indentation, LineEnding
-                )
-                .Tokenize();
-
             uint indents = 0;
-            Declaration = declarationToFormat.Format(ref indents);
+            XmlNodeList nodes = doc.SelectNodes(".//Declaration");
+            foreach (XmlNode node in nodes)
+            {
+                string formattedCode = 
+                    new CompositeCode(node.InnerText, Indentation, LineEnding)
+                    .Tokenize()
+                    .Format(ref indents);
+                node.InnerXml = $"<![CDATA[{formattedCode}]]>";
+            }
 
             return this;
         }
@@ -56,23 +57,24 @@ namespace TcBlack
         }
 
         /// <summary>
-        /// The TcPOU declaration: VAR/VAR_INPUT/VAR_OUTPUT etc.
+        /// Return the line ending from the TcPOU file.
         /// </summary>
-        public string Declaration
-        {
-            get => doc.SelectSingleNode(declarationNode).InnerText;
-            private set => doc.SelectSingleNode(declarationNode).InnerXml = 
-                $"<![CDATA[{value}]]>";
-        }
-
         private string LineEnding
         {
-            get => Declaration.Contains("\r\n") ? "\r\n" : "\n";
+            get => "\r\n";
         }
 
+        /// <summary>
+        /// Return the indentation type of the TcPOU file. Either tabs or four spaces.
+        /// </summary>
         private string Indentation
         {
-            get => Declaration.Contains("\t") ? "\t" : "    ";
+            get
+            {
+                string text = doc.InnerXml;
+
+                return text.Contains("\t") ? "\t" : "    ";
+            }
         }
     }
 }

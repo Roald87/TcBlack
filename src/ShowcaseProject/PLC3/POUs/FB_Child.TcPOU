@@ -28,9 +28,9 @@ AddTwoInts(    Variable1 :=4,
     Variable2:=4);]]></ST>
     </Implementation>
     <Method Name="AddTwoInts" Id="{23f713d2-c352-414b-b960-d775eabe0823}">
-      <Declaration><![CDATA[METHOD AddTwoInts : DINT
+      <Declaration><![CDATA[METHOD AddTwoInts:DINT
 VAR_INPUT
-    Variable1 :DINT;
+  Variable1 :DINT;
     Variable2:DINT ;
 END_VAR]]></Declaration>
       <Implementation>
