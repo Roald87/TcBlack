@@ -56,7 +56,7 @@ namespace TcBlack
             {
                 if (line.Trim().Length == 0)
                 {
-                    if (codeLines.Last() is EmptyLine)
+                    if (codeLines.Count > 0 && codeLines.Last() is EmptyLine)
                     {
                         continue;
                     }

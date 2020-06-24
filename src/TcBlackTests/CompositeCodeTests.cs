@@ -41,6 +41,23 @@ namespace TcBlackTests
                 + "END_VAR\n";
 
             Assert.Equal(expected, actual);
-        } 
+        }
+
+        [Fact]
+        public void FormatEmptyDeclaration()
+        {
+            string unformattedCode = "";
+            uint indents = 0;
+            string actual = new CompositeCode(
+                unformattedCode: unformattedCode,
+                singleIndent: singleIndent,
+                lineEnding: lineEnding
+            )
+            .Tokenize()
+            .Format(ref indents);
+
+            string expected = "";
+            Assert.Equal(expected, actual);
+        }
     }
 }
