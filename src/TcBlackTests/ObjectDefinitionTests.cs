@@ -56,5 +56,20 @@ namespace TcBlackTests
             Assert.Equal(expectedCode, var.Format(ref indents));
         }
 
+        [Theory]
+        [InlineData("METHOD PRIVATE Sum : BOOL", "METHOD PRIVATE Sum : BOOL")]
+        [InlineData("METHOD  PUBLIC   Sum : BOOL", "METHOD PUBLIC Sum : BOOL")]
+        [InlineData("METHOD     PROTECTED Sum : BOOL", "METHOD PROTECTED Sum : BOOL")]
+        [InlineData("METHOD INTERNAL   Sum : BOOL", "METHOD INTERNAL Sum : BOOL")]
+        public void MethodsWithVariousAccessModifiersAndWhiteSpaces(
+            string originalCode, string expectedCode
+        )
+        {
+            ObjectDefinition var =
+                new ObjectDefinition(originalCode, "    ", "\n");
+            uint indents = 0;
+            Assert.Equal(expectedCode, var.Format(ref indents));
+        }
+
     }
 }

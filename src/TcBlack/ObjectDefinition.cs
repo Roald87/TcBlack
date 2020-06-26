@@ -14,20 +14,23 @@ namespace TcBlack
         {
             public TcObject(
                 string objectType,
+                string accessModifier,
                 string name,
                 string dataType,
                 string implements,
                 string extends
             )
             {
-                EntityType = objectType;
+                ObjectType = objectType;
+                AccessModifier = accessModifier;
                 Name = name;
                 DataType = dataType;
                 Extends = extends;
                 Implements = implements;
             }
 
-            public string EntityType { get; }
+            public string ObjectType { get; }
+            public string AccessModifier { get; }
             public string Name { get; }
             public string DataType { get; }
             public string Extends { get; }
@@ -52,8 +55,9 @@ namespace TcBlack
             TcObject tokens = Tokenize();
 
             string formattedCode =
-                _singleIndent.Repeat(indents) 
-                + tokens.EntityType
+                _singleIndent.Repeat(indents)
+                + tokens.ObjectType
+                + (tokens.AccessModifier.Length > 0 ? $" {tokens.AccessModifier}" : "")
                 + $" {tokens.Name}"
                 + (tokens.DataType.Length > 0 ? $" : {tokens.DataType}" : "")
                 + (tokens.Extends.Length > 0 ?
@@ -123,6 +127,7 @@ namespace TcBlack
 
             return new TcObject(
                 objectType: "FUNCTION_BLOCK",
+                accessModifier: "",
                 name: splitDefinition[1],
                 dataType: "",
                 extends: string.Join(", ", parents.ToArray()),
@@ -132,11 +137,12 @@ namespace TcBlack
 
         private TcObject TokenizeMethod()
         {
-            string entityType = @"(?:\s+)?(FUNCTION|METHOD)(?:\s+)";
-            string name = @"(\w+)(?:\s+)?(?::)?";
-            string dataType = @"(?:\s+)?(\w+)?";
+            string entityType = @"\s*(FUNCTION|METHOD)\s*";
+            string accessModifier = @"(PRIVATE|PUBLIC|PROTECTED|INTERNAL)?\s*";
+            string name = @"(\w+)\s*:?";
+            string dataType = @"\s*(\w+)?";
 
-            string pattern = $@"{entityType}{name}{dataType}";
+            string pattern = $@"{entityType}{accessModifier}{name}{dataType}";
 
             MatchCollection matches = Regex.Matches(_unformattedCode, pattern);
             if (matches.Count > 0)
@@ -144,15 +150,16 @@ namespace TcBlack
                 Match match = matches[0];
                 return new TcObject(
                     objectType: match.Groups[1].Value,
-                    name: match.Groups[2].Value,
-                    dataType: match.Groups[3].Value,
+                    accessModifier: match.Groups[2].Value,
+                    name: match.Groups[3].Value,
+                    dataType: match.Groups[4].Value,
                     extends: "",
                     implements: ""
                 );
             }
             else
             {
-                return new TcObject("", "", "", "", "");
+                return new TcObject("", "", "", "", "", "");
             }
         }
     }
