@@ -140,7 +140,7 @@ namespace TcBlack
             string entityType = @"\s*(FUNCTION|METHOD)\s*";
             string accessModifier = @"(PRIVATE|PUBLIC|PROTECTED|INTERNAL)?\s*";
             string name = @"(\w+)\s*:?";
-            string dataType = @"\s*(\w+)?";
+            string dataType = @"\s*(.*[^\s+;])?";
 
             string pattern = $@"{entityType}{accessModifier}{name}{dataType}";
 

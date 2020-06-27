@@ -71,5 +71,28 @@ namespace TcBlackTests
             Assert.Equal(expectedCode, var.Format(ref indents));
         }
 
+        [Theory]
+        [InlineData(
+            "METHOD PUBLIC Close : SysFile.SysTypes.RTS_IEC_RESULT;",
+            "METHOD PUBLIC Close : SysFile.SysTypes.RTS_IEC_RESULT"
+        )]
+        [InlineData(
+            "METHOD Read:SysFile.SysTypes.RTS_IEC_RESULT    ",
+            "METHOD Read : SysFile.SysTypes.RTS_IEC_RESULT"
+        )]
+        [InlineData(
+            "METHOD Read    : STRING(10)    ",
+            "METHOD Read : STRING(10)"
+        )]
+        public void MethodsWithReturnTypesWithFullPath(
+            string originalCode, string expectedCode
+        )
+        {
+            ObjectDefinition var =
+                new ObjectDefinition(originalCode, "    ", "\n");
+            uint indents = 0;
+            Assert.Equal(expectedCode, var.Format(ref indents));
+        }
+
     }
 }
