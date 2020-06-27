@@ -19,6 +19,10 @@ namespace TcBlack
             _path = path;
             doc = new XmlDocument();
             doc.Load(path);
+
+            string text = doc.InnerXml;
+            LineEnding = text.Contains("\r\n") ? "\r\n" : "\n";
+            Indentation = text.Contains("\t") ? "\t" : "    ";
         }
 
         /// <summary>
@@ -59,22 +63,11 @@ namespace TcBlack
         /// <summary>
         /// Return the line ending from the TcPOU file.
         /// </summary>
-        private string LineEnding
-        {
-            get => "\r\n";
-        }
+        private string LineEnding { get; set; }
 
         /// <summary>
         /// Return the indentation type of the TcPOU file. Either tabs or four spaces.
         /// </summary>
-        private string Indentation
-        {
-            get
-            {
-                string text = doc.InnerXml;
-
-                return text.Contains("\t") ? "\t" : "    ";
-            }
-        }
+        private string Indentation { get; set; }
     }
 }
