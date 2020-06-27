@@ -9,6 +9,7 @@ namespace TcBlackTests
         [InlineData("      FUNCTION Sum : BOOL", 1, "    FUNCTION Sum : BOOL", 1)]
         [InlineData("FUNCTION Sum_2     :  BOOL ", 1, "    FUNCTION Sum_2 : BOOL", 1)]
         [InlineData("   METHOD Adder :LREAL", 2, "        METHOD Adder : LREAL", 2)]
+        [InlineData("   PROPERTY Adder :LREAL", 2, "        PROPERTY Adder : LREAL", 2)]
         [InlineData(
             "   FUNCTION_BLOCK Subtract", 0, "FUNCTION_BLOCK Subtract", 0
         )]
@@ -61,6 +62,10 @@ namespace TcBlackTests
         [InlineData("METHOD  PUBLIC   Sum : BOOL", "METHOD PUBLIC Sum : BOOL")]
         [InlineData("METHOD     PROTECTED Sum : BOOL", "METHOD PROTECTED Sum : BOOL")]
         [InlineData("METHOD INTERNAL   Sum : BOOL", "METHOD INTERNAL Sum : BOOL")]
+        [InlineData("PROPERTY PRIVATE Test :  BOOL", "PROPERTY PRIVATE Test : BOOL")]
+        [InlineData("   PROPERTY PUBLIC Test :  BOOL", "PROPERTY PUBLIC Test : BOOL")]
+        [InlineData("PROPERTY PROTECTED Test : BOOL ", "PROPERTY PROTECTED Test : BOOL")]
+        [InlineData("  PROPERTY  INTERNAL Test:BOOL", "PROPERTY INTERNAL Test : BOOL")]
         public void MethodsWithVariousAccessModifiersAndWhiteSpaces(
             string originalCode, string expectedCode
         )

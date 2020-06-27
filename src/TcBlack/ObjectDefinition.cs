@@ -80,7 +80,7 @@ namespace TcBlack
             }
             else
             {
-                return TokenizeMethod();
+                return TokenizeMethodOrProperty();
             }
         }
 
@@ -135,9 +135,9 @@ namespace TcBlack
             );
         }
 
-        private TcObject TokenizeMethod()
+        private TcObject TokenizeMethodOrProperty()
         {
-            string entityType = @"\s*(FUNCTION|METHOD)\s*";
+            string entityType = @"\s*(FUNCTION|METHOD|PROPERTY)\s*";
             string accessModifier = @"(PRIVATE|PUBLIC|PROTECTED|INTERNAL)?\s*";
             string name = @"(\w+)\s*:?";
             string dataType = @"\s*(.*[^\s+;])?";

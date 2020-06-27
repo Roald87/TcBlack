@@ -39,7 +39,7 @@ END_VAR
       </Implementation>
     </Method>
     <Property Name="AnotherProperty" Id="{aa0cfd4f-5e29-4982-9f71-257c1439d0f2}">
-      <Declaration><![CDATA[PROPERTY AnotherProperty : LREAL
+      <Declaration><![CDATA[PROPERTY PRIVATE AnotherProperty : LREAL
 ]]></Declaration>
       <Get Name="Get" Id="{d44792da-1b4d-4983-85ab-83fe99d160dd}">
         <Declaration><![CDATA[VAR
