@@ -190,6 +190,10 @@ namespace TcBlackTests
         [InlineData(
             "character   :   STRING(1) :=  ' ' ; ", "character : STRING(1) := ' ';"
         )]
+        [InlineData(
+            "MSG : INT := 253; // Do not put a double space, after a comma.",
+            "MSG : INT := 253; // Do not put a double space, after a comma."
+        )]
         public void FormatVariableDeclaration(string unformattedCode, string expected)
         {
             VariableDeclaration variable = new VariableDeclaration(

@@ -45,14 +45,13 @@ namespace TcBlack
                     _singleIndent.Repeat(indents)
                     + tokens.Name
                     + (tokens.Allocation.Length > 0 ? $" AT {tokens.Allocation}" : "")
-                    + $" : {tokens.DataType}"
+                    + $" : {tokens.DataType.Replace(",", ", ")}"
                     + (tokens.Initialization.Length > 0 ? 
-                        $" := {tokens.Initialization}" : ""
+                        $" := {tokens.Initialization.Replace(",", ", ")}" : ""
                     )
                     + ";"
                     + (tokens.Comment.Length > 0 ? $" {tokens.Comment}" : "")
-                )
-                .Replace(",", ", ");
+                );
 
             return formattedCode;
         }
