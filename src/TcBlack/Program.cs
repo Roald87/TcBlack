@@ -86,6 +86,7 @@ namespace TcBlack
             }
             FormatAll(options.Filenames.ToArray());
 
+            Console.WriteLine("Building project after formatting.");
             string hashAfterFormat = string.Empty;
             try
             {
@@ -106,6 +107,10 @@ namespace TcBlack
                     "Something when wrong during formatting! Undoing it."
                 );
                 backups.ForEach(backup => backup.Restore().Delete());
+            }
+            else
+            {
+                Console.WriteLine("All done and everything looks OK!");
             }
         }
 
