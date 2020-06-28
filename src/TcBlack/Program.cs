@@ -8,31 +8,67 @@ namespace TcBlack
 {
     class Program
     {
+        /// <summary>
+        /// Options for command line interface.
+        /// </summary>
+        class Options
+        {
+            [Option(
+                HelpText = "TcPOU file(s) to format.",
+                SetName = "FilesToFormat"
+            )]
+            public IEnumerable<string> Filenames { get; set; }
+            [Option(
+                Default = "",
+                HelpText = "Plc project to format.",
+                SetName = "FilesToBuild"
+            )]
+            public string Project { get; set; }
+
+            [Option(
+                Default = false,
+                HelpText =
+                    "Compiles project before and after formatting, in order to check "
+                    + "if the code has changed. WARNING: Takes > 30 seconds!"
+            )]
+            public bool Safe { get; set; }
+
+            [Option(
+                Default = false,
+                HelpText = "Outputs build info. Has no effect in non-safe mode."
+            )]
+            public bool Verbose { get; set; }
+        }
+
         static void Main(string[] args)
         {
             Parser.Default.ParseArguments<Options>(args)
-                .WithParsed(o =>
+                .WithParsed(options =>
                 {
-                    string files = string.Join(
-                        "\n", 
-                        o.Filenames.Select(filename => $"  - {filename}").ToArray()
+                    string[] filenames = FilesToFormat(options);
+
+                    string fileListForCommandPrompt = string.Join(
+                        "\n",
+                        filenames.Select(filename => $"  - {filename}").ToArray()
                     );
 
-                    if (o.Safe)
+                    if (options.Safe)
                     {
                         Console.WriteLine(
-                            $"\nFormatting file(s) in safe mode:\n{files}\n"
+                            $"\nFormatting {filenames.Length} file(s) "
+                            + $"in safe mode:\n{fileListForCommandPrompt}\n"
                         );
-                        SafeFormat(o);
+                        SafeFormat(filenames, options.Verbose);
                     }
                     else
                     {
                         Console.WriteLine(
-                            $"\nFormatting file(s) in fast non-safe mode:\n{files}\n"
+                            $"\nFormatting {filenames.Length} file(s) "
+                            + $"in fast non-safe mode:\n{fileListForCommandPrompt}\n"
                         );
                         try
                         {
-                            CreateBackups(o.Filenames.ToArray());
+                            CreateBackups(options.Filenames.ToArray());
                         }
                         catch (FileNotFoundException)
                         {
@@ -42,9 +78,30 @@ namespace TcBlack
                             );
                             return;
                         }
-                        FormatAll(o.Filenames.ToArray());
+                        FormatAll(filenames);
                     }
                 });
+        }
+
+        /// <summary>
+        /// Return all the files which should be formatted.
+        /// </summary>
+        /// <param name="options">Input from the user.</param>
+        /// <returns>Array with full path to the files.</returns>
+        static string[] FilesToFormat(Options options)
+        {
+            if (options.Project.Length > 0)
+            {
+                string projectDirectory = Path.GetDirectoryName(options.Project);
+
+                return Directory.GetFiles(
+                    projectDirectory, "*.TcPOU", SearchOption.AllDirectories
+                );
+            }
+            else
+            {
+                return options.Filenames.ToArray();
+            }
         }
 
         /// <summary>
@@ -52,16 +109,14 @@ namespace TcBlack
         /// It does this by comparing the compile hash.
         /// </summary>
         /// <param name="options">Input from the command line.</param>
-        static void SafeFormat(Options options)
+        static void SafeFormat(string[] filenames, bool verbose)
         {
             Console.WriteLine("Building project before formatting.");
-            TcProjectBuilder tcProject = new TcProjectBuilder(
-                options.Filenames.First()
-            );
+            TcProjectBuilder tcProject = new TcProjectBuilder(filenames.First());
             string hashBeforeFormat = string.Empty;
             try
             {
-                hashBeforeFormat = tcProject.Build(options.Verbose).Hash;
+                hashBeforeFormat = tcProject.Build(verbose).Hash;
             }
             catch(ProjectBuildFailed)
             {
@@ -74,7 +129,7 @@ namespace TcBlack
             List<Backup> backups;
             try
             {
-                backups = CreateBackups(options.Filenames.ToArray());
+                backups = CreateBackups(filenames);
             }
             catch (FileNotFoundException)
             {
@@ -84,13 +139,13 @@ namespace TcBlack
                 );
                 return;
             }
-            FormatAll(options.Filenames.ToArray());
+            FormatAll(filenames);
 
             Console.WriteLine("Building project after formatting.");
             string hashAfterFormat = string.Empty;
             try
             {
-                hashAfterFormat = tcProject.Build(options.Verbose).Hash;
+                hashAfterFormat = tcProject.Build(verbose).Hash;
             }
             catch(ProjectBuildFailed)
             {
@@ -135,33 +190,6 @@ namespace TcBlack
         static List<Backup> CreateBackups(string[] filenames)
         {
             return filenames.Select(filename => new Backup(filename)).ToList();
-        }
-
-        /// <summary>
-        /// Options for command line interface.
-        /// </summary>
-        class Options
-        {
-            [Option(
-                'f', "filenames",
-                HelpText = "File(s) you want to reformat.",
-                Required = true
-            )]
-            public IEnumerable<string> Filenames { get; set; }
-
-            [Option(
-                's', "safe",
-                HelpText =
-                    "Compiles project before and after formatting, in order to check "
-                    + "if the code has changed. WARNING: Takes > 30 seconds!"
-            )]
-            public bool Safe { get; set; }
-
-            [Option(
-                'v', "verbose",
-                HelpText = "Outputs build info. Has no effect in non-safe mode."
-            )]
-            public bool Verbose { get; set; }
         }
     }
 }
