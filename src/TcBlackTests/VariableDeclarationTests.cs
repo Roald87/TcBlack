@@ -194,6 +194,14 @@ namespace TcBlackTests
             "MSG : INT := 253; // Do not put a double space, after a comma.",
             "MSG : INT := 253; // Do not put a double space, after a comma."
         )]
+        [InlineData(
+            "SomeArray : ARRAY[1..(n * (end + 1) - 4) / initial] OF REAL;",
+            "SomeArray : ARRAY[1..(n * (end + 1) - 4) / initial] OF REAL;"
+        )]
+        [InlineData(
+            "SomeArray : ARRAY[1..(n *(end +  1) -  4)/initial] OF REAL;",
+            "SomeArray : ARRAY[1..(n * (end + 1) - 4) / initial] OF REAL;"
+        )]
         public void FormatVariableDeclaration(string unformattedCode, string expected)
         {
             VariableDeclaration variable = new VariableDeclaration(

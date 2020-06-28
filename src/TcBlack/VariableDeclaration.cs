@@ -40,12 +40,16 @@ namespace TcBlack
         public override string Format(ref uint indents)
         {
             TcDeclaration tokens = Tokenize();
-
+            string formattedDatatype = (
+                InsertSpacesAroundOperators(tokens.DataType)
+                .Replace(",", ", ")
+            );
+                
             string formattedCode = (
                     _singleIndent.Repeat(indents)
                     + tokens.Name
                     + (tokens.Allocation.Length > 0 ? $" AT {tokens.Allocation}" : "")
-                    + $" : {tokens.DataType.Replace(",", ", ")}"
+                    + $" : {formattedDatatype}"
                     + (tokens.Initialization.Length > 0 ? 
                         $" := {tokens.Initialization.Replace(",", ", ")}" : ""
                     )
@@ -98,6 +102,23 @@ namespace TcBlack
             string pattern = @"\s+(?=[^[\]]*\])|\s+(?=[^()]*\))";
 
             return Regex.Replace(str, pattern, "").Trim();
+        }
+
+        /// <summary>
+        /// Return string with single spaces around the operators. 
+        /// </summary>
+        /// <example>
+        /// "a+b" => "a + b"
+        /// </example>
+        private string InsertSpacesAroundOperators(string unformatted)
+        {
+            string formatted = unformatted
+                .Replace("+", " + ")
+                .Replace("-", " - ")
+                .Replace("/", " / ")
+                .Replace("*", " * ");
+
+            return formatted;
         }
     }
 
