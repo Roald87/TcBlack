@@ -68,11 +68,18 @@ namespace TcBlack
                 }
                 else if (line.StartsWith("END_VAR"))
                 {
-                    Add(new VariableBlockEnd(
-                        unformattedCode: line,
-                        singleIndent: _singleIndent,
-                        lineEnding: _lineEnding
-                    ));
+                    if (codeLines.Last() is VariableBlockStart)
+                    {
+                        codeLines.RemoveAt(codeLines.Count - 1);
+                    }
+                    else
+                    {
+                        Add(new VariableBlockEnd(
+                            unformattedCode: line,
+                            singleIndent: _singleIndent,
+                            lineEnding: _lineEnding
+                        ));
+                    }
                 }
                 else if (line.StartsWith("VAR"))
                 {

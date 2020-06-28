@@ -14,6 +14,7 @@ namespace TcBlackTests
             "FB_InputWithPropertiesAndMethods.TcPOU",
             "FB_ExpectedWithPropertiesAndMethods.TcPOU"
         )]
+        [InlineData("FB_InputWithEmptyVars.TcPOU", "FB_ExpectedWithEmptyVars.TcPOU")]
         public void LoadChangeAndSaveDeclaration(string fbInput, string fbExpected)
         {
             string workingDirectory = Environment.CurrentDirectory;

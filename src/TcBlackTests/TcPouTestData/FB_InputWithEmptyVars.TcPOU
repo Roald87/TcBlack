@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <POU Name="FB_WithEmptyVars" Id="{106fe56b-b616-4a50-9a9f-10b6fa9ebaf9}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_WithEmptyVars
+VAR_INPUT
+    OneInput : REAL;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="DoesSomething" Id="{9b942f00-b876-4ffe-b4c8-ac0a0f43615a}">
+      <Declaration><![CDATA[METHOD DoesSomething : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="SomeProperty" Id="{ff352683-7d51-441b-a700-2f80c7229c20}">
+      <Declaration><![CDATA[PROPERTY SomeProperty : REAL]]></Declaration>
+      <Get Name="Get" Id="{0498394d-8554-4775-8a47-1f6f5f4e3612}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{ab0d6451-72bc-4e52-bc8c-978a54b39b98}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+  </POU>
+</TcPlcObject>

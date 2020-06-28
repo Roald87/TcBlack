@@ -59,5 +59,35 @@ namespace TcBlackTests
             string expected = "";
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void RemoveEmptyVariableTypeDeclarations()
+        {
+            string unformattedCode =
+                "FUNCTION_BLOCK Something\n"
+                + "VAR_INPUT\n"
+                + "END_VAR\n"
+                + "VAR_OUTPUT\n"
+                + "END_VAR\n"
+                + "VAR\n"
+                + "    isThatTrue : BOOL;\n"
+                + "END_VAR";
+            uint indents = 0;
+            string actual = 
+                new CompositeCode(
+                    unformattedCode: unformattedCode,
+                    singleIndent: singleIndent,
+                    lineEnding: lineEnding
+                )
+                .Tokenize()
+                .Format(ref indents);
+
+            string expected = 
+                "FUNCTION_BLOCK Something\n"
+                + "VAR\n"
+                + "    isThatTrue : BOOL;\n"
+                + "END_VAR\n";
+            Assert.Equal(expected, actual);
+        }
     }
 }
