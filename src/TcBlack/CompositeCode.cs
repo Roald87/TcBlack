@@ -82,7 +82,10 @@ namespace TcBlack
                         lineEnding: _lineEnding
                     ));
                 }
-                else if (line.StartsWith("FUNCTION") || line.StartsWith("METHOD"))
+                else if (
+                    line.StartsWith("FUNCTION") 
+                    || line.StartsWith("METHOD") 
+                    || line.StartsWith("PROPERTY"))
                 {
                     Add(new ObjectDefinition(
                         unformattedCode: line,
