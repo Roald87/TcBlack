@@ -62,19 +62,17 @@ namespace TcBlack
 
         public TcDeclaration Tokenize()
         {
-            string variable_pattern = @"^\s*(\w+)";
-            string possible_space = @"(?:\s+)?";
-            string address_pattern = @"(?:AT\s+)?([\w+%.*]*)?";
+            string variable_pattern = @"^\s*(\w+)\s*";
+            string address_pattern = @"(?:AT\s+)?([\w+%.*]*)?\s*";
             string array_pattern = @"ARRAY\[.*\]\s+OF\s+[\w.]+";
             string unit_pattern =
                 $@"({array_pattern}\(.*\)|{array_pattern}\[.*\]|{array_pattern}"
-                + @"|\w+\(.*\)|\w+\[.*\]|[^;:]*)"; 
-            string initialization = $@"(?::=)?(?s){possible_space}(.*?)?";
-            string comment = $@"{possible_space}(\/\/[^\n]+|\(\*.*?\*\))?";
+                + @"|\w+\(.*\)|\w+\[.*\]|[^;:]*)\s*"; 
+            string initialization = $@"(?::=)?(?s)\s*(.*?)?";
+            string comment = $@"\s*(\/\/[^\n]+|\(\*.*?\*\))?";
             string pattern = 
-                $@"{variable_pattern}{possible_space}"
-                + $@"{address_pattern}{possible_space}(?::){possible_space}"
-                + $@"{unit_pattern}{possible_space}{initialization}(?:;){comment}";
+                $@"{variable_pattern}{address_pattern}:\s*"
+                + $@"{unit_pattern}{initialization};{comment}";
 
             MatchCollection matches = Regex.Matches(_unformattedCode, pattern);
             TcDeclaration variable;
