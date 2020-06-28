@@ -62,7 +62,7 @@ namespace TcBlack
 
         public TcDeclaration Tokenize()
         {
-            string variable_pattern = @"(\w+)";
+            string variable_pattern = @"^\s*(\w+)";
             string possible_space = @"(?:\s+)?";
             string address_pattern = @"(?:AT\s+)?([\w+%.*]*)?";
             string array_pattern = @"ARRAY\[.*\]\s+OF\s+[\w.]+";

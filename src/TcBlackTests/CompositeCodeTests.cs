@@ -89,5 +89,23 @@ namespace TcBlackTests
                 + "END_VAR\n";
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public void CommentWithoutASpace()
+        {
+            string unformattedCode = "    //Some : FB_Some;\n";
+            uint indents = 0;
+            string actual =
+                new CompositeCode(
+                    unformattedCode: unformattedCode,
+                    singleIndent: singleIndent,
+                    lineEnding: lineEnding
+                )
+                .Tokenize()
+                .Format(ref indents);
+
+            string expected = "    //Some : FB_Some;\n";
+            Assert.Equal(expected, actual);
+        }
     }
 }
