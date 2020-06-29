@@ -97,6 +97,7 @@ namespace TcBlack
 
             List<string> interfaces = new List<string>();
             List<string> parents = new List<string>();
+            string accessModifier = "";
             bool implements = false;
             bool extends = false;
             foreach (string part in splitDefinition)
@@ -123,12 +124,26 @@ namespace TcBlack
                     extends = true;
                     implements = false;
                 }
+                else if (part.ToLower() == "abstract" || part.ToLower() == "final")
+                {
+                    accessModifier = part;
+                }
+            }
+            string name;
+            if (accessModifier.Length != 0)
+            {
+                // Access modifier exists and name is pushed back one
+                name = splitDefinition[2];
+            }
+            else
+            {
+                name = splitDefinition[1];
             }
 
             return new TcObject(
                 objectType: "FUNCTION_BLOCK",
-                accessModifier: "",
-                name: splitDefinition[1],
+                accessModifier: accessModifier,
+                name: name,
                 dataType: "",
                 extends: string.Join(", ", parents.ToArray()),
                 implements: string.Join(", ", interfaces.ToArray())
@@ -138,7 +153,7 @@ namespace TcBlack
         private TcObject TokenizeMethodOrProperty()
         {
             string entityType = @"\s*(FUNCTION|METHOD|PROPERTY)\s*";
-            string accessModifier = @"(PRIVATE|PUBLIC|PROTECTED|INTERNAL)?\s*";
+            string accessModifier = @"(PRIVATE|PUBLIC|PROTECTED|INTERNAL|FINAL|ABSTRACT)?\s*";
             string name = @"(\w+)\s*:?";
             string dataType = @"\s*(.*[^\s+;])?";
 
