@@ -153,7 +153,8 @@ namespace TcBlack
         private TcObject TokenizeMethodOrProperty()
         {
             string entityType = @"\s*(FUNCTION|METHOD|PROPERTY)\s*";
-            string accessModifier = @"(PRIVATE|PUBLIC|PROTECTED|INTERNAL)?( ?FINAL| ?ABSTRACT)?\s*";
+            string accessModifier =
+                @"(PRIVATE|PUBLIC|PROTECTED|INTERNAL)?( ?FINAL| ?ABSTRACT)?\s*";
             string name = @"(\w+)\s*:?";
             string dataType = @"\s*(.*[^\s+;])?";
 
