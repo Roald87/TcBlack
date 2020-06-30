@@ -153,7 +153,7 @@ namespace TcBlack
         private TcObject TokenizeMethodOrProperty()
         {
             string entityType = @"\s*(FUNCTION|METHOD|PROPERTY)\s*";
-            string accessModifier = @"(PRIVATE|PUBLIC|PROTECTED|INTERNAL|FINAL|ABSTRACT)?\s*";
+            string accessModifier = @"(PRIVATE|PUBLIC|PROTECTED|INTERNAL)?( ?FINAL| ?ABSTRACT)?\s*";
             string name = @"(\w+)\s*:?";
             string dataType = @"\s*(.*[^\s+;])?";
 
@@ -165,9 +165,9 @@ namespace TcBlack
                 Match match = matches[0];
                 return new TcObject(
                     objectType: match.Groups[1].Value,
-                    accessModifier: match.Groups[2].Value,
-                    name: match.Groups[3].Value,
-                    dataType: match.Groups[4].Value,
+                    accessModifier: match.Groups[2].Value + match.Groups[3].Value,
+                    name: match.Groups[4].Value,
+                    dataType: match.Groups[5].Value,
                     extends: "",
                     implements: ""
                 );
