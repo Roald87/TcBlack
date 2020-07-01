@@ -7,6 +7,12 @@ namespace TcBlackTests
 {
     public class TcPouTests
     {
+        private static string workingDirectory = Environment.CurrentDirectory;
+        private static string testDataDirectory = Path.Combine(
+            Directory.GetParent(workingDirectory).Parent.Parent.FullName,
+            "TcPouTestData"
+        );
+
         [Theory]
         [InlineData("FB_InputSimple.TcPOU", "FB_ExpectedSimple.TcPOU")]
         [InlineData("FB_InputComplex.TcPOU", "FB_ExpectedComplex.TcPOU")]
@@ -17,11 +23,6 @@ namespace TcBlackTests
         [InlineData("FB_InputWithEmptyVars.TcPOU", "FB_ExpectedWithEmptyVars.TcPOU")]
         public void LoadChangeAndSaveDeclaration(string fbInput, string fbExpected)
         {
-            string workingDirectory = Environment.CurrentDirectory;
-            string testDataDirectory = Path.Combine(
-                Directory.GetParent(workingDirectory).Parent.Parent.FullName, 
-                "TcPouTestData"
-            );
             string fileToFormat = Path.Combine(testDataDirectory, fbInput);
             Backup backup = new Backup(fileToFormat);
 
@@ -37,16 +38,11 @@ namespace TcBlackTests
         [Fact]
         public void FormatFileWithUnixTypeLineEnd()
         {
-            // git keeps changing the line endings. In order to make sure it uses the 
-            // correct line ending, I'll change them manually here.
-            string workingDirectory = Environment.CurrentDirectory;
-            string testDataDirectory = Path.Combine(
-                Directory.GetParent(workingDirectory).Parent.Parent.FullName,
-                "TcPouTestData"
-            );
             string fileToFormat = Path.Combine(
                 testDataDirectory, "FB_InputTabAndUnixLineEnd.TcPOU"
             );
+            // git keeps changing the line endings. In order to make sure it uses the 
+            // correct line ending, I'll change them manually here.
             ReplaceWindowsLineEndingForUnixOnes(fileToFormat);
             Backup backup = new Backup(fileToFormat);
 
