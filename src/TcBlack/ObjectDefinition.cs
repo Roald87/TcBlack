@@ -97,7 +97,7 @@ namespace TcBlack
 
             List<string> interfaces = new List<string>();
             List<string> parents = new List<string>();
-            string accessModifier = "";
+            List<string> accessModifier = new List<string>();
             bool implements = false;
             bool extends = false;
             foreach (string part in splitDefinition)
@@ -124,25 +124,19 @@ namespace TcBlack
                     extends = true;
                     implements = false;
                 }
-                else if (part.ToLower() == "abstract" || part.ToLower() == "final")
+                else if (part.ToLower() == "abstract"
+                    || part.ToLower() == "final"
+                    || part.ToLower() == "internal"
+                    || part.ToLower() == "public")
                 {
-                    accessModifier = part;
+                    accessModifier.Add(part);
                 }
             }
-            string name;
-            if (accessModifier.Length != 0)
-            {
-                // Access modifier exists and name is pushed back one
-                name = splitDefinition[2];
-            }
-            else
-            {
-                name = splitDefinition[1];
-            }
+            string name = splitDefinition[1 + accessModifier.Count];
 
             return new TcObject(
                 objectType: "FUNCTION_BLOCK",
-                accessModifier: accessModifier,
+                accessModifier: string.Join(" ", accessModifier.ToArray()),
                 name: name,
                 dataType: "",
                 extends: string.Join(", ", parents.ToArray()),
