@@ -49,8 +49,10 @@ namespace TcBlack
         /// <returns>The CompositeStatement class itself.</returns>
         public CompositeCode Tokenize()
         {
+            string lineEndingOfFile = 
+                _unformattedCode.Contains("\r\n") ? "\r\n" : "\n";
             string[] lines = _unformattedCode.Split(
-                new[] { _lineEnding }, StringSplitOptions.None
+                new[] { lineEndingOfFile }, StringSplitOptions.None
             );
             foreach (string line in lines)
             {

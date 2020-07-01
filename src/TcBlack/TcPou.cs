@@ -8,7 +8,8 @@ namespace TcBlack
     public class TcPou
     {
         private XmlDocument doc;
-        private string _path;
+        private string tcPouPath;
+        private string text;
 
         /// <summary>
         /// Loads a TcPOU file.
@@ -16,13 +17,49 @@ namespace TcBlack
         /// <param name="path">Path to the TcPOU file.</param>
         public TcPou(string path)
         {
-            _path = path;
+            tcPouPath = path;
             doc = new XmlDocument();
             doc.Load(path);
 
-            string text = doc.InnerXml;
+            text = doc.InnerXml;
             LineEnding = text.Contains("\r\n") ? "\r\n" : "\n";
             Indentation = text.Contains("\t") ? "\t" : "    ";
+        }
+
+        /// <summary>
+        /// Loads a TcPOU file.
+        /// </summary>
+        /// <param name="path">Path to the TcPOU file.</param>
+        /// <param name="indentation">
+        /// Which indentation to use in the formatted file.
+        /// </param>
+        public TcPou(string path, string indentation) : this(path)
+        {
+            Indentation = indentation;
+        }
+
+        /// <summary>
+        /// Loads a TcPOU file.
+        /// </summary>
+        /// <param name="path">Path to the TcPOU file.</param>
+        /// <param name="windowsLineEnding">If true use '\r\n' else uses '\n'.</param>
+        public TcPou(string path, bool windowsLineEnding) : this(path)
+        {
+            LineEnding = windowsLineEnding ? "\r\n" : "\n";
+        }
+
+        /// <summary>
+        /// Loads a TcPOU file.
+        /// </summary>
+        /// <param name="path">Path to the TcPOU file.</param>
+        /// <param name="indentation">
+        /// Which indentation to use in the formatted file.
+        /// </param>
+        /// <param name="windowsLineEnding">If true use '\r\n' else uses '\n'.</param>
+        public TcPou(string path, string indentation, bool windowsLineEnding) 
+            : this(path, windowsLineEnding)
+        {
+            Indentation = indentation;
         }
 
         /// <summary>
@@ -50,7 +87,7 @@ namespace TcBlack
         /// </summary>
         public void Save()
         {
-            using (var w = XmlWriter.Create(_path, new XmlWriterSettings
+            using (var w = XmlWriter.Create(tcPouPath, new XmlWriterSettings
             {
                 Indent = true,
                 NewLineChars = LineEnding,

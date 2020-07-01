@@ -35,6 +35,21 @@ namespace TcBlack
             public bool Safe { get; set; }
 
             [Option(
+                Default = "",
+                HelpText = "Override the indentation found in the file(s)."
+            )]
+            public string Indentation { get; set; }
+
+            [Option(
+                HelpText = "Overrides the line ending of all files with Windows' \r\n"
+            )]
+            public bool WindowsLineEnding { get; set; }
+            [Option(
+                HelpText = "Overrides the line ending of all files with UNIX' \n."
+            )]
+            public bool UnixLineEnding { get; set; }
+
+            [Option(
                 Default = false,
                 HelpText = "Outputs build info. Has no effect in non-safe mode."
             )]
@@ -43,45 +58,43 @@ namespace TcBlack
 
         static void Main(string[] args)
         {
-            Parser.Default.ParseArguments<Options>(args)
-                .WithParsed(options =>
+            Parser.Default.ParseArguments<Options>(args).WithParsed(options =>
+            {
+                string[] filenames = FilesToFormat(options);
+                string fileListForCommandPrompt = string.Join(
+                    "\n",
+                    filenames.Select(filename => $"  - {filename}").ToArray()
+                );
+
+                if (options.Safe)
                 {
-                    string[] filenames = FilesToFormat(options);
-
-                    string fileListForCommandPrompt = string.Join(
-                        "\n",
-                        filenames.Select(filename => $"  - {filename}").ToArray()
+                    Console.WriteLine(
+                        $"\nFormatting {filenames.Length} file(s) "
+                        + $"in safe mode:\n{fileListForCommandPrompt}\n"
                     );
-
-                    if (options.Safe)
+                    SafeFormat(filenames, options);
+                }
+                else
+                {
+                    Console.WriteLine(
+                        $"\nFormatting {filenames.Length} file(s) "
+                        + $"in fast non-safe mode:\n{fileListForCommandPrompt}\n"
+                    );
+                    try
+                    {
+                        CreateBackups(options.Filenames.ToArray());
+                    }
+                    catch (FileNotFoundException)
                     {
                         Console.WriteLine(
-                            $"\nFormatting {filenames.Length} file(s) "
-                            + $"in safe mode:\n{fileListForCommandPrompt}\n"
+                            $"One of the files doesn't exist. " +
+                            $"Check the filesnames and try again."
                         );
-                        SafeFormat(filenames, options.Verbose);
+                        return;
                     }
-                    else
-                    {
-                        Console.WriteLine(
-                            $"\nFormatting {filenames.Length} file(s) "
-                            + $"in fast non-safe mode:\n{fileListForCommandPrompt}\n"
-                        );
-                        try
-                        {
-                            CreateBackups(options.Filenames.ToArray());
-                        }
-                        catch (FileNotFoundException)
-                        {
-                            Console.WriteLine(
-                                $"One of the files doesn't exist. " +
-                                $"Check the filesnames and try again."
-                            );
-                            return;
-                        }
-                        FormatAll(filenames);
-                    }
-                });
+                    FormatAll(filenames, options);
+                }
+            });
         }
 
         /// <summary>
@@ -109,15 +122,16 @@ namespace TcBlack
         /// Compiles project before and after formatting to check if nothing changed.
         /// It does this by comparing the compile hash.
         /// </summary>
+        /// <param name="filenames">Files to format.</param>
         /// <param name="options">Input from the command line.</param>
-        static void SafeFormat(string[] filenames, bool verbose)
+        static void SafeFormat(string[] filenames, Options options)
         {
             Console.WriteLine("Building project before formatting.");
             TcProjectBuilder tcProject = new TcProjectBuilder(filenames.First());
             string hashBeforeFormat = string.Empty;
             try
             {
-                hashBeforeFormat = tcProject.Build(verbose).Hash;
+                hashBeforeFormat = tcProject.Build(options.Verbose).Hash;
             }
             catch(ProjectBuildFailed)
             {
@@ -140,13 +154,13 @@ namespace TcBlack
                 );
                 return;
             }
-            FormatAll(filenames);
+            FormatAll(filenames, options);
 
             Console.WriteLine("Building project after formatting.");
             string hashAfterFormat = string.Empty;
             try
             {
-                hashAfterFormat = tcProject.Build(verbose).Hash;
+                hashAfterFormat = tcProject.Build(options.Verbose).Hash;
             }
             catch(ProjectBuildFailed)
             {
@@ -171,16 +185,37 @@ namespace TcBlack
         }
 
         /// <summary>
-        /// Reformat all TcPou files.
+        /// Reformat all TcPou and TcIO files.
         /// </summary>
-        /// <param name="filenames">Filesnames which should be formatted.</param>
-        static void FormatAll(string[] filenames)
+        /// <param name="filenames">Files to format.</param>
+        /// <param name="options">Options to use for the formatting.</param>
+        static void FormatAll(string[] filenames, Options options)
         {
             foreach (string filename in filenames)
             {
-                new TcPou(filename).Format().Save();
+                if (
+                    options.Indentation.Length > 0 
+                    && (options.WindowsLineEnding || options.UnixLineEnding)
+                )
+                {
+                    new TcPou(filename, options.Indentation, options.WindowsLineEnding)
+                        .Format()
+                        .Save();
+                }
+                else if (options.Indentation.Length > 0)
+                {
+                    new TcPou(filename, options.Indentation).Format().Save();
+                }
+                else if (options.WindowsLineEnding || options.UnixLineEnding)
+                {
+                    new TcPou(filename, options.WindowsLineEnding).Format().Save();
+                }
+                else
+                {
+                    new TcPou(filename).Format().Save();
+                }
             }
-            Console.WriteLine($"Formatted {filenames.Length} file(s).");
+            Console.WriteLine($"Formatted {filenames.Count()} file(s).");
         }
 
         /// <summary>
