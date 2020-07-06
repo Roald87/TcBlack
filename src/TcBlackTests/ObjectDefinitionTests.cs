@@ -117,6 +117,18 @@ namespace TcBlackTests
             "METHOD     INTERNAL ABSTRACT Sum : BOOL",
             "METHOD INTERNAL ABSTRACT Sum : BOOL"
         )]
+        [InlineData(
+            "METHOD  PROTECTED   FINAL Sum : BOOL",
+            "METHOD PROTECTED FINAL Sum : BOOL"
+        )]
+        [InlineData(
+            "METHOD   FINAL Sum : BOOL",
+            "METHOD FINAL Sum : BOOL"
+        )]
+        [InlineData(
+            "METHOD  PROTECTED    Sum : BOOL",
+            "METHOD PROTECTED Sum : BOOL"
+        )]
         public void AbstractAndFinalModifiersForMethodsAndFunctionBlocks(
             string originalCode, string expectedCode
         )

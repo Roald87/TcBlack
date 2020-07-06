@@ -97,7 +97,7 @@ namespace TcBlack
 
             List<string> interfaces = new List<string>();
             List<string> parents = new List<string>();
-            List<string> accessModifier = new List<string>();
+            List<string> accessModifiers = new List<string>();
             bool implements = false;
             bool extends = false;
             foreach (string part in splitDefinition)
@@ -124,19 +124,20 @@ namespace TcBlack
                     extends = true;
                     implements = false;
                 }
-                else if (part.ToLower() == "abstract"
+                else if (
+                    part.ToLower() == "abstract"
                     || part.ToLower() == "final"
                     || part.ToLower() == "internal"
                     || part.ToLower() == "public")
                 {
-                    accessModifier.Add(part);
+                    accessModifiers.Add(part);
                 }
             }
-            string name = splitDefinition[1 + accessModifier.Count];
+            string name = splitDefinition[1 + accessModifiers.Count];
 
             return new TcObject(
                 objectType: "FUNCTION_BLOCK",
-                accessModifier: string.Join(" ", accessModifier.ToArray()),
+                accessModifier: string.Join(" ", accessModifiers.ToArray()),
                 name: name,
                 dataType: "",
                 extends: string.Join(", ", parents.ToArray()),
@@ -148,7 +149,7 @@ namespace TcBlack
         {
             string entityType = @"\s*(FUNCTION|METHOD|PROPERTY)\s*";
             string accessModifier =
-                @"(PRIVATE|PUBLIC|PROTECTED|INTERNAL)?( ?FINAL| ?ABSTRACT)?\s*";
+                @"(PRIVATE|PUBLIC|PROTECTED|INTERNAL)?(?:(?: *)(FINAL|ABSTRACT))?\s*";
             string name = @"(\w+)\s*:?";
             string dataType = @"\s*(.*[^\s+;])?";
 
@@ -158,9 +159,13 @@ namespace TcBlack
             if (matches.Count > 0)
             {
                 Match match = matches[0];
+                bool twoModifers = match.Groups[2].Value.Length > 0
+                                && match.Groups[3].Value.Length > 0;
                 return new TcObject(
                     objectType: match.Groups[1].Value,
-                    accessModifier: match.Groups[2].Value + match.Groups[3].Value,
+                    accessModifier: match.Groups[2].Value
+                        + (twoModifers ? " " : "")
+                        + match.Groups[3].Value,
                     name: match.Groups[4].Value,
                     dataType: match.Groups[5].Value,
                     extends: "",
