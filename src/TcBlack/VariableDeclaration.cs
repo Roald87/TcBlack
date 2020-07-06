@@ -73,17 +73,31 @@ namespace TcBlack
             string pattern = 
                 $@"{variable_pattern}{address_pattern}:\s*"
                 + $@"{unit_pattern}{initialization};{comment}";
+            
+            string strInitialization = $@"([""'])(?:(?=(\$?))\2.)*?\1(?=\s*;)";
+
+            Match match = Regex.Match(_unformattedCode, strInitialization);
+            string strInit = "";
+            if (match.Length > 0)
+            {
+                strInit = match.Groups[0].Value;
+                _unformattedCode = Regex.Replace(_unformattedCode, strInitialization, "");
+            }
 
             MatchCollection matches = Regex.Matches(_unformattedCode, pattern);
             TcDeclaration variable;
             if (matches.Count > 0)
             {
-                Match match = matches[0];
+                match = matches[0];
+                if (strInit.Length == 0)
+                {
+                    strInit = RemoveWhiteSpaceIfPossible(match.Groups[4].Value);
+                }
                 variable = new TcDeclaration(
                     name: RemoveWhiteSpaceIfPossible(match.Groups[1].Value),
                     allocation: RemoveWhiteSpaceIfPossible(match.Groups[2].Value),
                     dataType: RemoveWhiteSpaceIfPossible(match.Groups[3].Value),
-                    initialization: RemoveWhiteSpaceIfPossible(match.Groups[4].Value),
+                    initialization: strInit,
                     comment: match.Groups[5].Value.Trim()
                 );
             }
