@@ -74,14 +74,14 @@ namespace TcBlack
                 $@"{variable_pattern}{address_pattern}:\s*"
                 + $@"{unit_pattern}{initialization};{comment}";
             
-            string strInitialization = $@"([""'])(?:(?=(\$?))\2.)*?\1(?=\s*;)";
+            string strInitRegex = $@"([""'])(?:(?=(\$?))\2.)*?\1(?=\s*;)";
 
-            Match match = Regex.Match(_unformattedCode, strInitialization);
+            Match match = Regex.Match(_unformattedCode, strInitRegex);
             string strInit = "";
             if (match.Length > 0)
             {
                 strInit = match.Groups[0].Value;
-                _unformattedCode = Regex.Replace(_unformattedCode, strInitialization, "");
+                _unformattedCode = Regex.Replace(_unformattedCode, strInitRegex, "");
             }
 
             MatchCollection matches = Regex.Matches(_unformattedCode, pattern);
