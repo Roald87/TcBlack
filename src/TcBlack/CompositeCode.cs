@@ -92,7 +92,8 @@ namespace TcBlack
                 else if (
                     line.StartsWith("FUNCTION") 
                     || line.StartsWith("METHOD") 
-                    || line.StartsWith("PROPERTY"))
+                    || line.StartsWith("PROPERTY")
+                    || line.StartsWith("INTERFACE"))
                 {
                     Add(new ObjectDefinition(
                         unformattedCode: line,
