@@ -78,6 +78,69 @@ namespace TcBlackTests
 
         [Theory]
         [InlineData(
+            "FUNCTION_BLOCK    FINAL Sum IMPLEMENTS   Interface",
+            "FUNCTION_BLOCK FINAL Sum IMPLEMENTS Interface"
+        )]
+        [InlineData(
+            "FUNCTION_BLOCK    ABSTRACT     Sum IMPLEMENTS Interface, interface2",
+            "FUNCTION_BLOCK ABSTRACT Sum IMPLEMENTS Interface, interface2"
+        )]
+        [InlineData(
+            "FUNCTION_BLOCK INTERNAL  FINAL Sum EXTENDS FB_SumParent IMPLEMENTS  I_ab",
+            "FUNCTION_BLOCK INTERNAL FINAL Sum EXTENDS FB_SumParent IMPLEMENTS I_ab"
+        )]
+        [InlineData(
+            "FUNCTION_BLOCK  PUBLIC  ABSTRACT     Sum IMPLEMENTS Interface, interface2",
+            "FUNCTION_BLOCK PUBLIC ABSTRACT Sum IMPLEMENTS Interface, interface2"
+        )]
+        [InlineData(
+            "  PROPERTY PUBLIC ABSTRACT  Test:BOOL",
+            "PROPERTY PUBLIC ABSTRACT Test : BOOL"
+        )]
+        [InlineData(
+            "  PROPERTY  FINAL  Test:BOOL",
+            "PROPERTY FINAL Test : BOOL"
+        )]
+        [InlineData(
+            "METHOD  PROTECTED FINAL Sum : BOOL",
+            "METHOD PROTECTED FINAL Sum : BOOL"
+        )]
+        [InlineData(
+            "METHOD     PROTECTED ABSTRACT Sum : BOOL",
+            "METHOD PROTECTED ABSTRACT Sum : BOOL"
+        )]
+        [InlineData(
+            "METHOD     PRIVATE ABSTRACT Sum : BOOL",
+            "METHOD PRIVATE ABSTRACT Sum : BOOL"
+        )]
+        [InlineData(
+            "METHOD     INTERNAL ABSTRACT Sum : BOOL",
+            "METHOD INTERNAL ABSTRACT Sum : BOOL"
+        )]
+        [InlineData(
+            "METHOD  PROTECTED   FINAL Sum : BOOL",
+            "METHOD PROTECTED FINAL Sum : BOOL"
+        )]
+        [InlineData(
+            "METHOD   FINAL Sum : BOOL",
+            "METHOD FINAL Sum : BOOL"
+        )]
+        [InlineData(
+            "METHOD  PROTECTED    Sum : BOOL",
+            "METHOD PROTECTED Sum : BOOL"
+        )]
+        public void AbstractAndFinalModifiersForMethodsAndFunctionBlocks(
+            string originalCode, string expectedCode
+        )
+        {
+            ObjectDefinition var =
+                new ObjectDefinition(originalCode, "    ", "\n");
+            uint indents = 0;
+            Assert.Equal(expectedCode, var.Format(ref indents));
+        }
+
+        [Theory]
+        [InlineData(
             "METHOD PUBLIC Close : SysFile.SysTypes.RTS_IEC_RESULT;",
             "METHOD PUBLIC Close : SysFile.SysTypes.RTS_IEC_RESULT"
         )]
