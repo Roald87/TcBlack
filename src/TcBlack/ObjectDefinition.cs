@@ -92,7 +92,9 @@ namespace TcBlack
         {
             string pattern = @"INTERFACE\s+(\w+)\s*(?:EXTENDS((?:[\s,]+[\w\.]+)+))?";
 
-            MatchCollection matches = Regex.Matches(_unformattedCode, pattern);
+            MatchCollection matches = Regex.Matches(
+                _unformattedCode, pattern, RegexOptions.IgnoreCase
+            );
             if (matches.Count > 0)
             {
                 Match match = matches[0];
