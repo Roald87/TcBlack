@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Linq;
 using CommandLine;
 
@@ -14,7 +15,7 @@ namespace TcBlack
         class Options
         {
             [Option(
-                HelpText = "TcPOU file(s) to format.",
+                HelpText = "TcPOU/TcIO file(s) to format.",
                 SetName = "FilesToFormat"
             )]
             public IEnumerable<string> Filenames { get; set; }
@@ -92,11 +93,11 @@ namespace TcBlack
         {
             if (options.Project.Length > 0)
             {
+                Regex extensions = new Regex(@"(TcPOU|TcIO)");
                 string projectDirectory = Path.GetDirectoryName(options.Project);
-
-                return Directory.GetFiles(
-                    projectDirectory, "*.TcPOU", SearchOption.AllDirectories
-                );
+                return Directory.EnumerateFiles(
+                    projectDirectory, "*.*", SearchOption.AllDirectories
+                ).Where(f => extensions.IsMatch(f)).ToArray();
             }
             else
             {
