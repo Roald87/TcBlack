@@ -90,7 +90,7 @@ namespace TcBlack
 
         private TcObject TokenizeInterface()
         {
-            string pattern = @"INTERFACE\s+(\w+)\s*(?:EXTENDS((?:[\s,]+\w+)+))?";
+            string pattern = @"INTERFACE\s+(\w+)\s*(?:EXTENDS((?:[\s,]+[\w\.]+)+))?";
 
             MatchCollection matches = Regex.Matches(_unformattedCode, pattern);
             if (matches.Count > 0)

@@ -116,6 +116,14 @@ namespace TcBlackTests
             "INTERFACE    ITF_1   EXTENDS    I_TcArguments   ,   I_Number2, I_A",
             "INTERFACE ITF_1 EXTENDS I_TcArguments, I_Number2, I_A"
         )]
+        [InlineData(
+            "INTERFACE ITF_1 EXTENDS I_TcArguments,I_Number2,I_A",
+            "INTERFACE ITF_1 EXTENDS I_TcArguments, I_Number2, I_A"
+        )]
+        [InlineData(
+            "INTERFACE I_Test EXTENDS __SYSTEM.IQueryInterface",
+            "INTERFACE I_Test EXTENDS __SYSTEM.IQueryInterface"
+        )]
         public void FormatInterfaces(
             string originalCode, string expectedCode
         )
