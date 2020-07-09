@@ -259,5 +259,51 @@ namespace TcBlackTests
 
             Assert.Equal(expected, actual);
         }
+
+        [Theory]
+        [InlineData(
+            "var: STRING(255):='This is a test string with ;';",
+            "var : STRING(255) := 'This is a test string with ;';"
+        )]
+        [InlineData(
+            "var: STRING(255):='This is a test() string with ;';",
+            "var : STRING(255) := 'This is a test() string with ;';"
+        )]
+        [InlineData(
+            "var: STRING(255):='This) is a test) string with ;';",
+            "var : STRING(255) := 'This) is a test) string with ;';"
+        )]
+        [InlineData(
+            "var: STRING(255):='This( is a test) string with ;';",
+            "var : STRING(255) := 'This( is a test) string with ;';"
+        )]
+        [InlineData(
+            "var: STRING(255):='This( is double \" test) string with ;';",
+            "var : STRING(255) := 'This( is double \" test) string with ;';"
+        )]
+        [InlineData(
+            "var: STRING(255):='This( is a $'asdf$' test) string with ;';",
+            "var : STRING(255) := 'This( is a $'asdf$' test) string with ;';"
+        )]
+        [InlineData(
+            "var: WSTRING(255):=\"This( is a ( test) string with ;\";",
+            "var : WSTRING(255) := \"This( is a ( test) string with ;\";"
+        )]
+        [InlineData(
+            "var: STRING(255):=\"This( is two singles '' test) string with ;\";",
+            "var : STRING(255) := \"This( is two singles '' test) string with ;\";"
+        )]
+        [InlineData(
+            "var: STRING(255):=\"This( is a $\" test) string with ;\";",
+            "var : STRING(255) := \"This( is a $\" test) string with ;\";"
+        )]
+        public void SpecialCharStringInitialization(string unformattedCode, string expected)
+        {
+            VariableDeclaration variable = new VariableDeclaration(
+                unformattedCode: unformattedCode, singleIndent: "    ", lineEnding: "\n"
+            );
+            uint indents = 0;
+            Assert.Equal(expected, variable.Format(ref indents));
+        }
     }
 }
