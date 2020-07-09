@@ -93,7 +93,7 @@ namespace TcBlack
         {
             if (options.Project.Length > 0)
             {
-                Regex extensions = new Regex(@"(TcPOU|TcIO)");
+                Regex extensions = new Regex(@"(TcPOU|TcIO)$");
                 string projectDirectory = Path.GetDirectoryName(options.Project);
                 return Directory.EnumerateFiles(
                     projectDirectory, "*.*", SearchOption.AllDirectories
