@@ -84,19 +84,27 @@ namespace TcBlack
                 _unformattedCode = Regex.Replace(_unformattedCode, strInitRegex, "");
             }
 
-            MatchCollection matches = Regex.Matches(_unformattedCode, pattern);
+            MatchCollection matches = Regex.Matches(
+                _unformattedCode,
+                pattern, 
+               RegexOptions.IgnoreCase
+            );
             TcDeclaration variable;
             if (matches.Count > 0)
             {
                 match = matches[0];
                 if (strInit.Length == 0)
                 {
-                    strInit = RemoveWhiteSpaceIfPossible(match.Groups[4].Value);
+                    strInit = Keywords.Upper(
+                        RemoveWhiteSpaceIfPossible(match.Groups[4].Value)
+                    );
                 }
                 variable = new TcDeclaration(
                     name: RemoveWhiteSpaceIfPossible(match.Groups[1].Value),
                     allocation: RemoveWhiteSpaceIfPossible(match.Groups[2].Value),
-                    dataType: RemoveWhiteSpaceIfPossible(match.Groups[3].Value),
+                    dataType: Keywords.Upper(
+                        RemoveWhiteSpaceIfPossible(match.Groups[3].Value)
+                    ),
                     initialization: strInit,
                     comment: match.Groups[5].Value.Trim()
                 );

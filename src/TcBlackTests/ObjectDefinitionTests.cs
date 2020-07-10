@@ -162,5 +162,55 @@ namespace TcBlackTests
             Assert.Equal(expectedCode, var.Format(ref indents));
         }
 
+        [Theory]
+        [InlineData(
+            "METHOD PUBLIC Close : uint;",
+            "METHOD PUBLIC Close : UINT"
+        )]
+        [InlineData(
+            "METHOD Read:word   ",
+            "METHOD Read : WORD"
+        )]
+        [InlineData(
+            "METHOD Read    : string(10)    ",
+            "METHOD Read : STRING(10)"
+        )]
+        [InlineData(
+            "METHOD Read    : pointer to int    ",
+            "METHOD Read : POINTER TO INT"
+        )]
+        [InlineData(
+            "METHOD Read    : pointer to Custom_Type    ",
+            "METHOD Read : POINTER TO Custom_Type"
+        )]
+        [InlineData(
+            "METHOD Read    : pointer to string(3456)    ",
+            "METHOD Read : POINTER TO STRING(3456)"
+        )]
+        [InlineData(
+            "METHOD Read    : array[1..100] of udint    ",
+            "METHOD Read : ARRAY[1..100] OF UDINT"
+        )]
+        [InlineData(
+            "METHOD Read    : pointer to array[1..100] of udint    ",
+            "METHOD Read : POINTER TO ARRAY[1..100] OF UDINT"
+        )]
+        [InlineData(
+            "METHOD Read    : pointer to array[1..nNumber] of int    ",
+            "METHOD Read : POINTER TO ARRAY[1..nNumber] OF INT"
+        )]
+        [InlineData(
+            "METHOD Read    : String(nInt)    ",
+            "METHOD Read : STRING(nInt)"
+        )]
+        public void MethodsWithStandardReturnTypes(
+            string originalCode, string expectedCode
+        )
+        {
+            ObjectDefinition var =
+                new ObjectDefinition(originalCode, "    ", "\n");
+            uint indents = 0;
+            Assert.Equal(expectedCode, var.Format(ref indents));
+        }
     }
 }

@@ -167,7 +167,7 @@ namespace TcBlack
                         + (twoModifers ? " " : "")
                         + match.Groups[3].Value,
                     name: match.Groups[4].Value,
-                    dataType: match.Groups[5].Value,
+                    dataType: Keywords.Upper(match.Groups[5].Value),
                     extends: "",
                     implements: ""
                 );
