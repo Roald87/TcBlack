@@ -78,9 +78,39 @@ namespace TcBlack
             {
                 return TokenizeFunctionBlock();
             }
+            else if (_unformattedCode.Contains("INTERFACE"))
+            {
+                return TokenizeInterface();
+            }
             else
             {
                 return TokenizeMethodOrProperty();
+            }
+        }
+
+        private TcObject TokenizeInterface()
+        {
+            string pattern = @"INTERFACE\s+(\w+)\s*(?:EXTENDS((?:[\s,]+[\w\.]+)+))?";
+
+            MatchCollection matches = Regex.Matches(
+                _unformattedCode, pattern, RegexOptions.IgnoreCase
+            );
+            if (matches.Count > 0)
+            {
+                Match match = matches[0];
+                string[] parents = Regex.Split(match.Groups[2].Value, @"[\s,]+");
+                return new TcObject(
+                    objectType: "INTERFACE",
+                    accessModifier: "",
+                    name: match.Groups[1].Value,
+                    dataType: "",
+                    extends: string.Join(", ", parents.Skip(1)),
+                    implements: ""
+                );
+            }
+            else
+            {
+                return new TcObject("", "", "", "", "", "");
             }
         }
 

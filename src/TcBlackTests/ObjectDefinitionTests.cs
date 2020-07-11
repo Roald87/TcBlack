@@ -162,5 +162,40 @@ namespace TcBlackTests
             Assert.Equal(expectedCode, var.Format(ref indents));
         }
 
+        [Theory]
+        [InlineData(
+            "INTERFACE    ITF_1",
+            "INTERFACE ITF_1"
+        )]
+        [InlineData(
+            "INTERFACE    ITF_1   EXTENDS    I_TcArguments",
+            "INTERFACE ITF_1 EXTENDS I_TcArguments"
+        )]
+        [InlineData(
+            "INTERFACE    ITF_1   EXTENDS    I_TcArguments   ,   I_Number2",
+            "INTERFACE ITF_1 EXTENDS I_TcArguments, I_Number2"
+        )]
+        [InlineData(
+            "INTERFACE    ITF_1   EXTENDS    I_TcArguments   ,   I_Number2, I_A",
+            "INTERFACE ITF_1 EXTENDS I_TcArguments, I_Number2, I_A"
+        )]
+        [InlineData(
+            "INTERFACE ITF_1 EXTENDS I_TcArguments,I_Number2,I_A",
+            "INTERFACE ITF_1 EXTENDS I_TcArguments, I_Number2, I_A"
+        )]
+        [InlineData(
+            "INTERFACE I_Test EXTENDS __SYSTEM.IQueryInterface",
+            "INTERFACE I_Test EXTENDS __SYSTEM.IQueryInterface"
+        )]
+        public void FormatInterfaces(
+            string originalCode, string expectedCode
+        )
+        {
+            ObjectDefinition var =
+                new ObjectDefinition(originalCode, "    ", "\n");
+            uint indents = 0;
+            Assert.Equal(expectedCode, var.Format(ref indents));
+        }
+
     }
 }
