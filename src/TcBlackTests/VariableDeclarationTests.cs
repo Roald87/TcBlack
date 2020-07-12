@@ -12,7 +12,7 @@ namespace TcBlackTests
         [InlineData("var ", " LREAL ")]
         [InlineData(" number ", "    DINT")]
         [InlineData("   _internalVar4", "DWORD ")]
-        [InlineData("   SHOUTING ", " int ")]
+        [InlineData("   SHOUTING ", " INT ")]
         [InlineData("aSample1 ", "ARRAY[1..5] OF INT")]
         [InlineData("aSample1 ", "ARRAY[1..nInt - 1] OF INT")]
         [InlineData("aSample1 ", "ARRAY[nInt + 1..3] OF INT")]
@@ -179,7 +179,7 @@ namespace TcBlackTests
             "deviceDown      AT     %QX0.2  :        BOOL ; ", 
             "deviceDown AT %QX0.2 : BOOL;"
         )]
-        [InlineData("devSpeed:TIME:=T#10ms;", "devSpeed : TIME := T#10ms;")]
+        [InlineData("devSpeed:TIME:=T#10ms;", "devSpeed : TIME := T#10MS;")]
         [InlineData(
             "fbSample   :   FB_Sample(nId_Init := 11, fIn_Init := 33.44)   ;",
             "fbSample : FB_Sample(nId_Init:=11, fIn_Init:=33.44);"
@@ -298,6 +298,40 @@ namespace TcBlackTests
             "var : STRING(255) := \"This( is a $\" test) string with ;\";"
         )]
         public void SpecialCharStringInitialization(string unformattedCode, string expected)
+        {
+            VariableDeclaration variable = new VariableDeclaration(
+                unformattedCode: unformattedCode, singleIndent: "    ", lineEnding: "\n"
+            );
+            uint indents = 0;
+            Assert.Equal(expected, variable.Format(ref indents));
+        }
+
+        [Theory]
+        [InlineData(
+            "devSpeed:TIME:=T#10ms;",
+            "devSpeed : TIME := T#10MS;"
+        )]
+        [InlineData(
+            "devSpeed:time:=T#2d5h6m1s10ms;",
+            "devSpeed : TIME := T#2D5H6M1S10MS;"
+        )]
+        [InlineData(
+            "MSG : int := 253;",
+            "MSG : INT := 253;"
+        )]
+        [InlineData(
+            "SomeArray : array[1..(n * (end + 1) - 4) / initial] OF real;",
+            "SomeArray : ARRAY[1..(n * (end + 1) - 4) / initial] OF REAL;"
+        )]
+        [InlineData(
+            "ptr : pointer  to  dword ; ",
+            "ptr : POINTER TO DWORD;"
+        )]
+        [InlineData(
+            "ptr : pointer  to pointer to dword ; ",
+            "ptr : POINTER TO POINTER TO DWORD;"
+        )]
+        public void UpperCaseKeywords(string unformattedCode, string expected)
         {
             VariableDeclaration variable = new VariableDeclaration(
                 unformattedCode: unformattedCode, singleIndent: "    ", lineEnding: "\n"
