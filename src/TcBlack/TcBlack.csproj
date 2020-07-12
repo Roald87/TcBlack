@@ -48,6 +48,7 @@
     <Compile Include="Backup.cs" />
     <Compile Include="CompositeCode.cs" />
     <Compile Include="EmptyLine.cs" />
+    <Compile Include="Keywords.cs" />
     <Compile Include="ObjectDefinition.cs" />
     <Compile Include="ICodeLineOperations.cs" />
     <Compile Include="Program.cs" />
