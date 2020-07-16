@@ -12,7 +12,7 @@
 
         public override string Format(ref uint indents)
         {
-            return _unformattedCode;
+            return _singleIndent.Repeat(indents) + _unformattedCode;
         }
     }
 }

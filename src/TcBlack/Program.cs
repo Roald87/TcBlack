@@ -178,7 +178,7 @@ namespace TcBlack
         {
             foreach (string filename in filenames)
             {
-                new TcPou(filename).Format().Save();
+                new TcPou(filename).FormatDeclaration().FormatImplementation().Save();
             }
             Console.WriteLine($"Formatted {filenames.Length} file(s).");
         }

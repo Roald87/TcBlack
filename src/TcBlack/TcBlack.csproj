@@ -48,6 +48,7 @@
     <Compile Include="Backup.cs" />
     <Compile Include="CompositeCode.cs" />
     <Compile Include="EmptyLine.cs" />
+    <Compile Include="ImplementationCode.cs" />
     <Compile Include="Keywords.cs" />
     <Compile Include="ObjectDefinition.cs" />
     <Compile Include="ICodeLineOperations.cs" />
@@ -57,7 +58,9 @@
     <Compile Include="TcPou.cs" />
     <Compile Include="TcProjectBuilder.cs" />
     <Compile Include="UnknownCodeType.cs" />
+    <Compile Include="VariableAssignment.cs" />
     <Compile Include="VariableBlockEnd.cs" />
+    <Compile Include="IfBlockStart.cs" />
     <Compile Include="VariableBlockStart.cs" />
     <Compile Include="VariableDeclaration.cs" />
   </ItemGroup>

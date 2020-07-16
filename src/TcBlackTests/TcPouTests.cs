@@ -25,7 +25,7 @@ namespace TcBlackTests
             string fileToFormat = Path.Combine(testDataDirectory, fbInput);
             Backup backup = new Backup(fileToFormat);
 
-            new TcPou(fileToFormat).Format().Save();
+            new TcPou(fileToFormat).FormatDeclaration().Save();
 
             string expectedFile = Path.Combine(testDataDirectory, fbExpected);
             string expected = File.ReadAllText(expectedFile);
@@ -50,7 +50,7 @@ namespace TcBlackTests
             ReplaceWindowsLineEndingForUnixOnes(fileToFormat);
             Backup backup = new Backup(fileToFormat);
 
-            new TcPou(fileToFormat).Format().Save();
+            new TcPou(fileToFormat).FormatDeclaration().Save();
 
             string expectedFile = Path.Combine(
                 testDataDirectory, "FB_ExpectedTabAndUnixLineEnd.TcPOU"
