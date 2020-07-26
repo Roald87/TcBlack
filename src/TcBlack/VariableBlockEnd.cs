@@ -2,11 +2,7 @@
 {
     public class VariableBlockEnd : CodeLineBase
     {
-        public VariableBlockEnd(
-            string unformattedCode,
-            string singleIndent,
-            string lineEnding
-        ) : base(unformattedCode, singleIndent, lineEnding)
+        public VariableBlockEnd(string unformattedCode) : base(unformattedCode)
         {
         }
 
@@ -15,7 +11,7 @@
             indents = (indents == 0) ? 0 : indents -= 1;
 
             string formattedCode =
-                _singleIndent.Repeat(indents) + _unformattedCode.Trim();
+                Global.indentation.Repeat(indents) + _unformattedCode.Trim();
 
             return formattedCode;
         }

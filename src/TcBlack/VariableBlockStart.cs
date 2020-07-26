@@ -2,18 +2,14 @@
 {
     public class VariableBlockStart : CodeLineBase
     {
-        public VariableBlockStart(
-            string unformattedCode,
-            string singleIndent,
-            string lineEnding
-        ) : base(unformattedCode, singleIndent, lineEnding)
+        public VariableBlockStart(string unformattedCode) : base(unformattedCode)
         {
         }
 
         public override string Format(ref uint indents)
         {
             string formattedCode = 
-                _singleIndent.Repeat(indents) + _unformattedCode.Trim();
+                Global.indentation.Repeat(indents) + _unformattedCode.Trim();
             indents += 1;
 
             return formattedCode;

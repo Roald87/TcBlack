@@ -15,8 +15,9 @@ namespace TcBlackTests
             uint expectedIndents
         )
         {
-            VariableBlockStart var = 
-                new VariableBlockStart(originalCode, "    ", "\n");
+            Global.indentation = "    ";
+            Global.lineEnding = "\n";
+            VariableBlockStart var = new VariableBlockStart(originalCode);
             Assert.Equal(expectedCode, var.Format(ref indents));
             Assert.Equal(expectedIndents, indents);
         }

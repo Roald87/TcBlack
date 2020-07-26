@@ -5,12 +5,11 @@ namespace TcBlackTests
 {
     public class CompositeCodeTests
     {
-        private readonly string lineEnding = "\n";
-        private readonly string singleIndent = "    ";
-
         [Fact]
         public void FormatDeclaration()
         {
+            Global.indentation = "    ";
+            Global.lineEnding = "\n";
             string unformattedCode =
                 "// Single line comments are also not formatted, yet\n" 
                 + "FUNCTION AddIntegers:DINT\n"
@@ -21,11 +20,8 @@ namespace TcBlackTests
                 + "    {attribute 'hide'}\n"
                 + "anotherBool : BOOL:=TRUE;\n"
                 + "END_VAR\n\n\n";
-            CompositeCode statements = new CompositeCode(
-                unformattedCode: unformattedCode, 
-                singleIndent: singleIndent, 
-                lineEnding: lineEnding
-            ).Tokenize();
+            CompositeCode statements = 
+                new CompositeCode(unformattedCode: unformattedCode).Tokenize();
 
             uint indents = 0;
             string actual = statements.Format(ref indents);
@@ -46,13 +42,11 @@ namespace TcBlackTests
         [Fact]
         public void FormatEmptyDeclaration()
         {
+            Global.indentation = "    ";
+            Global.lineEnding = "\n";
             string unformattedCode = "";
             uint indents = 0;
-            string actual = new CompositeCode(
-                unformattedCode: unformattedCode,
-                singleIndent: singleIndent,
-                lineEnding: lineEnding
-            )
+            string actual = new CompositeCode(unformattedCode: unformattedCode)
             .Tokenize()
             .Format(ref indents);
 
@@ -63,6 +57,8 @@ namespace TcBlackTests
         [Fact]
         public void RemoveEmptyVariableTypeDeclarations()
         {
+            Global.indentation = "    ";
+            Global.lineEnding = "\n";
             string unformattedCode =
                 "FUNCTION_BLOCK Something\n"
                 + "VAR_INPUT\n"
@@ -74,11 +70,7 @@ namespace TcBlackTests
                 + "END_VAR";
             uint indents = 0;
             string actual = 
-                new CompositeCode(
-                    unformattedCode: unformattedCode,
-                    singleIndent: singleIndent,
-                    lineEnding: lineEnding
-                )
+                new CompositeCode(unformattedCode: unformattedCode)
                 .Tokenize()
                 .Format(ref indents);
 
@@ -93,14 +85,12 @@ namespace TcBlackTests
         [Fact]
         public void CommentWithoutASpace()
         {
+            Global.indentation = "    ";
+            Global.lineEnding = "\n";
             string unformattedCode = "    //Some : FB_Some;\n";
             uint indents = 0;
             string actual =
-                new CompositeCode(
-                    unformattedCode: unformattedCode,
-                    singleIndent: singleIndent,
-                    lineEnding: lineEnding
-                )
+                new CompositeCode(unformattedCode: unformattedCode)
                 .Tokenize()
                 .Format(ref indents);
 
