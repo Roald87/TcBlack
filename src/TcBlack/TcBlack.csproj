@@ -49,6 +49,7 @@
     <Compile Include="CompositeCode.cs" />
     <Compile Include="EmptyLine.cs" />
     <Compile Include="ImplementationCode.cs" />
+    <Compile Include="Global.cs" />
     <Compile Include="Keywords.cs" />
     <Compile Include="ObjectDefinition.cs" />
     <Compile Include="ICodeLineOperations.cs" />

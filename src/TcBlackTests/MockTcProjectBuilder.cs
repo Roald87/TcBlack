@@ -4,7 +4,9 @@ namespace TcBlackTests
 {
     public class MockTcProjectBuilder : TcProjectBuilder
     {
-        public MockTcProjectBuilder(string projectPath, string buildLogPath) : base(projectPath)
+        public MockTcProjectBuilder(
+            string projectPath, string buildLogPath
+        ) : base(projectPath)
         {
             buildLogFile = buildLogPath;
         }

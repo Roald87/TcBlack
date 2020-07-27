@@ -37,11 +37,7 @@ namespace TcBlack
             public string Implements { get; }
         }
 
-        public ObjectDefinition(
-            string unformattedCode,
-            string singleIndent,
-            string lineEnding
-        ) : base(unformattedCode, singleIndent, lineEnding)
+        public ObjectDefinition(string unformattedCode) : base(unformattedCode)
         {
         }
 
@@ -55,7 +51,7 @@ namespace TcBlack
             TcObject tokens = Tokenize();
 
             string formattedCode =
-                _singleIndent.Repeat(indents)
+                Global.indentation.Repeat(indents)
                 + tokens.ObjectType
                 + (tokens.AccessModifier.Length > 0 ? $" {tokens.AccessModifier}" : "")
                 + $" {tokens.Name}"

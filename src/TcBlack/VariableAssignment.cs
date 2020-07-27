@@ -21,17 +21,15 @@ namespace TcBlack
         }
 
         public VariableAssignment(
-            string unformattedCode,
-            string singleIndent,
-            string lineEnding
-        ) : base(unformattedCode, singleIndent, lineEnding)
+            string unformattedCode
+        ) : base(unformattedCode)
         {
         }
 
         public override string Format(ref uint indents)
         {
             TcAssignment assign = Tokenize();
-            return _singleIndent.Repeat(indents) + assign.LeftOperand + " := " + assign.RightOperand;
+            return Global.indentation.Repeat(indents) + assign.LeftOperand + " := " + assign.RightOperand;
         }
 
         public TcAssignment Tokenize()

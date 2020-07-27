@@ -8,11 +8,7 @@ namespace TcBlack
     {
         protected List<CodeLineBase> codeLines;
 
-        public CompositeCode(
-            string unformattedCode,
-            string singleIndent,
-            string lineEnding
-        ) : base(unformattedCode, singleIndent, lineEnding)
+        public CompositeCode(string unformattedCode) : base(unformattedCode)
         {
             codeLines = new List<CodeLineBase>();
         }
@@ -37,7 +33,7 @@ namespace TcBlack
 
             foreach (CodeLineBase codeLine in codeLines)
             {
-                formattedString += codeLine.Format(ref indents) + _lineEnding;
+                formattedString += codeLine.Format(ref indents) + Global.lineEnding;
             }
 
             return formattedString;
@@ -49,8 +45,10 @@ namespace TcBlack
         /// <returns>The CompositeStatement class itself.</returns>
         public CompositeCode Tokenize()
         {
+            string lineEndingOfFile = 
+                _unformattedCode.Contains("\r\n") ? "\r\n" : "\n";
             string[] lines = _unformattedCode.Split(
-                new[] { _lineEnding }, StringSplitOptions.None
+                new[] { lineEndingOfFile }, StringSplitOptions.None
             );
             foreach (string line in lines)
             {
@@ -60,11 +58,7 @@ namespace TcBlack
                     {
                         continue;
                     }
-                    Add(new EmptyLine(
-                        unformattedCode: line,
-                        singleIndent: _singleIndent,
-                        lineEnding: _lineEnding
-                    ));
+                    Add(new EmptyLine(unformattedCode: line));
                 }
                 else if (line.StartsWith("END_VAR"))
                 {
@@ -74,20 +68,12 @@ namespace TcBlack
                     }
                     else
                     {
-                        Add(new VariableBlockEnd(
-                            unformattedCode: line,
-                            singleIndent: _singleIndent,
-                            lineEnding: _lineEnding
-                        ));
+                        Add(new VariableBlockEnd(unformattedCode: line));
                     }
                 }
                 else if (line.StartsWith("VAR"))
                 {
-                    Add(new VariableBlockStart(
-                        unformattedCode: line,
-                        singleIndent: _singleIndent,
-                        lineEnding: _lineEnding
-                    ));
+                    Add(new VariableBlockStart(unformattedCode: line));
                 }
                 else if (
                     line.StartsWith("FUNCTION") 
@@ -95,27 +81,15 @@ namespace TcBlack
                     || line.StartsWith("PROPERTY")
                     || line.StartsWith("INTERFACE"))
                 {
-                    Add(new ObjectDefinition(
-                        unformattedCode: line,
-                        singleIndent: _singleIndent,
-                        lineEnding: _lineEnding
-                    ));
+                    Add(new ObjectDefinition(unformattedCode: line));
                 }
                 else if (LooksLikeVariableDeclaration(line))
                 {
-                    Add(new VariableDeclaration(
-                        unformattedCode: line,
-                        singleIndent: _singleIndent,
-                        lineEnding: _lineEnding
-                    ));
+                    Add(new VariableDeclaration(unformattedCode: line));
                 }
                 else
                 {
-                    Add(new UnknownCodeType(
-                        unformattedCode: line,
-                        singleIndent: _singleIndent,
-                        lineEnding: _lineEnding
-                    ));
+                    Add(new UnknownCodeType(unformattedCode: line));
                 }
             }
 
@@ -150,8 +124,7 @@ namespace TcBlack
         /// <returns>Returns true if it thinks the code is a declaration.</returns>
         private bool LooksLikeVariableDeclaration(string codeLine)
         {
-            var code = new VariableDeclaration(codeLine, _singleIndent, _lineEnding)
-                .Tokenize();
+            var code = new VariableDeclaration(codeLine).Tokenize();
 
             return code.Name != "";
         }

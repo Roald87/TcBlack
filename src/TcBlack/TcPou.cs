@@ -8,7 +8,8 @@ namespace TcBlack
     public class TcPou
     {
         private XmlDocument doc;
-        private string _path;
+        private string tcPouPath;
+        private string text;
 
         /// <summary>
         /// Loads a TcPOU file.
@@ -16,13 +17,49 @@ namespace TcBlack
         /// <param name="path">Path to the TcPOU file.</param>
         public TcPou(string path)
         {
-            _path = path;
+            tcPouPath = path;
             doc = new XmlDocument();
             doc.Load(path);
 
-            string text = doc.InnerXml;
-            LineEnding = text.Contains("\r\n") ? "\r\n" : "\n";
-            Indentation = text.Contains("\t") ? "\t" : "    ";
+            text = doc.InnerXml;
+            Global.lineEnding = text.Contains("\r\n") ? "\r\n" : "\n";
+            Global.indentation = text.Contains("\t") ? "\t" : "    ";
+        }
+
+        /// <summary>
+        /// Loads a TcPOU file.
+        /// </summary>
+        /// <param name="path">Path to the TcPOU file.</param>
+        /// <param name="indentation">
+        /// Which indentation to use in the formatted file.
+        /// </param>
+        public TcPou(string path, string indentation) : this(path)
+        {
+            Global.indentation = indentation;
+        }
+
+        /// <summary>
+        /// Loads a TcPOU file.
+        /// </summary>
+        /// <param name="path">Path to the TcPOU file.</param>
+        /// <param name="windowsLineEnding">If true use '\r\n' else uses '\n'.</param>
+        public TcPou(string path, bool windowsLineEnding) : this(path)
+        {
+            Global.lineEnding = windowsLineEnding ? "\r\n" : "\n";
+        }
+
+        /// <summary>
+        /// Loads a TcPOU file.
+        /// </summary>
+        /// <param name="path">Path to the TcPOU file.</param>
+        /// <param name="indentation">
+        /// Which indentation to use in the formatted file.
+        /// </param>
+        /// <param name="windowsLineEnding">If true use '\r\n' else uses '\n'.</param>
+        public TcPou(string path, string indentation, bool windowsLineEnding) 
+            : this(path, windowsLineEnding)
+        {
+            Global.indentation = indentation;
         }
 
         /// <summary>
@@ -36,9 +73,7 @@ namespace TcBlack
             foreach (XmlNode node in nodes)
             {
                 string formattedCode = 
-                    new CompositeCode(node.InnerText, Indentation, LineEnding)
-                    .Tokenize()
-                    .Format(ref indents);
+                    new CompositeCode(node.InnerText).Tokenize().Format(ref indents);
                 node.InnerXml = $"<![CDATA[{formattedCode}]]>";
             }
 
@@ -52,20 +87,20 @@ namespace TcBlack
             foreach (XmlNode node in nodes)
             {
                 string formattedCode =
-                    new ImplementationCode(node.InnerText, Indentation, LineEnding)
+                    new ImplementationCode(node.InnerText)
                     .Tokenize()
                     .Format(ref indents);
                 string firstLine;
                 if (
                     formattedCode.StartsWith("//")
-                    || formattedCode.StartsWith(LineEnding)
+                    || formattedCode.StartsWith(Global.lineEnding)
                 )
                 {
                     firstLine = "";
                 }
                 else
                 {
-                    firstLine = LineEnding;
+                    firstLine = Global.lineEnding;
                 }
 
                 node.InnerXml = $"<![CDATA[{firstLine}{formattedCode}]]>";
@@ -79,24 +114,14 @@ namespace TcBlack
         /// </summary>
         public void Save()
         {
-            using (var w = XmlWriter.Create(_path, new XmlWriterSettings
+            using (var w = XmlWriter.Create(tcPouPath, new XmlWriterSettings
             {
                 Indent = true,
-                NewLineChars = LineEnding,
+                NewLineChars = Global.lineEnding,
             }))
             {
                 doc.Save(w);
             }
         }
-
-        /// <summary>
-        /// Return the line ending from the TcPOU file.
-        /// </summary>
-        private string LineEnding { get; set; }
-
-        /// <summary>
-        /// Return the indentation type of the TcPOU file. Either tabs or four spaces.
-        /// </summary>
-        private string Indentation { get; set; }
     }
 }

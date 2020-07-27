@@ -8,17 +8,15 @@ namespace TcBlack
     class ImplementationCode : CompositeCode
     {
         public ImplementationCode(
-            string unformattedCode,
-            string singleIndent,
-            string lineEnding
-        ) : base(unformattedCode, singleIndent, lineEnding)
+            string unformattedCode
+        ) : base(unformattedCode)
         {
         }
 
         public new CompositeCode Tokenize()
         {
             string[] lines = _unformattedCode.Split(
-                new[] { _lineEnding }, StringSplitOptions.None
+                new[] { Global.lineEnding }, StringSplitOptions.None
             );
             string line = "";
             bool findBlockEnd = false;
@@ -47,11 +45,7 @@ namespace TcBlack
                     {
                         continue;
                     }
-                    Add(new EmptyLine(
-                        unformattedCode: line,
-                        singleIndent: _singleIndent,
-                        lineEnding: _lineEnding
-                    ));
+                    Add(new EmptyLine(unformattedCode: line));
                 }
                 else if (line.StartsWith("if", StringComparison.OrdinalIgnoreCase))
                 {
@@ -63,36 +57,20 @@ namespace TcBlack
                     }
                     else
                     {
-                        Add(new IfBlockStart(
-                            unformattedCode: line,
-                            singleIndent: _singleIndent,
-                            lineEnding: _lineEnding
-                        ));
+                        Add(new IfBlockStart(unformattedCode: line));
                     }
                 }
                 else if (line.StartsWith("end_", StringComparison.OrdinalIgnoreCase))
                 {
-                    Add(new VariableBlockEnd(
-                        unformattedCode: line,
-                        singleIndent: _singleIndent,
-                        lineEnding: _lineEnding
-                    ));
+                    Add(new VariableBlockEnd(unformattedCode: line));
                 }
                 else if (LooksLikeVariableAssignment(line))
                 {
-                    Add(new VariableAssignment(
-                        unformattedCode: line,
-                        singleIndent: _singleIndent,
-                        lineEnding: _lineEnding
-                    ));
+                    Add(new VariableAssignment(unformattedCode: line));
                 }
                 else
                 {
-                    Add(new UnknownCodeType(
-                        unformattedCode: line,
-                        singleIndent: _singleIndent,
-                        lineEnding: _lineEnding
-                    ));
+                    Add(new UnknownCodeType(unformattedCode: line));
                 }
             }
 
@@ -108,8 +86,7 @@ namespace TcBlack
 
         private bool LooksLikeVariableAssignment(string codeLine)
         {
-            var code = new VariableAssignment(codeLine, _singleIndent, _lineEnding)
-                .Tokenize();
+            var code = new VariableAssignment(codeLine).Tokenize();
 
             return code.LeftOperand != "" && code.RightOperand != "";
         }
