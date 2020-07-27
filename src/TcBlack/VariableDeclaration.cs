@@ -29,11 +29,7 @@ namespace TcBlack
 
     public class VariableDeclaration : CodeLineBase
     {
-        public VariableDeclaration(
-            string unformattedCode,
-            string singleIndent,
-            string lineEnding
-        ) : base(unformattedCode, singleIndent, lineEnding)
+        public VariableDeclaration(string unformattedCode) : base(unformattedCode)
         {
         }
 
@@ -46,7 +42,7 @@ namespace TcBlack
             );
                 
             string formattedCode = (
-                    _singleIndent.Repeat(indents)
+                    Global.indentation.Repeat(indents)
                     + tokens.Name
                     + (tokens.Allocation.Length > 0 ? $" AT {tokens.Allocation}" : "")
                     + $" : {formattedDatatype}"

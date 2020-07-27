@@ -2,17 +2,13 @@
 {
     public class EmptyLine : CodeLineBase
     {
-        public EmptyLine(
-            string unformattedCode,
-            string singleIndent,
-            string lineEnding
-        ) : base(unformattedCode, singleIndent, lineEnding)
+        public EmptyLine(string unformattedCode) : base(unformattedCode)
         {
         }
 
         public override string Format(ref uint indents)
         {
-            return _singleIndent.Repeat(indents);
+            return Global.indentation.Repeat(indents);
         }
     }
 }

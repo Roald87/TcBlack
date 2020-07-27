@@ -12,8 +12,9 @@ namespace TcBlackTests
         [InlineData("  {attribute 'hide'}")]
         public void DifferentEmptyLines(string unformattedCode)
         {
-            string lineEnding = "\n";
-            var line = new UnknownCodeType(unformattedCode, " ", lineEnding);
+            Global.indentation = " ";
+            Global.lineEnding = "\n";
+            var line = new UnknownCodeType(unformattedCode);
 
             uint indents = 0;
             Assert.Equal(unformattedCode, line.Format(ref indents));

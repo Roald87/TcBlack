@@ -2,11 +2,7 @@
 {
     public class UnknownCodeType : CodeLineBase
     {
-        public UnknownCodeType(
-            string unformattedCode,
-            string singleIndent,
-            string lineEnding
-        ) : base(unformattedCode, singleIndent, lineEnding)
+        public UnknownCodeType(string unformattedCode) : base(unformattedCode)
         {
         }
 
