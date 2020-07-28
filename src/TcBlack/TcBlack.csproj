@@ -46,8 +46,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Backup.cs" />
+    <Compile Include="CaseBlockEnd.cs" />
+    <Compile Include="CaseBlockStart.cs" />
+    <Compile Include="CaseNumberBlock.cs" />
     <Compile Include="CompositeCode.cs" />
     <Compile Include="EmptyLine.cs" />
+    <Compile Include="FunctionStatement.cs" />
+    <Compile Include="IfBlockElse.cs" />
     <Compile Include="ImplementationCode.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Keywords.cs" />
@@ -56,6 +61,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CodeLineBase.cs" />
+    <Compile Include="Statement.cs" />
     <Compile Include="TcPou.cs" />
     <Compile Include="TcProjectBuilder.cs" />
     <Compile Include="UnknownCodeType.cs" />

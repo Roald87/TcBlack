@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace TcBlack
 {
@@ -29,7 +30,15 @@ namespace TcBlack
         public override string Format(ref uint indents)
         {
             TcAssignment assign = Tokenize();
-            return Global.indentation.Repeat(indents) + assign.LeftOperand + " := " + assign.RightOperand;
+            string formated = (
+                Global.indentation.Repeat(indents)
+                + $"{ assign.LeftOperand} := {assign.RightOperand}"
+            );
+            if (formated.Last() != ';')
+            {
+                formated += ';';
+            }
+            return formated;
         }
 
         public TcAssignment Tokenize()

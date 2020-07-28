@@ -7,11 +7,16 @@ namespace TcBlack
 {
     class ImplementationCode : CompositeCode
     {
-        public ImplementationCode(
-            string unformattedCode
-        ) : base(unformattedCode)
+        public ImplementationCode(string unformattedCode) : base(unformattedCode)
         {
         }
+
+        protected static Regex caseNumber = new Regex(
+            @"(?:-\s*)?\d+(?:\s*\.\.\s*(?:-\s*)\d+)?\s*:\s*(\/\/[^\n]+|\(\*.*?\*\))?$"
+        );
+        protected static Regex caseVariable = new Regex(
+            @"[\w\d\[\]\.\-\+\*\/\s]+\s*:\s*(\/\/[^\n]+|\(\*.*?\*\))?$"
+        );
 
         public new CompositeCode Tokenize()
         {
@@ -20,15 +25,29 @@ namespace TcBlack
             );
             string line = "";
             bool findBlockEnd = false;
+            bool findFunctionEnd = false;
+            uint insideCaseBlock = 0;
             string blockEnd = "";
             for (int i = 0; i < lines.Length-1; i++)
             {
                 if (findBlockEnd)
                 {
-                    line += " " + lines[i].Trim();
+                    line += $" {lines[i].Trim()}";
                     if (line.EndsWith(blockEnd, StringComparison.OrdinalIgnoreCase))
                     {
                         findBlockEnd = false;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                else if (findFunctionEnd)
+                {
+                    line += $" {lines[i].Trim()}";
+                    if (line.Count(f => f == '(') - line.Count(f => f == ')') == 0)
+                    {
+                        findFunctionEnd = false;
                     }
                     else
                     {
@@ -45,7 +64,7 @@ namespace TcBlack
                     {
                         continue;
                     }
-                    Add(new EmptyLine(unformattedCode: line));
+                    Add(new EmptyLine(line));
                 }
                 else if (line.StartsWith("if", StringComparison.OrdinalIgnoreCase))
                 {
@@ -57,20 +76,52 @@ namespace TcBlack
                     }
                     else
                     {
-                        Add(new IfBlockStart(unformattedCode: line));
+                        Add(new IfBlockStart(line));
                     }
+                }
+                else if (line.Equals("else", StringComparison.OrdinalIgnoreCase))
+                {
+                    Add(new IfBlockElse(line));
+                }
+                else if (line.StartsWith("case", StringComparison.OrdinalIgnoreCase))
+                {
+                    insideCaseBlock += 1;
+                    Add(new CaseBlockStart(line));
+                }
+                else if (insideCaseBlock > 0 && (caseNumber.IsMatch(line) || caseVariable.IsMatch(line)))
+                {
+                    Add(new CaseNumberBlock(line));
+                }
+                else if (line.Contains('('))
+                {
+                    // Function call
+                    if (line.Count(f => f == '(') - line.Count(f => f == ')') > 0)
+                    {
+                        // Multiline function call
+                        findFunctionEnd = true;
+                        continue;
+                    }
+                    else
+                    {
+                        Add(new FunctionStatement(line));
+                    }
+                }
+                else if (line.StartsWith("end_case", StringComparison.OrdinalIgnoreCase))
+                {
+                    insideCaseBlock -= 1;
+                    Add(new CaseBlockEnd(line));
                 }
                 else if (line.StartsWith("end_", StringComparison.OrdinalIgnoreCase))
                 {
-                    Add(new VariableBlockEnd(unformattedCode: line));
+                    Add(new VariableBlockEnd(line));
                 }
                 else if (LooksLikeVariableAssignment(line))
                 {
-                    Add(new VariableAssignment(unformattedCode: line));
+                    Add(new VariableAssignment(line));
                 }
                 else
                 {
-                    Add(new UnknownCodeType(unformattedCode: line));
+                    Add(new UnknownCodeType(line));
                 }
             }
 
@@ -86,8 +137,7 @@ namespace TcBlack
 
         private bool LooksLikeVariableAssignment(string codeLine)
         {
-            var code = new VariableAssignment(codeLine).Tokenize();
-
+            var code = new Statement(codeLine).Tokenize();
             return code.LeftOperand != "" && code.RightOperand != "";
         }
 
@@ -107,7 +157,7 @@ namespace TcBlack
         }
 
         protected static Regex RemoveSpaceRegex = new Regex(
-            @"(\s*(?:\(|\))\s*)"
+            @"(\s*(?:\(|\)|\.)\s*)"
         );
 
         protected static Regex AddSpaceAfterRegex = new Regex(
@@ -115,7 +165,7 @@ namespace TcBlack
         );
 
         protected static Regex AddSpaceBeforeAfterRegex = new Regex(
-            @"(\s*(?:\+|\-|\*|\/|<=|>=|=<|=>|<|>|:=)\s*)"
+            @"(\s*(?:\+|\-|\*|\/\/|\/|<=|>=|=<|=>|<>|<|>|:=)\s*)"
         );
 
         protected string FixWhiteSpace(string code)
