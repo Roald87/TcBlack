@@ -12,12 +12,12 @@ namespace TcBlack
         );
 
         protected static Regex IfRegex = new Regex(
-            @"\s*if\s+",
+            @"\s*if(?=[\s\(])",
             RegexOptions.IgnoreCase
         );
 
         protected static Regex ThenRegex = new Regex(
-            @"\s+then\s*",
+            @"(?<=[\s\)\]])then\s*",
             RegexOptions.IgnoreCase
         );
 
@@ -43,8 +43,8 @@ namespace TcBlack
         public IfStatement Tokenize()
         {
             string[] lines = StatementRegex.Split(_unformattedCode);
-            lines[0] = IfRegex.Replace(lines[0], "");
-            lines[lines.Length - 1] = ThenRegex.Replace(lines[lines.Length - 1], "");
+            lines[0] = IfRegex.Replace(lines[0], "").Trim();
+            lines[lines.Length - 1] = ThenRegex.Replace(lines[lines.Length - 1], "").Trim();
 
             List<Statement> stms = new List<Statement>();
             List<string> ops = new List<string>();

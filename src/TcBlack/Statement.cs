@@ -12,6 +12,9 @@ namespace TcBlack
            + $"{operand}?"
            + @"\s*(;?)[\s;]*"
         );
+        protected static Regex LooksLikeFunctionCall = new Regex(
+            @"\w+\s*\("
+        );
 
         public Statement(string unformattedCode) : base(unformattedCode)
         {
@@ -40,6 +43,12 @@ namespace TcBlack
 
         public TcStatement Tokenize()
         {
+            if (LooksLikeFunctionCall.IsMatch(_unformattedCode))
+            {
+                // TODO: Have TcStatement support nested TcTypes instead
+                // of just passing the unformatted string
+                return new TcStatement(_unformattedCode, "", "", "");
+            }
             Match match = OperandRegex.Match(_unformattedCode);
             if (match.Length > 0)
             {

@@ -43,7 +43,7 @@ namespace TcBlack
 
         public TcAssignment Tokenize()
         {
-            Match match = Regex.Match(_unformattedCode, @"^\s*([\w[\].]+)\s*:=\s*(.+)\s*;?\s*");
+            Match match = Regex.Match(_unformattedCode, @"^\s*([\w[\]\-*/+.]+)\s*:=\s*(.+)\s*;?\s*");
             if (match.Length > 0)
             {
                 return new TcAssignment(

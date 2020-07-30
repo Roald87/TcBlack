@@ -15,8 +15,14 @@ namespace TcBlack
         public override string Format(ref uint indents)
         {
             RemoveComment();
+            uint indent = 0;
+            if (indents > 0)
+            {
+                // Prevent crashing, but this is parsing error somewhere
+                indent = indents - 1;
+            }
             string formated =
-                $"{Global.indentation.Repeat(indents-1)}{Tokenize()}{FormatComment()}";
+                $"{Global.indentation.Repeat(indent)}{Tokenize()}{FormatComment()}";
             return formated;
         }
     }

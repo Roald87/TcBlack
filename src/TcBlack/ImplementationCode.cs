@@ -30,27 +30,21 @@ namespace TcBlack
             string blockEnd = "";
             for (int i = 0; i < lines.Length-1; i++)
             {
-                if (findBlockEnd)
+                if (findBlockEnd || findFunctionEnd)
                 {
+                    // Add current line to full line since looking for end condition
                     line += $" {lines[i].Trim()}";
-                    if (line.EndsWith(blockEnd, StringComparison.OrdinalIgnoreCase))
+                    if (findBlockEnd && line.EndsWith(blockEnd, StringComparison.OrdinalIgnoreCase))
                     {
                         findBlockEnd = false;
                     }
-                    else
-                    {
-                        continue;
-                    }
-                }
-                else if (findFunctionEnd)
-                {
-                    line += $" {lines[i].Trim()}";
-                    if (line.Count(f => f == '(') - line.Count(f => f == ')') == 0)
+                    if (findFunctionEnd && line.Count(f => f == '(') - line.Count(f => f == ')') == 0)
                     {
                         findFunctionEnd = false;
                     }
-                    else
+                    if (findBlockEnd || findFunctionEnd)
                     {
+                        // If still looking for end condition continue
                         continue;
                     }
                 }
@@ -58,6 +52,7 @@ namespace TcBlack
                 {
                     line = lines[i].Trim();
                 }
+
                 if (line.Length == 0)
                 {
                     if (codeLines.Count > 0 && codeLines.Last() is EmptyLine)
@@ -130,50 +125,10 @@ namespace TcBlack
             return this;
         }
 
-        public override string Format(ref uint indents)
-        {
-            return FixWhiteSpace(base.Format(ref indents));
-        }
-
         private bool LooksLikeVariableAssignment(string codeLine)
         {
             var code = new Statement(codeLine).Tokenize();
             return code.LeftOperand != "" && code.RightOperand != "";
-        }
-
-        private static string AddSpaceBeforeAfter(Match m)
-        {
-            return " " + m.ToString().Trim() + " ";
-        }
-
-        private static string AddSpaceAfter(Match m)
-        {
-            return m.ToString().Trim() + " ";
-        }
-
-        private static string RemoveSpace(Match m)
-        {
-            return m.ToString().Trim();
-        }
-
-        protected static Regex RemoveSpaceRegex = new Regex(
-            @"(\s*(?:\(|\)|\.)\s*)"
-        );
-
-        protected static Regex AddSpaceAfterRegex = new Regex(
-            @"(\s*(?:,)\s*)"
-        );
-
-        protected static Regex AddSpaceBeforeAfterRegex = new Regex(
-            @"(\s*(?:\+|\-|\*|\/\/|\/|<=|>=|=<|=>|<>|<|>|:=)\s*)"
-        );
-
-        protected string FixWhiteSpace(string code)
-        {
-            code = RemoveSpaceRegex.Replace(code, new MatchEvaluator(RemoveSpace));
-            code = AddSpaceAfterRegex.Replace(code, new MatchEvaluator(AddSpaceAfter));
-            code = AddSpaceBeforeAfterRegex.Replace(code, new MatchEvaluator(AddSpaceBeforeAfter));
-            return code;
         }
     }
 }
