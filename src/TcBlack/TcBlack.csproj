@@ -56,6 +56,7 @@
     <Compile Include="ImplementationCode.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Keywords.cs" />
+    <Compile Include="MultiLineComment.cs" />
     <Compile Include="ObjectDefinition.cs" />
     <Compile Include="ICodeLineOperations.cs" />
     <Compile Include="Program.cs" />

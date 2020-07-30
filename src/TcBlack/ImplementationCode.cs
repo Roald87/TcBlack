@@ -26,6 +26,7 @@ namespace TcBlack
             string line = "";
             bool findBlockEnd = false;
             bool findFunctionEnd = false;
+            bool keepSpacing = false;
             uint insideCaseBlock = 0;
             string blockEnd = "";
             for (int i = 0; i < lines.Length-1; i++)
@@ -33,7 +34,14 @@ namespace TcBlack
                 if (findBlockEnd || findFunctionEnd)
                 {
                     // Add current line to full line since looking for end condition
-                    line += $" {lines[i].Trim()}";
+                    if (keepSpacing)
+                    {
+                        line += lines[i];
+                    }
+                    else
+                    {
+                        line += $" {lines[i].Trim()}";
+                    }
                     if (findBlockEnd && line.EndsWith(blockEnd, StringComparison.OrdinalIgnoreCase))
                     {
                         findBlockEnd = false;
@@ -86,6 +94,22 @@ namespace TcBlack
                 else if (insideCaseBlock > 0 && (caseNumber.IsMatch(line) || caseVariable.IsMatch(line)))
                 {
                     Add(new CaseNumberBlock(line));
+                }
+                else if (line.StartsWith("(*"))
+                {
+                    // Multiline comment
+                    if (line.EndsWith("*)"))
+                    {
+                        keepSpacing = false;
+                        Add(new MultiLineComment(line));
+                    }
+                    else
+                    {
+                        keepSpacing = true;
+                        findBlockEnd = true;
+                        blockEnd = "*)";
+                        continue;
+                    }
                 }
                 else if (line.Contains('('))
                 {
