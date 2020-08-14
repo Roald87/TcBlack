@@ -21,14 +21,14 @@ As for vertical whitespace, _TcBlack_ tries to render one full expression or sim
 statement per line. If this fits the allotted line length, great.
 
 ```
-# in:
+// in:
 
 j = DoSomething(var1:=1,
      var2:=3,
      var3=5
 );
 
-# out:
+// out:
 
 j = DoSomething(var1:=1, var2:=3, var3=5);
 ```
@@ -37,11 +37,11 @@ If not, _TcBlack_ will look at the contents of the first outer matching brackets
 that in a separate indented line.
 
 ```
-# in:
+// in:
 
 SomeImportantFunctionBlock.WithAMethod(And:='a', few:='other', variables:='to', worry:='about');
 
-# out:
+// out:
 
 SomeImportantFunctionBlock.WithAMethod(
 	And:='a', few:='other', variables:='to', worry:='about'
@@ -55,11 +55,11 @@ first try to keep them on the same line with the matching brackets. If that does
 it will put all of them in separate lines.
 
 ```
-# in:
+// in:
 
 AnotherFunctionBlock(without:='a', method:=', ', which:='has', quite:='a', bit:='more', variables:='to', worry:='about');
 
-# out:
+// out:
 
 AnotherFunctionBlock(
 	without:='a', 
