@@ -54,7 +54,11 @@ namespace TcBlack
             {
                 if (line.Trim().Length == 0)
                 {
-                    if (codeLines.Count > 0 && codeLines.Last() is EmptyLine)
+                    if (
+                        codeLines.Count > 0 
+                        && (codeLines.Last() is EmptyLine 
+                        || codeLines.Last() is VariableBlockStart)
+                    )
                     {
                         continue;
                     }
@@ -66,6 +70,11 @@ namespace TcBlack
                     {
                         codeLines.RemoveAt(codeLines.Count - 1);
                     }
+                    else if (codeLines.Last() is EmptyLine)
+                    {
+                        codeLines.RemoveAt(codeLines.Count - 1);
+                        Add(new VariableBlockEnd(unformattedCode: line));
+                    }
                     else
                     {
                         Add(new VariableBlockEnd(unformattedCode: line));
@@ -73,6 +82,7 @@ namespace TcBlack
                 }
                 else if (line.StartsWith("VAR"))
                 {
+                    TryRemoveLastEmptyLine();
                     Add(new VariableBlockStart(unformattedCode: line));
                 }
                 else if (
@@ -96,6 +106,23 @@ namespace TcBlack
             RemoveAllEmptyLinesAtTheEnd();
 
             return this;
+        }
+
+        /// <summary>
+        /// Removes the last empty line from the list if it exists.
+        /// </summary>
+        private void TryRemoveLastEmptyLine()
+        {
+            try
+            {
+                if (codeLines.Last() is EmptyLine)
+                {
+                    codeLines.RemoveAt(codeLines.Count - 1);
+                }
+            }
+            catch (InvalidOperationException)
+            {
+            }
         }
 
         /// <summary>
