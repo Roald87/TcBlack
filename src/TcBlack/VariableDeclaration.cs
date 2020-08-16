@@ -121,20 +121,14 @@ namespace TcBlack
         }
 
         /// <summary>
-        /// Return string with single spaces around the operators. 
+        /// Return string with single spaces around +, -, * and / operators. 
         /// </summary>
         /// <example>
         /// "a+b" => "a + b"
         /// </example>
         private string InsertSpacesAroundOperators(string unformatted)
         {
-            string formatted = unformatted
-                .Replace("+", " + ")
-                .Replace("-", " - ")
-                .Replace("/", " / ")
-                .Replace("*", " * ");
-
-            return formatted;
+            return Regex.Replace(unformatted, @"(?<=\w|\))([-+\/*])", " $1 ");
         }
     }
 

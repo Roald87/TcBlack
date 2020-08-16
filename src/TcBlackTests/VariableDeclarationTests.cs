@@ -205,6 +205,14 @@ namespace TcBlackTests
             "SomeArray : ARRAY[1..(n *(end +  1) -  4)/initial] OF REAL;",
             "SomeArray : ARRAY[1..(n * (end + 1) - 4) / initial] OF REAL;"
         )]
+        [InlineData(
+            "SomeArray : ARRAY[-10..-5] OF INT;",
+            "SomeArray : ARRAY[-10..-5] OF INT;"
+        )]
+        [InlineData(
+            "SomeArray : ARRAY[- 10..(2*-14)/SYSTEM.Number] OF INT;",
+            "SomeArray : ARRAY[-10..(2 * -14) / SYSTEM.Number] OF INT;"
+        )]
         public void FormatVariableDeclaration(string unformattedCode, string expected)
         {
             Global.indentation = "    ";
