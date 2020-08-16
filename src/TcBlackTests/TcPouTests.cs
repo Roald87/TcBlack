@@ -5,6 +5,7 @@ using Xunit;
 
 namespace TcBlackTests
 {
+    [Collection("Sequential")]
     public class TcPouTests
     {
         private static string workingDirectory = Environment.CurrentDirectory;

@@ -3,6 +3,7 @@ using TcBlack;
 
 namespace TcBlackTests
 {
+    [Collection("Sequential")]
     public class VarBlockEndTests
     {
         [Theory]

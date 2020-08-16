@@ -3,6 +3,7 @@ using Xunit;
 
 namespace TcBlackTests
 {
+    [Collection("Sequential")]
     public class ObjectDefinitionTests
     {
         [Theory]
