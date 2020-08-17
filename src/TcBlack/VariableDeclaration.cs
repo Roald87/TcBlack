@@ -115,7 +115,11 @@ namespace TcBlack
 
         public string RemoveWhiteSpaceIfPossible(string str)
         {
-            string pattern = @"\s+(?=[^[\]]*\])|\s+(?=[^()]*\))";
+            string pattern = (
+                "\\s+(?=[^[]*\\])"
+                + "|(?<!['\"][^,]*)\\s+(?=[^(]*\\))"
+                + "|\\s+(?![^,]*['\"])(?=[^(]*\\))"
+            );
 
             return Regex.Replace(str, pattern, "").Trim();
         }

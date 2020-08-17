@@ -213,6 +213,22 @@ namespace TcBlackTests
             "SomeArray : ARRAY[- 10..(2*-14)/SYSTEM.Number] OF INT;",
             "SomeArray : ARRAY[-10..(2 * -14) / SYSTEM.Number] OF INT;"
         )]
+        [InlineData(
+            "fbInst : FB_WithName(Name:='Text with spaces', number := 4);",
+            "fbInst : FB_WithName(Name:='Text with spaces', number:=4);"
+        )]
+        [InlineData(
+            "fbInst : FB_WithName(  Name:= \"Another text with spaces\",  num:=3.14) ;",
+            "fbInst : FB_WithName(Name:=\"Another text with spaces\", num:=3.14);"
+        )]
+        [InlineData(
+            "fbInst : FB_Name( Name:= \"Text with ' quote\" , truth := FALSE);",
+            "fbInst : FB_Name(Name:=\"Text with ' quote\", truth:=FALSE);"
+        )]
+        [InlineData(
+            "fbInst : FB_Name(Name:='The other \" quote' );",
+            "fbInst : FB_Name(Name:='The other \" quote');"
+        )]
         public void FormatVariableDeclaration(string unformattedCode, string expected)
         {
             Global.indentation = "    ";
