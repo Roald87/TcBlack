@@ -113,6 +113,12 @@ namespace TcBlack
             return variable;
         }
 
+        /// <summary>
+        /// Removes spaces between square and round brackets, except if it is a string.
+        /// </summary>
+        /// <param name="str">The string to remove spaces from.</param>
+        /// <returns>Cleaned up string.</returns>
+        /// <remarks>source: https://stackoverflow.com/a/63486599/6329629 </remarks>
         public string RemoveWhiteSpaceIfPossible(string str)
         {
             string pattern = (
