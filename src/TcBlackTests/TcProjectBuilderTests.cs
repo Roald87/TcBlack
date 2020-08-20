@@ -17,10 +17,10 @@ namespace TcBlackTests
         }
 
         [Fact]
-        public void InitializeWithNonExistingPathDontRaiseException()
+        public void InitializeWithNonExistingPathRaiseException()
         {
-            var plcProject = new TcProjectBuilder(
-                "Non/Existing/Path/PLC.plcproj"
+            Assert.Throws<FileNotFoundException>(
+                () => new TcProjectBuilder("Non/Existing/Path/PLC.plcproj")
             );
         }
 
@@ -50,9 +50,9 @@ namespace TcBlackTests
         [InlineData("Non/Existing/Path/PLC.plcproj")]
         public void TryGetHashOfNonExistingProject(string projectPath)
         {
-            var plcProject = new TcProjectBuilder(projectPath);
-
-            Assert.Equal("", plcProject.Hash);
+            Assert.Throws<FileNotFoundException>(
+                ()=> new TcProjectBuilder(projectPath)
+            );
         }
 
         const string testDataPath = "../../../TcProjectBuildTestData";
@@ -62,7 +62,9 @@ namespace TcBlackTests
         [InlineData("../../../TcProjectBuildTestData/firstBuildOkSecondBuildFailed.log", true)]
         public void CheckIfBuildFailedFromLogFile(string logFilePath, bool buildFailed)
         {
-            TcProjectBuilder tcProject = new TcProjectBuilder("../");
+            TcProjectBuilder tcProject = new TcProjectBuilder(
+                "../../../../WorkingProjectForUnitTests/PLC/PLC.plcproj"
+            );
             string logFileContent = File.ReadAllText(logFilePath);
             bool actual = tcProject.BuildFailed(logFileContent);
 
@@ -77,6 +79,39 @@ namespace TcBlackTests
             var plcProject = new TcProjectBuilder(filename);
 
             Assert.Equal("7526D772-C42C-771C-E7F5-8B6DA4DF5F84", plcProject.Hash);
+        }
+
+        [Fact]
+        public void TryToBuildProjectWithoutPlcprojFile()
+        {
+            string path = "C:/Program Files";
+            var exception = Assert.Throws<FileNotFoundException>(
+                () => new TcProjectBuilder(path)
+            );
+            Assert.Equal(
+                $"Unable to find a .plcproj file in any of the parent folders of "
+                + $"{path}.",
+                exception.Message
+            );
+        }
+
+        [Fact]
+        public void TryToBuildProjectWithoutSlnFile()
+        {
+            string tempPlcProjFile = "../../../../../UnitTest.plcproj";
+            if (!File.Exists(tempPlcProjFile))
+            {
+                File.Create(tempPlcProjFile).Close();
+            }
+            var exception = Assert.Throws<FileNotFoundException>(
+                () => new TcProjectBuilder(tempPlcProjFile)
+            );
+            Assert.Equal(
+                $"Unable to find a .sln file in any of the parent folders of " 
+                + $"{tempPlcProjFile}.",
+                exception.Message
+            );
+            File.Delete(tempPlcProjFile);
         }
     }
 }
