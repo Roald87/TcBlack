@@ -127,7 +127,17 @@ namespace TcBlack
         static void SafeFormat(string[] filenames, Options options)
         {
             Console.WriteLine("Building project before formatting.");
-            TcProjectBuilder tcProject = new TcProjectBuilder(filenames.First());
+            TcProjectBuilder tcProject;
+            try
+            {
+                tcProject = new TcProjectBuilder(filenames.First());
+            }
+            catch (FileNotFoundException ex)
+            {
+                Console.WriteLine($"{ex.Message}\nCancelling build.");
+                return;
+            }
+
             string hashBeforeFormat = string.Empty;
             try
             {
