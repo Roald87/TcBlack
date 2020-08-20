@@ -60,7 +60,17 @@ namespace TcBlack
         {
             Parser.Default.ParseArguments<Options>(args).WithParsed(options =>
             {
-                string[] filenames = FilesToFormat(options);
+                string[] filenames;
+                try
+                {
+                    filenames = FilesToFormat(options);
+                }
+                catch (ArgumentException)
+                {
+                    Console.WriteLine($"Unable to find file {options.Project}");
+                    return;
+                }
+
                 string fileListForCommandPrompt = string.Join(
                     "\n",
                     filenames.Select(filename => $"  - {filename}").ToArray()
