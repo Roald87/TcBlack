@@ -17,10 +17,10 @@ namespace TcBlackTests
         }
 
         [Fact]
-        public void InitializeWithNonExistingPathDontRaiseException()
+        public void InitializeWithNonExistingPathRaiseException()
         {
-            var plcProject = new TcProjectBuilder(
-                "Non/Existing/Path/PLC.plcproj"
+            Assert.Throws<FileNotFoundException>(
+                () => new TcProjectBuilder("Non/Existing/Path/PLC.plcproj")
             );
         }
 
@@ -50,9 +50,9 @@ namespace TcBlackTests
         [InlineData("Non/Existing/Path/PLC.plcproj")]
         public void TryGetHashOfNonExistingProject(string projectPath)
         {
-            var plcProject = new TcProjectBuilder(projectPath);
-
-            Assert.Equal("", plcProject.Hash);
+            Assert.Throws<FileNotFoundException>(
+                ()=> new TcProjectBuilder(projectPath)
+            );
         }
 
         const string testDataPath = "../../../TcProjectBuildTestData";
@@ -77,6 +77,13 @@ namespace TcBlackTests
             var plcProject = new TcProjectBuilder(filename);
 
             Assert.Equal("7526D772-C42C-771C-E7F5-8B6DA4DF5F84", plcProject.Hash);
+        }
+
+        [Theory]
+        [InlineData("C:/Program Files")]
+        public void TryToBuildProjectWithoutSlnOrPlcprojFile(string filename)
+        {
+            Assert.Throws<FileNotFoundException>(() => new TcProjectBuilder(filename));
         }
     }
 }
