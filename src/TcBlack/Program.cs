@@ -60,7 +60,17 @@ namespace TcBlack
         {
             Parser.Default.ParseArguments<Options>(args).WithParsed(options =>
             {
-                string[] filenames = FilesToFormat(options);
+                string[] filenames;
+                try
+                {
+                    filenames = FilesToFormat(options);
+                }
+                catch (ArgumentException)
+                {
+                    Console.WriteLine($"Unable to find file {options.Project}");
+                    return;
+                }
+
                 string fileListForCommandPrompt = string.Join(
                     "\n",
                     filenames.Select(filename => $"  - {filename}").ToArray()
@@ -127,7 +137,17 @@ namespace TcBlack
         static void SafeFormat(string[] filenames, Options options)
         {
             Console.WriteLine("Building project before formatting.");
-            TcProjectBuilder tcProject = new TcProjectBuilder(filenames.First());
+            TcProjectBuilder tcProject;
+            try
+            {
+                tcProject = new TcProjectBuilder(filenames.First());
+            }
+            catch (FileNotFoundException ex)
+            {
+                Console.WriteLine($"{ex.Message}\nCancelling build.");
+                return;
+            }
+
             string hashBeforeFormat = string.Empty;
             try
             {

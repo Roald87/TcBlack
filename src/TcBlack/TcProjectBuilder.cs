@@ -43,6 +43,10 @@ namespace TcBlack
         {
             string path = "";
             string parentPath = Path.GetDirectoryName(startingPath);
+            string exceptionMessage = (
+                $"Unable to find a {extension} file in any of the "
+                + $"parent folders of {startingPath}."
+            );
 
             while (true)
             {
@@ -58,7 +62,7 @@ namespace TcBlack
                     ex is DirectoryNotFoundException || ex is ArgumentException
                 )
                 {
-                    return "";
+                    throw new FileNotFoundException(exceptionMessage);
                 }
                 catch (InvalidOperationException)
                 {
@@ -70,7 +74,7 @@ namespace TcBlack
                 }
                 catch (NullReferenceException)
                 {
-                    return "";
+                    throw new FileNotFoundException(exceptionMessage);
                 }
             }
 
