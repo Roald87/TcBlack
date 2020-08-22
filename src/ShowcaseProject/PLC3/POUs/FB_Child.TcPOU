@@ -2,10 +2,14 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
   <POU Name="FB_Child" Id="{0e65befd-f733-4035-9cb9-b4c563001612}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK  FB_Child EXTENDS FB_Base  IMPLEMENTS I_Interface,I_Interface2
+
+VAR_INPUT
+END_VAR
 VAR
+    
 SomeText: STRING;
 	Counter		: DINT:= 1 ;
-	Result		: DINT :=2;
+  Result		: DINT :=2;
     
     
       Base:FB_Base;
