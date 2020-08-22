@@ -8,6 +8,9 @@ transparent as possible, whether it's:
 - Proposing new features
 - Becoming a maintainer
 
+You can also work on an open issue. Issues which are not assigned to anyone, are up for 
+grabs.
+
 ## We Develop with Github
 We use GitHub to host code, to track issues and feature requests, as well as accept 
 pull requests.
