@@ -24,7 +24,8 @@ Opnionated code formatter for TwinCAT. Currently in the **alpha state**. Use at 
     > TcBlack --safe -f C:\Full\Path\To\Project.plcproj --indentation "  "
     ``` 
 
-For more info enter `> TcBlack --help` in the command prompt.  
+For more info enter `> TcBlack --help` in the command prompt or check the 
+[manual](docs/manual.md).
         
 ## Current state 
 
