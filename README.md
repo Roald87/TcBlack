@@ -166,7 +166,7 @@ automatically reformats before making a commit.
 Follow the same style rules as [Black](https://github.com/psf/black/) 
 for Python (where applicable). Why try to reinvent the wheel, when Black 
 offers a popular rule base which has been tested and tried? For more info
-see the [style guide](https://github.com/Roald87/TcBlack/blob/master/docs/style.md).
+see the [style guide](docs/style.md).
 
 ## Implementation
 
@@ -185,5 +185,5 @@ then the number also changes. For example, if you add a variable, add a line
 of code or change the order of variables.
 
 ## Contributing
-You're more then welcome to help if you'd like! See the [contributing guidelines](https://github.com/Roald87/TcBlack/blob/master/CONTRIBUTING.md)
-for more info.
+You're more then welcome to help if you'd like! See the 
+[contributing guidelines](CONTRIBUTING.md) for more info.
