@@ -15,14 +15,18 @@ namespace TcBlack
         class Options
         {
             [Option(
+                'f',
+                "file",
                 HelpText = "TcPOU/TcIO file(s) to format.",
-                SetName = "FilesToFormat"
+                SetName = "files"
             )]
-            public IEnumerable<string> Filenames { get; set; }
+            public IEnumerable<string> File { get; set; }
             [Option(
+                'p',
+                "project",
                 Default = "",
                 HelpText = "Plc project to format.",
-                SetName = "FilesToBuild"
+                SetName = "files"
             )]
             public string Project { get; set; }
 
@@ -41,11 +45,11 @@ namespace TcBlack
             public string Indentation { get; set; }
 
             [Option(
-                HelpText = "Overrides the line ending of all files with Windows' \r\n"
+                HelpText = "Overrides the line ending of all files with Windows' \\r\\n"
             )]
             public bool WindowsLineEnding { get; set; }
             [Option(
-                HelpText = "Overrides the line ending of all files with UNIX' \n."
+                HelpText = "Overrides the line ending of all files with UNIX' \\n."
             )]
             public bool UnixLineEnding { get; set; }
 
@@ -92,7 +96,7 @@ namespace TcBlack
                     );
                     try
                     {
-                        CreateBackups(options.Filenames.ToArray());
+                        CreateBackups(options.File.ToArray());
                     }
                     catch (FileNotFoundException)
                     {
@@ -124,7 +128,7 @@ namespace TcBlack
             }
             else
             {
-                return options.Filenames.ToArray();
+                return options.File.ToArray();
             }
         }
 

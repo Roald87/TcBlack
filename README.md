@@ -8,17 +8,23 @@ Opnionated code formatter for TwinCAT. Currently in the **alpha state**. Use at 
 1. Reformat one or more file by giving their full path names,  see also [#19](https://github.com/Roald87/TcBlack/issues/19):
 
     ```
-    > TcBlack --safe --filenames C:\Full\Path\To\Filename.TcPOU C:\Full\Path\To\AnotherFilename.TcPOU
+    > TcBlack --safe --file C:\Full\Path\To\Filename.TcPOU C:\Full\Path\To\AnotherFilename.TcPOU
     ```
 
-    or using the short version
+    or using the short version and format a single file:
 
     ```
-    > TcBlack -s -f C:\Full\Path\To\Filename.TcPOU C:\Full\Path\To\AnotherFilename.TcPOU
+    > TcBlack --safe -f C:\Full\Path\To\Filename.TcPOU
     ```
     
-For more info enter `> TcBlack --help` in the command prompt.  
+    or format a whole project at once and replace all indentation by a two spaces:
 
+    ```
+    > TcBlack --safe -f C:\Full\Path\To\Project.plcproj --indentation "  "
+    ``` 
+
+For more info enter `> TcBlack --help` in the command prompt.  
+        
 ## Current state 
 
 `FB_Child` from ShowcaseProject.
