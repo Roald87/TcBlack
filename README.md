@@ -1,11 +1,12 @@
 # TcBlack: TwinCAT code formatter
-Opnionated code formatter for TwinCAT. Currently in the **alpha state**. Use at your **own risk** and only with files which are under source control.
+Opnionated code formatter for TwinCAT. Currently in the **alpha state**. Use at your 
+**own risk** and only with files which are under source control.
 
 ## Usage
 
-1. [Download](https://github.com/Roald87/TcBlack/releases/tag/v0.1.0) the binaries and unpack them. 
+1. [Download](https://github.com/Roald87/TcBlack/releases/latest) the latest release. 
 1. Open the windows command prompt and navigate to the folder containing `TcBlack.exe`.
-1. Reformat one or more file by giving their full path names,  see also [#19](https://github.com/Roald87/TcBlack/issues/19):
+1. Reformat one or more file by giving their full path names:
 
     ```
     > TcBlack --safe --file C:\Full\Path\To\Filename.TcPOU C:\Full\Path\To\AnotherFilename.TcPOU
@@ -31,21 +32,26 @@ For more info enter `> TcBlack --help` in the command prompt.
 
 ```diff
 -FUNCTION_BLOCK  FB_Child EXTENDS FB_Base  IMPLEMENTS I_Interface,I_Interface2
+-
+-VAR_INPUT
+-END_VAR
 +FUNCTION_BLOCK FB_Child EXTENDS FB_Base IMPLEMENTS I_Interface, I_Interface2
-VAR
+ VAR
+-    
 -SomeText: STRING;
 -	Counter		: DINT:= 1 ;
--	Result		: DINT :=2;
+-  Result		: DINT :=2;
 -    
 -    
 -      Base:FB_Base;
-+    SomeText : STRING;
-+    Counter : DINT := 1;
-+    Result : DINT := 2;
-+
-+    Base : FB_Base;
-END_VAR
-+
+-END_VAR]]></Declaration>
++	SomeText : STRING;
++	Counter : DINT := 1;
++	Result : DINT := 2;
++	
++	Base : FB_Base;
++END_VAR
++]]></Declaration>
 ===================================
 SomeText:= 'Current counts';
 
@@ -70,10 +76,14 @@ Change
 
 ```
 FUNCTION_BLOCK  FB_Child EXTENDS FB_Base  IMPLEMENTS I_Interface,I_Interface2
+
+VAR_INPUT
+END_VAR
 VAR
+    
 SomeText: STRING;
 	Counter		: DINT:= 1 ;
-	Result		: DINT :=2;
+  Result		: DINT :=2;
     
     
       Base:FB_Base;
