@@ -37,7 +37,7 @@
          must be a menu. -->
     <Groups>
       <Group guid="guidFormatDescriptionPackageCmdSet" id="MyMenuGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_EDIT"/>
       </Group>
     </Groups>
 

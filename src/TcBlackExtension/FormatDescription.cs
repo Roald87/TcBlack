@@ -3,9 +3,11 @@ using System.ComponentModel.Design;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
+using TcBlackCore;
 
 namespace TcBlackExtension
 {
@@ -75,7 +77,8 @@ namespace TcBlackExtension
             // the UI thread.
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
-            OleMenuCommandService commandService = await package.GetServiceAsync((typeof(IMenuCommandService))) as OleMenuCommandService;
+            OleMenuCommandService commandService = await package.GetServiceAsync(
+                (typeof(IMenuCommandService))) as OleMenuCommandService;
             Instance = new FormatDescription(package, commandService);
         }
 
@@ -89,17 +92,33 @@ namespace TcBlackExtension
         private void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);
             string title = "FormatDescription";
 
-            // Show a message box to prove we were here
-            VsShellUtilities.ShowMessageBox(
-                this.package,
-                message,
-                title,
-                OLEMSGICON.OLEMSGICON_INFO,
-                OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+            DTE dte = Package.GetGlobalService(typeof(DTE)) as DTE;
+            TextDocument td = (TextDocument)dte.ActiveDocument.Object("");
+            td.Selection.SelectAll();
+
+            uint indents = 0;
+            string text = td.Selection.Text;
+            Global.indentation = text.Contains("\t") ? "\t" : "    ";
+            Global.lineEnding = "\r\n";
+            var formatedCode = new CompositeCode(td.Selection.Text)
+                .Tokenize()
+                .Format(ref indents);
+
+            //// Show a message box to prove we were here
+            //VsShellUtilities.ShowMessageBox(
+            //    this.package,
+            //    "Selection: " + td.Selection.Text,
+            //    title,
+            //    OLEMSGICON.OLEMSGICON_INFO,
+            //    OLEMSGBUTTON.OLEMSGBUTTON_OK,
+            //    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST
+            //);
+
+            td.Selection.Delete();
+            td.Selection.Insert(formatedCode);
+            td.Selection.EndOfLine();
         }
     }
 }
