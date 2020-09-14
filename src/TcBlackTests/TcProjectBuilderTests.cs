@@ -139,5 +139,19 @@ namespace TcBlackTests
             );
             File.Delete(tempPlcProjFile);
         }
+
+
+        [Fact]
+        public void FindOnlyExactExtensionForThreeCharacterExtensions()
+        {
+            //var plcProject = new TcProjectBuilder(
+            //    @"C:\Users\roald\Source\Repos\TcBlack\src\ShowcaseProject\PLC3\POUs\FB_Child.TcPOU"
+            //);
+            string projectPath = Path.GetFullPath(
+                "../../../WorkingProjectForUnitTests/PLC/plcproj"
+            );
+            var exception = Record.Exception(() => new TcProjectBuilder(projectPath));
+            Assert.Null(exception);
+        }
     }
 }

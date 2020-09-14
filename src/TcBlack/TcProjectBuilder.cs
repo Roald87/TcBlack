@@ -53,8 +53,10 @@ namespace TcBlack
                 try
                 {
                     IEnumerable<string> filesWithExtension = Directory.EnumerateFiles(
-                        parentPath, $"*{extension}"
-                    );
+                            parentPath, $"*{extension}"
+                        ).Where(
+                            x => x.Substring(x.Length - extension.Length) == extension
+                        );
                     path = filesWithExtension.Single();
                     break;
                 }
