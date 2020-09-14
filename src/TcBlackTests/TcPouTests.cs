@@ -10,7 +10,7 @@ namespace TcBlackTests
     {
         private static string workingDirectory = Environment.CurrentDirectory;
         private static string testDataDirectory = Path.Combine(
-            Directory.GetParent(workingDirectory).Parent.Parent.FullName,
+            Directory.GetParent(workingDirectory).Parent.FullName,
             "TcPouTestData"
         );
 

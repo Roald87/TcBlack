@@ -6,10 +6,14 @@ namespace TcBlackTests
 {
     public class BackupTests
     {
+        readonly string testDataPath = Path.GetFullPath("../../BackupTestData/");
+
         [Fact]
         public void InitializeObjectCreatesBackupFile()
         {
-            string filename = "../../../BackupTestData/InitializeObjectCreatesBackupFile.txt";
+            string filename = Path.Combine(
+                testDataPath, "InitializeObjectCreatesBackupFile.txt"
+            );
             Backup backup = new Backup(filename);
             // Shouldn't raise a DirectoryNotFoundException
             File.ReadAllText(filename + ".bak");
@@ -20,7 +24,9 @@ namespace TcBlackTests
         [Fact]
         public void BackupFileAlreadyExistsShouldOverwriteBackupFile()
         {
-            string filename = "../../../BackupTestData/BackupFileAlreadyExists.txt";
+            string filename = Path.Combine(
+                testDataPath, "BackupFileAlreadyExists.txt"
+            );
             // Shouldn't raise an exception that the file already exists
             Backup backup = new Backup(filename);
         }
@@ -28,7 +34,7 @@ namespace TcBlackTests
         [Fact]
         public void RestoreBackupFile()
         {
-            string filename = "../../../BackupTestData/RestoreFileTest.txt";
+            string filename = Path.Combine(testDataPath, "RestoreFileTest.txt");
             string originalText = "Original text.";
             File.AppendAllText(filename, originalText);
             Assert.Equal(originalText, File.ReadAllText(filename));
