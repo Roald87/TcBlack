@@ -56,7 +56,7 @@
         <Parent guid="guidFormatDescriptionPackageCmdSet" id="MyMenuGroup" />
         <Icon guid="guidImages" id="bmpPic1" />
         <Strings>
-          <ButtonText>Invoke FormatDescription</ButtonText>
+          <ButtonText>Format TwinCAT file</ButtonText>
         </Strings>
       </Button>
     </Buttons>

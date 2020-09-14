@@ -1,11 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Design;
-using System.Globalization;
-using System.Threading;
-using System.Threading.Tasks;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
 using TcBlackCore;
 
@@ -92,7 +88,6 @@ namespace TcBlackExtension
         private void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            string title = "FormatDescription";
 
             DTE dte = Package.GetGlobalService(typeof(DTE)) as DTE;
             TextDocument td = (TextDocument)dte.ActiveDocument.Object("");
@@ -105,16 +100,6 @@ namespace TcBlackExtension
             var formatedCode = new CompositeCode(td.Selection.Text)
                 .Tokenize()
                 .Format(ref indents);
-
-            //// Show a message box to prove we were here
-            //VsShellUtilities.ShowMessageBox(
-            //    this.package,
-            //    "Selection: " + td.Selection.Text,
-            //    title,
-            //    OLEMSGICON.OLEMSGICON_INFO,
-            //    OLEMSGBUTTON.OLEMSGBUTTON_OK,
-            //    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST
-            //);
 
             td.Selection.Delete();
             td.Selection.Insert(formatedCode);
