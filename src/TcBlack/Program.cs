@@ -223,20 +223,30 @@ namespace TcBlack
                 )
                 {
                     new TcPou(filename, options.Indentation, options.WindowsLineEnding)
-                        .Format()
+                        .FormatDeclaration()
+                        .FormatImplementation()
                         .Save();
                 }
                 else if (options.Indentation.Length > 0)
                 {
-                    new TcPou(filename, options.Indentation).Format().Save();
+                    new TcPou(filename, options.Indentation)
+                        .FormatDeclaration()
+                        .FormatImplementation()
+                        .Save();
                 }
                 else if (options.WindowsLineEnding || options.UnixLineEnding)
                 {
-                    new TcPou(filename, options.WindowsLineEnding).Format().Save();
+                    new TcPou(filename, options.WindowsLineEnding)
+                        .FormatDeclaration()
+                        .FormatImplementation()
+                        .Save();
                 }
                 else
                 {
-                    new TcPou(filename).Format().Save();
+                    new TcPou(filename)
+                        .FormatDeclaration()
+                        .FormatImplementation()
+                        .Save();
                 }
             }
             Console.WriteLine($"Formatted {filenames.Count()} file(s).");

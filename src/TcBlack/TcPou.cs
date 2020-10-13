@@ -66,7 +66,7 @@ namespace TcBlack
         /// Format the TwinCAT TcPOU file.
         /// </summary>
         /// <returns>The formatted TcPOU object.</returns>
-        public TcPou Format()
+        public TcPou FormatDeclaration()
         {
             uint indents = 0;
             XmlNodeList nodes = doc.SelectNodes(".//Declaration");
@@ -75,6 +75,35 @@ namespace TcBlack
                 string formattedCode = 
                     new CompositeCode(node.InnerText).Tokenize().Format(ref indents);
                 node.InnerXml = $"<![CDATA[{formattedCode}]]>";
+            }
+
+            return this;
+        }
+
+        public TcPou FormatImplementation()
+        {
+            uint indents = 0;
+            XmlNodeList nodes = doc.SelectNodes(".//Implementation/ST");
+            foreach (XmlNode node in nodes)
+            {
+                string formattedCode =
+                    new ImplementationCode(node.InnerText)
+                    .Tokenize()
+                    .Format(ref indents);
+                string firstLine;
+                if (
+                    formattedCode.StartsWith("//")
+                    || formattedCode.StartsWith(Global.lineEnding)
+                )
+                {
+                    firstLine = "";
+                }
+                else
+                {
+                    firstLine = Global.lineEnding;
+                }
+
+                node.InnerXml = $"<![CDATA[{firstLine}{formattedCode}]]>";
             }
 
             return this;

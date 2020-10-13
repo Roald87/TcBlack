@@ -27,7 +27,7 @@ namespace TcBlackTests
             string fileToFormat = Path.Combine(testDataDirectory, fbInput);
             Backup backup = new Backup(fileToFormat);
 
-            new TcPou(fileToFormat).Format().Save();
+            new TcPou(fileToFormat).FormatDeclaration().Save();
 
             string expectedFile = Path.Combine(testDataDirectory, fbExpected);
             string expected = File.ReadAllText(expectedFile);
@@ -47,7 +47,7 @@ namespace TcBlackTests
             ReplaceWindowsLineEndingForUnixOnes(fileToFormat);
             Backup backup = new Backup(fileToFormat);
 
-            new TcPou(fileToFormat).Format().Save();
+            new TcPou(fileToFormat).FormatDeclaration().Save();
 
             string expectedFile = Path.Combine(
                 testDataDirectory, "FB_ExpectedTabAndUnixLineEnd.TcPOU"
@@ -69,7 +69,7 @@ namespace TcBlackTests
             );
             Backup backup = new Backup(fileToFormat);
 
-            new TcPou(fileToFormat, indentation:"  ").Format().Save();
+            new TcPou(fileToFormat, indentation:"  ").FormatDeclaration().Save();
 
             string expectedFile = Path.Combine(
                 testDataDirectory, "FB_ExpectedOverrideIndentation.TcPOU"
@@ -88,7 +88,7 @@ namespace TcBlackTests
             );
             Backup backup = new Backup(fileToFormat);
 
-            new TcPou(fileToFormat, windowsLineEnding:false).Format().Save();
+            new TcPou(fileToFormat, windowsLineEnding:false).FormatDeclaration().Save();
 
             string expectedFile = Path.Combine(
                 testDataDirectory, "FB_ExpectedOverrideLineEnding.TcPOU"
@@ -110,7 +110,7 @@ namespace TcBlackTests
             Backup backup = new Backup(fileToFormat);
 
             new TcPou(fileToFormat, windowsLineEnding:true, indentation:"    ")
-                .Format()
+                .FormatDeclaration()
                 .Save();
 
             string expectedFile = Path.Combine(

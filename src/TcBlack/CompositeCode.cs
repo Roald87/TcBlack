@@ -6,7 +6,7 @@ namespace TcBlack
 {
     public class CompositeCode : CodeLineBase, ICodeLineOperations
     {
-        private List<CodeLineBase> codeLines;
+        protected List<CodeLineBase> codeLines;
 
         public CompositeCode(string unformattedCode) : base(unformattedCode)
         {
@@ -128,7 +128,7 @@ namespace TcBlack
         /// <summary>
         /// Removes all the empty lines which are in the end of the statement list.
         /// </summary>
-        private void RemoveAllEmptyLinesAtTheEnd()
+        protected void RemoveAllEmptyLinesAtTheEnd()
         {
             for (int i = codeLines.Count - 1; i >= 0; i--)
             {

@@ -8,7 +8,7 @@
 
         public override string Format(ref uint indents)
         {
-            return _unformattedCode;
+            return Global.indentation.Repeat(indents) + _unformattedCode;
         }
     }
 }
