@@ -20,17 +20,62 @@ namespace TcBlack
     /// </summary>
     public class TcProjectBuilder
     {
-        private readonly string projectPath;
-        private readonly string slnPath;
         private readonly string devenvPath;
+        private readonly string slnPath;
+        private readonly string projectPath;
+        private readonly string tcVersion;
         protected string buildLogFile = "build.log";
 
         public TcProjectBuilder(string projectOrTcPouPath)
         {
+            tcVersion = GetTwinCatVersionFromTsprojFile(projectOrTcPouPath);
             projectPath = GetParentPath(projectOrTcPouPath, ".plcproj");
             slnPath = GetParentPath(projectOrTcPouPath, ".sln");
             string vsVersion = GetVsVersion(slnPath);
             devenvPath = GetDevEnvPath(vsVersion);
+        }
+
+        /// <summary>
+        /// Tries to get the version number.
+        /// </summary>
+        /// <param name="projectOrTcPouPath"></param>
+        /// <returns></returns>
+        private string GetTwinCatVersionFromTsprojFile(string projectOrTcPouPath)
+        {
+            string tcVersion = "";
+            try
+            {
+                string tsprojPath = GetTsprojPath(projectOrTcPouPath);
+                tcVersion = GetTwinCatVersion(tsprojPath);
+            }
+            catch (FileNotFoundException)
+            {
+            }
+
+            return tcVersion;
+        }
+
+        /// <summary>
+        /// Return the path to the *.tsp(p)roj file.
+        /// </summary>
+        /// <param name="projectOrTcPouPath">Path to start the search from.</param>
+        /// <returns>Path to the *.tsp(p)roj file or FileNotFoundException.</returns>
+        private string GetTsprojPath(string projectOrTcPouPath)
+        {
+            string tsprojPath = "";
+            string[] tsprojExtensions = new string[] { ".tsproj", ".tspproj" };
+            foreach (string tsprojExtension in tsprojExtensions)
+            {
+                try
+                {
+                    tsprojPath = GetParentPath(projectOrTcPouPath, tsprojExtension);
+                }
+                catch(FileNotFoundException)
+                {
+                }
+            }
+
+            return tsprojPath;
         }
 
         /// <summary>
@@ -113,6 +158,31 @@ namespace TcBlack
             {
                 return "";
             }
+        }
+
+        /// <summary>
+        /// Return the TwinCAT version from the tsproj file.
+        /// </summary>
+        /// <param name="tsprojPath">Path the tsproj file.</param>
+        /// <returns>Version number of TwinCAT.</returns>
+        private string GetTwinCatVersion(string tsprojPath)
+        {
+            string file;
+            try
+            {
+                file = File.ReadAllText(tsprojPath);
+            }
+            catch (ArgumentException)
+            {
+                return "";
+            }
+
+            string pattern = "TcVersion=\"(\\d\\.\\d\\.\\d{4}\\.\\d+)\"";
+            Match match = Regex.Match(
+                file, pattern, RegexOptions.Multiline
+            );
+
+            return match.Success ? match.Groups[1].Value : "";
         }
 
         /// <summary>
