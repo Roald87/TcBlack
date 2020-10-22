@@ -10,68 +10,39 @@ namespace TcBlack
     /// <remarks>Source: https://github.com/tcunit/TcUnit </remarks>
     class AutomationInterface
     {
-        private ITcSysManager10 sysManager = null;
         private ITcConfigManager configManager = null;
-        private ITcSmTreeItem plcTreeItem = null;
-        private ITcSmTreeItem routesTreeItem = null;
 
         public AutomationInterface(EnvDTE.Project project)
         {
-            sysManager = (ITcSysManager10)project.Object;
-            configManager = (ITcConfigManager)sysManager.ConfigurationManager;
-            plcTreeItem = sysManager.LookupTreeItem(Constants.PLC_CONFIGURATION_SHORTCUT);
-            routesTreeItem = sysManager.LookupTreeItem(Constants.RT_CONFIG_ROUTE_SETTINGS_SHORTCUT);
+            ITcSysManager = (ITcSysManager10)project.Object;
+            configManager = ITcSysManager.ConfigurationManager;
+            PlcTreeItem = ITcSysManager.LookupTreeItem(
+                Constants.PLC_CONFIGURATION_SHORTCUT
+            );
+            RoutesTreeItem = ITcSysManager.LookupTreeItem(
+                Constants.RT_CONFIG_ROUTE_SETTINGS_SHORTCUT
+            );
         }
 
-        public AutomationInterface(VisualStudioInstance vsInst) : this(vsInst.GetProject())
+        public AutomationInterface(VisualStudioInstance vsInst) : this(vsInst.Project)
         { }
 
-        public ITcSysManager10 ITcSysManager
-        {
-            get
-            {
-                return this.sysManager;
-            }
-        }
+        public ITcSysManager10 ITcSysManager { get; } = null;
 
-        public ITcSmTreeItem PlcTreeItem
-        {
-            get
-            {
-                return this.plcTreeItem;
-            }
-        }
+        public ITcSmTreeItem PlcTreeItem { get; } = null;
 
-        public ITcSmTreeItem RoutesTreeItem
-        {
-            get
-            {
-                return this.routesTreeItem;
-            }
-        }
+        public ITcSmTreeItem RoutesTreeItem { get; } = null;
 
         public string ActiveTargetPlatform
         {
-            set
-            {
-                this.configManager.ActiveTargetPlatform = value;
-            }
-            get
-            {
-                return this.configManager.ActiveTargetPlatform;
-            }
+            get => configManager.ActiveTargetPlatform;
+            set => configManager.ActiveTargetPlatform = value;
         }
 
         public string TargetNetId
         {
-            set
-            {
-                this.sysManager.SetTargetNetId(value);
-            }
-            get
-            {
-                return sysManager.GetTargetNetId();
-            }
+            get => ITcSysManager.GetTargetNetId();
+            set => ITcSysManager.SetTargetNetId(value);
         }
     }
 }

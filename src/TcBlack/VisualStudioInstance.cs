@@ -17,25 +17,21 @@ namespace TcBlack
     class VisualStudioInstance
     {
         private string @filePath = null;
-        private string vsVersion = null;
-        private EnvDTE80.DTE2 dte = null;
         private Type type = null;
         private EnvDTE.Solution visualStudioSolution = null;
-        EnvDTE.Project pro = null;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private bool loaded = false;
 
         public VisualStudioInstance(string @visualStudioSolutionFilePath)
         {
-            this.filePath = visualStudioSolutionFilePath;
-            string visualStudioVersion = FindVisualStudioVersion();
-            this.vsVersion = visualStudioVersion;
+            filePath = visualStudioSolutionFilePath;
+            VisualStudioVersion = FindVisualStudioVersion();
         }
 
         public VisualStudioInstance(int vsVersionMajor, int vsVersionMinor)
         {
-            string visualStudioVersion = vsVersionMajor.ToString() + "." + vsVersionMinor.ToString();
-            this.vsVersion = visualStudioVersion;
+            VisualStudioVersion = 
+                $"{vsVersionMajor.ToString()}.{vsVersionMinor.ToString()}";
         }
 
         /// <summary>
@@ -47,18 +43,19 @@ namespace TcBlack
 
             try
             {
-                LoadDevelopmentToolsEnvironment(vsVersion);
+                LoadDevelopmentToolsEnvironment(VisualStudioVersion);
             }
             catch (Exception e)
             {
                 string message = string.Format(
-                    "{0} Error loading VS DTE version {1}. Is the correct version of Visual Studio installed?",
-                    e.Message, vsVersion);
+                    $"{e.Message} Error loading VS DTE version {VisualStudioVersion}. "
+                    + $"Is the correct version of Visual Studio installed?"
+                );
                 Logger.Error(message);
                 throw;
             }
 
-            if (!String.IsNullOrEmpty(@filePath))
+            if (!string.IsNullOrEmpty(@filePath))
             {
                 try
                 {
@@ -68,8 +65,9 @@ namespace TcBlack
                 catch (Exception e)
                 {
                     string message = string.Format(
-                        "{0} Error loading solution at \"{1}\". Is the path correct?",
-                        e.Message, filePath);
+                        $"{e.Message} Error loading solution at \"{filePath}\". "
+                        + $"Is the path correct?"
+                    );
                     Logger.Error(message);
                     throw;
                 }
@@ -83,15 +81,21 @@ namespace TcBlack
         {
             if (loaded)
             {
-                Logger.Info("Closing the Visual Studio Development Tools Environment (DTE), please wait...");
-                Thread.Sleep(20000); // Makes sure that there are no visual studio processes left in the system if the user interrupts this program (for example by CTRL+C)
-                dte.Quit();
+                Logger.Info(
+                    "Closing the Visual Studio Development Tools Environment (DTE), "
+                    + "please wait..."
+                );
+                // Makes sure that there are no visual studio processes left in the 
+                // system if the user interrupts this program (for example by CTRL+C)
+                Thread.Sleep(20000);
+                DevelopmentToolsEnvironment.Quit();
             }
             loaded = false;
         }
 
         /// <summary>
-        /// Opens the main *.sln-file and finds the version of VS used for creation of the solution
+        /// Opens the main *.sln-file and finds the version of VS used for creation of 
+        /// the solution
         /// </summary>
         /// <returns>The version of Visual Studio used to create the solution</returns>
         private string FindVisualStudioVersion()
@@ -112,7 +116,10 @@ namespace TcBlack
 
             if (match.Success)
             {
-                Logger.Info("In Visual Studio solution file, found visual studio version " + match.Groups[1].Value);
+                Logger.Info(
+                    "In Visual Studio solution file, found visual studio version "
+                    + $"{match.Groups[1].Value}"
+                );
                 return match.Groups[1].Value;
             }
             else
@@ -123,50 +130,38 @@ namespace TcBlack
 
         private void LoadDevelopmentToolsEnvironment(string visualStudioVersion)
         {
-            /* Make sure the DTE loads with the same version of Visual Studio as the
-             * TwinCAT project was created in
-             */
+            // Make sure the DTE loads with the same version of Visual Studio as the
+            // TwinCAT project was created in
             string VisualStudioProgId = "VisualStudio.DTE." + visualStudioVersion;
-            type = System.Type.GetTypeFromProgID(VisualStudioProgId);
-            Logger.Info("Loading the Visual Studio Development Tools Environment (DTE)...");
-            dte = (EnvDTE80.DTE2)System.Activator.CreateInstance(type);
-            dte.UserControl = false; // have devenv.exe automatically close when launched using automation
-            dte.SuppressUI = true;
-            dte.ToolWindows.ErrorList.ShowErrors = true;
-            dte.ToolWindows.ErrorList.ShowMessages = true;
-            dte.ToolWindows.ErrorList.ShowWarnings = true;
-            var tcAutomationSettings = dte.GetObject("TcAutomationSettings");
+            type = Type.GetTypeFromProgID(VisualStudioProgId);
+            Logger.Info(
+                "Loading the Visual Studio Development Tools Environment (DTE)..."
+            );
+            DevelopmentToolsEnvironment = (DTE2)Activator.CreateInstance(type);
+            // have devenv.exe automatically close when launched using automation
+            DevelopmentToolsEnvironment.UserControl = false;
+            DevelopmentToolsEnvironment.SuppressUI = true;
+            DevelopmentToolsEnvironment.ToolWindows.ErrorList.ShowErrors = true;
+            DevelopmentToolsEnvironment.ToolWindows.ErrorList.ShowMessages = true;
+            DevelopmentToolsEnvironment.ToolWindows.ErrorList.ShowWarnings = true;
+            var tcAutomationSettings = 
+                DevelopmentToolsEnvironment.GetObject("TcAutomationSettings");
             tcAutomationSettings.SilentMode = true;
             // Uncomment this if you want to run a specific version of TwinCAT
-            ITcRemoteManager remoteManager = dte.GetObject("TcRemoteManager");
+            ITcRemoteManager remoteManager = 
+                DevelopmentToolsEnvironment.GetObject("TcRemoteManager");
             remoteManager.Version = "3.1.4022.32";
         }
 
         private void LoadSolution(string filePath)
         {
-            visualStudioSolution = dte.Solution;
+            visualStudioSolution = DevelopmentToolsEnvironment.Solution;
             visualStudioSolution.Open(@filePath);
         }
 
         private void LoadProject()
         {
-            pro = visualStudioSolution.Projects.Item(1);
-        }
-
-        /// <returns>Returns null if no version was found</returns>
-        public string GetVisualStudioVersion()
-        {
-            return this.vsVersion;
-        }
-
-        public EnvDTE.Project GetProject()
-        {
-            return this.pro;
-        }
-
-        public EnvDTE80.DTE2 GetDevelopmentToolsEnvironment()
-        {
-            return this.dte;
+            Project = visualStudioSolution.Projects.Item(1);
         }
 
         public void CleanSolution()
@@ -174,9 +169,14 @@ namespace TcBlack
             visualStudioSolution.SolutionBuild.Clean(true);
         }
 
-        public ErrorItems GetErrorItems()
-        {
-            return dte.ToolWindows.ErrorList.ErrorItems;
-        }
+        /// <returns>Returns null if no version was found</returns>
+        public string VisualStudioVersion { get; private set; }
+
+        public EnvDTE.Project Project { get; private set; }
+
+        public DTE2 DevelopmentToolsEnvironment { get; private set; }
+
+        public ErrorItems ErrorItems =>
+            DevelopmentToolsEnvironment.ToolWindows.ErrorList.ErrorItems;
     }
 }
