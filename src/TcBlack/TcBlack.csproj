@@ -60,6 +60,7 @@
     <Compile Include="EmptyLine.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Keywords.cs" />
+    <Compile Include="MessageFilter.cs" />
     <Compile Include="ObjectDefinition.cs" />
     <Compile Include="ICodeLineOperations.cs" />
     <Compile Include="Program.cs" />
@@ -78,7 +79,10 @@
     <None Include="BuildTwinCatProject.bat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="NLog.config" />
+    <None Include="NLog.config">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

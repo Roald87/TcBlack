@@ -16,13 +16,13 @@ namespace TcBlack
     /// <remarks>Source: https://github.com/tcunit/TcUnit </remarks>
     class VisualStudioInstance
     {
-        private string @filePath = null;
-        private Type type = null;
-        private EnvDTE.Solution visualStudioSolution = null;
+        private string filePath;
+        private Type type;
+        private EnvDTE.Solution visualStudioSolution;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private bool loaded = false;
+        private bool loaded;
 
-        public VisualStudioInstance(string @visualStudioSolutionFilePath)
+        public VisualStudioInstance(string visualStudioSolutionFilePath)
         {
             filePath = visualStudioSolutionFilePath;
             VisualStudioVersion = FindVisualStudioVersion();
@@ -37,13 +37,13 @@ namespace TcBlack
         /// <summary>
         /// Loads the development tools environment
         /// </summary>
-        public void Load()
+        public void Load(string twincatVersion)
         {
             loaded = true;
 
             try
             {
-                LoadDevelopmentToolsEnvironment(VisualStudioVersion);
+                LoadDevelopmentToolsEnvironment(VisualStudioVersion, twincatVersion);
             }
             catch (Exception e)
             {
@@ -55,11 +55,11 @@ namespace TcBlack
                 throw;
             }
 
-            if (!string.IsNullOrEmpty(@filePath))
+            if (!string.IsNullOrEmpty(filePath))
             {
                 try
                 {
-                    LoadSolution(@filePath);
+                    LoadSolution(filePath);
                     LoadProject();
                 }
                 catch (Exception e)
@@ -100,7 +100,6 @@ namespace TcBlack
         /// <returns>The version of Visual Studio used to create the solution</returns>
         private string FindVisualStudioVersion()
         {
-            /* Find visual studio version */
             string file;
             try
             {
@@ -117,8 +116,7 @@ namespace TcBlack
             if (match.Success)
             {
                 Logger.Info(
-                    "In Visual Studio solution file, found visual studio version "
-                    + $"{match.Groups[1].Value}"
+                    $"Found visual studio version {match.Groups[1].Value} in solution file."
                 );
                 return match.Groups[1].Value;
             }
@@ -128,7 +126,9 @@ namespace TcBlack
             }
         }
 
-        private void LoadDevelopmentToolsEnvironment(string visualStudioVersion)
+        private void LoadDevelopmentToolsEnvironment(
+            string visualStudioVersion, string remoteManagerVersion
+        )
         {
             // Make sure the DTE loads with the same version of Visual Studio as the
             // TwinCAT project was created in
@@ -137,26 +137,28 @@ namespace TcBlack
             Logger.Info(
                 "Loading the Visual Studio Development Tools Environment (DTE)..."
             );
-            DevelopmentToolsEnvironment = (DTE2)Activator.CreateInstance(type);
+            DevelopmentToolsEnvironment = (DTE2)Activator.CreateInstance(type, true);
             // have devenv.exe automatically close when launched using automation
             DevelopmentToolsEnvironment.UserControl = false;
             DevelopmentToolsEnvironment.SuppressUI = true;
             DevelopmentToolsEnvironment.ToolWindows.ErrorList.ShowErrors = true;
             DevelopmentToolsEnvironment.ToolWindows.ErrorList.ShowMessages = true;
             DevelopmentToolsEnvironment.ToolWindows.ErrorList.ShowWarnings = true;
+            Logger.Debug("Getting Tc automation settings");
             var tcAutomationSettings = 
                 DevelopmentToolsEnvironment.GetObject("TcAutomationSettings");
             tcAutomationSettings.SilentMode = true;
             // Uncomment this if you want to run a specific version of TwinCAT
+            Logger.Debug("Set remote manager version.");
             ITcRemoteManager remoteManager = 
                 DevelopmentToolsEnvironment.GetObject("TcRemoteManager");
-            remoteManager.Version = "3.1.4022.32";
+            remoteManager.Version = remoteManagerVersion;
         }
 
         private void LoadSolution(string filePath)
         {
             visualStudioSolution = DevelopmentToolsEnvironment.Solution;
-            visualStudioSolution.Open(@filePath);
+            visualStudioSolution.Open(filePath);
         }
 
         private void LoadProject()
@@ -167,6 +169,13 @@ namespace TcBlack
         public void CleanSolution()
         {
             visualStudioSolution.SolutionBuild.Clean(true);
+        }
+
+        public void BuildProject(string projectName)
+        {
+            visualStudioSolution.SolutionBuild.BuildProject(
+                "Release|TwinCAT RT (x64)", projectName, true
+            );
         }
 
         /// <returns>Returns null if no version was found</returns>

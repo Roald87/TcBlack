@@ -62,6 +62,8 @@ namespace TcBlack
 
         static void Main(string[] args)
         {
+            MessageFilter.Register();
+
             Parser.Default.ParseArguments<Options>(args).WithParsed(options =>
             {
                 string[] filenames;

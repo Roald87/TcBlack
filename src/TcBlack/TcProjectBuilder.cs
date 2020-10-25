@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using EnvDTE;
 using System.Text.RegularExpressions;
+using TCatSysManagerLib;
 
 namespace TcBlack
 {
@@ -21,9 +23,11 @@ namespace TcBlack
     public class TcProjectBuilder
     {
         private readonly string devenvPath;
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly string slnPath;
         private readonly string projectPath;
         private readonly string tcVersion;
+        private static VisualStudioInstance vsInstance = null;
         protected string buildLogFile = "build.log";
 
         public TcProjectBuilder(string projectOrTcPouPath)
@@ -221,23 +225,53 @@ namespace TcBlack
         /// </summary>
         public TcProjectBuilder Build(bool verbose)
         {
-            string currentDirectory = Directory.GetCurrentDirectory();
-            string buildScript = Path.Combine(
-                currentDirectory, "BuildTwinCatProject.bat"
-            );
-
-            ExecuteCommand(
-                $"{buildScript} \"{devenvPath}\" \"{slnPath}\" \"{projectPath}\"",
-                verbose
-            );
-
-            string buildLog = File.ReadAllText(buildLogFile);
-            if (BuildFailed(buildLog))
-            {
-                throw new ProjectBuildFailed();
-            }
+            TryLoadSolution();
+            TryBuildTwinCatProject();
 
             return this;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void TryLoadSolution()
+        {
+            Logger.Info("Starting solution...");
+            try
+            {
+                vsInstance = new VisualStudioInstance(slnPath);
+                vsInstance.Load(tcVersion);
+            }
+            catch
+            {
+                // Detailed error messages output by vsInstance.Load()
+                Logger.Error("Solution load failed");  
+                CleanUp();
+                throw new ProjectBuildFailed();
+            }
+        }
+
+        private void TryBuildTwinCatProject()
+        {
+            Logger.Info("Building TwinCAT project...");
+            vsInstance.BuildProject(projectPath);
+        }
+
+        /// <summary>
+        /// Cleans the system resources (the VS DTE)
+        /// </summary>
+        private static void CleanUp()
+        {
+            try
+            {
+                vsInstance.Close();
+            }
+            catch
+            {
+            }
+
+            Logger.Info("Exiting application...");
+            MessageFilter.Revoke();
         }
 
         /// <summary>
@@ -289,42 +323,6 @@ namespace TcBlack
                     return "";
                 }
             }
-        }
-
-        /// <summary>
-        /// Execute a command in the windown command prompt cmd.exe.
-        /// Source: https://stackoverflow.com/a/5519517/6329629
-        /// </summary>
-        /// <param name="command"></param>
-        protected virtual void ExecuteCommand(string command, bool verbose)
-        {
-            var processInfo = new ProcessStartInfo("cmd.exe", "/c " + command)
-            {
-                CreateNoWindow = false,
-                UseShellExecute = false,
-                RedirectStandardError = true,
-                RedirectStandardOutput = true,
-            };
-
-            var process = Process.Start(processInfo);
-
-            if (verbose)
-            {
-                process.OutputDataReceived += (object sender, DataReceivedEventArgs e)
-                    => Console.WriteLine("output >> " + e.Data);
-                process.BeginOutputReadLine();
-
-                process.ErrorDataReceived += (object sender, DataReceivedEventArgs e)
-                    => Console.WriteLine("error >> " + e.Data);
-                process.BeginErrorReadLine();
-            }
-
-            process.WaitForExit();
-            if (verbose)
-            {
-                Console.WriteLine("ExitCode: {0}", process.ExitCode);
-            }
-            process.Close();
         }
     }
 }
