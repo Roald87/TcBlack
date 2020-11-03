@@ -1,12 +1,9 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using EnvDTE;
 using System.Text.RegularExpressions;
-using TCatSysManagerLib;
 
 namespace TcBlack
 {
@@ -239,6 +236,7 @@ namespace TcBlack
             Logger.Info("Starting solution...");
             try
             {
+                MessageFilter.Register();
                 vsInstance = new VisualStudioInstance(slnPath);
                 vsInstance.Load(tcVersion);
             }

@@ -60,10 +60,9 @@ namespace TcBlack
             public bool Verbose { get; set; }
         }
 
+        [STAThread]
         static void Main(string[] args)
         {
-            MessageFilter.Register();
-
             Parser.Default.ParseArguments<Options>(args).WithParsed(options =>
             {
                 string[] filenames;

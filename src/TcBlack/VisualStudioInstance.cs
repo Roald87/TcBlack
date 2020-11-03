@@ -1,9 +1,9 @@
+using EnvDTE;
 using EnvDTE80;
 using NLog;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Threading;
 using TCatSysManagerLib;
 
 namespace TcBlack
@@ -16,22 +16,16 @@ namespace TcBlack
     /// <remarks>Source: https://github.com/tcunit/TcUnit </remarks>
     class VisualStudioInstance
     {
-        private string filePath;
+        private readonly string solutionPath;
         private Type type;
-        private EnvDTE.Solution visualStudioSolution;
+        private Solution visualStudioSolution;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private bool loaded;
 
         public VisualStudioInstance(string visualStudioSolutionFilePath)
         {
-            filePath = visualStudioSolutionFilePath;
+            solutionPath = visualStudioSolutionFilePath;
             VisualStudioVersion = FindVisualStudioVersion();
-        }
-
-        public VisualStudioInstance(int vsVersionMajor, int vsVersionMinor)
-        {
-            VisualStudioVersion = 
-                $"{vsVersionMajor.ToString()}.{vsVersionMinor.ToString()}";
         }
 
         /// <summary>
@@ -55,17 +49,16 @@ namespace TcBlack
                 throw;
             }
 
-            if (!string.IsNullOrEmpty(filePath))
+            if (!string.IsNullOrEmpty(solutionPath))
             {
                 try
                 {
-                    LoadSolution(filePath);
-                    LoadProject();
+                    LoadSolution(solutionPath);
                 }
                 catch (Exception e)
                 {
                     string message = string.Format(
-                        $"{e.Message} Error loading solution at \"{filePath}\". "
+                        $"{e.Message} Error loading solution at \"{solutionPath}\". "
                         + $"Is the path correct?"
                     );
                     Logger.Error(message);
@@ -87,7 +80,7 @@ namespace TcBlack
                 );
                 // Makes sure that there are no visual studio processes left in the 
                 // system if the user interrupts this program (for example by CTRL+C)
-                Thread.Sleep(20000);
+                //Thread.Sleep(20000);
                 DevelopmentToolsEnvironment.Quit();
             }
             loaded = false;
@@ -103,7 +96,7 @@ namespace TcBlack
             string file;
             try
             {
-                file = File.ReadAllText(@filePath);
+                file = File.ReadAllText(solutionPath);
             }
             catch (ArgumentException)
             {
@@ -137,8 +130,8 @@ namespace TcBlack
             Logger.Info(
                 "Loading the Visual Studio Development Tools Environment (DTE)..."
             );
-            DevelopmentToolsEnvironment = (DTE2)Activator.CreateInstance(type, true);
             // have devenv.exe automatically close when launched using automation
+            DevelopmentToolsEnvironment = (DTE2)Activator.CreateInstance(type, true);
             DevelopmentToolsEnvironment.UserControl = false;
             DevelopmentToolsEnvironment.SuppressUI = true;
             DevelopmentToolsEnvironment.ToolWindows.ErrorList.ShowErrors = true;
@@ -157,13 +150,9 @@ namespace TcBlack
 
         private void LoadSolution(string filePath)
         {
+            Logger.Debug($"Loading solution {filePath}");
             visualStudioSolution = DevelopmentToolsEnvironment.Solution;
             visualStudioSolution.Open(filePath);
-        }
-
-        private void LoadProject()
-        {
-            Project = visualStudioSolution.Projects.Item(1);
         }
 
         public void CleanSolution()
@@ -181,7 +170,7 @@ namespace TcBlack
         /// <returns>Returns null if no version was found</returns>
         public string VisualStudioVersion { get; private set; }
 
-        public EnvDTE.Project Project { get; private set; }
+        public Project Project { get; private set; }
 
         public DTE2 DevelopmentToolsEnvironment { get; private set; }
 
