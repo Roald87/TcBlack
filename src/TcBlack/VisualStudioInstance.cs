@@ -16,16 +16,18 @@ namespace TcBlack
     /// <remarks>Source: https://github.com/tcunit/TcUnit </remarks>
     class VisualStudioInstance
     {
+        private DTE2 developmentToolsEnvironment;
+        private bool loaded;
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly string solutionPath;
         private Type type;
         private Solution visualStudioSolution;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private bool loaded;
+        private readonly string visualStudioVersion;
 
         public VisualStudioInstance(string visualStudioSolutionFilePath)
         {
             solutionPath = visualStudioSolutionFilePath;
-            VisualStudioVersion = FindVisualStudioVersion();
+            visualStudioVersion = FindVisualStudioVersion();
         }
 
         /// <summary>
@@ -37,15 +39,15 @@ namespace TcBlack
 
             try
             {
-                LoadDevelopmentToolsEnvironment(VisualStudioVersion, twincatVersion);
+                LoadDevelopmentToolsEnvironment(visualStudioVersion, twincatVersion);
             }
             catch (Exception e)
             {
                 string message = string.Format(
-                    $"{e.Message} Error loading VS DTE version {VisualStudioVersion}. "
+                    $"{e.Message} Error loading VS DTE version {visualStudioVersion}. "
                     + $"Is the correct version of Visual Studio installed?"
                 );
-                Logger.Error(message);
+                logger.Error(message);
                 throw;
             }
 
@@ -61,10 +63,21 @@ namespace TcBlack
                         $"{e.Message} Error loading solution at \"{solutionPath}\". "
                         + $"Is the path correct?"
                     );
-                    Logger.Error(message);
+                    logger.Error(message);
                     throw;
                 }
             }
+        }
+
+        /// <summary>
+        /// Build a TwinCAT project.
+        /// </summary>
+        /// <param name="projectName">Path to plcproj file.</param>
+        public void BuildProject(string projectName)
+        {
+            visualStudioSolution.SolutionBuild.BuildProject(
+                "Release|TwinCAT RT (x64)", projectName, true
+            );
         }
 
         /// <summary>
@@ -74,14 +87,14 @@ namespace TcBlack
         {
             if (loaded)
             {
-                Logger.Info(
+                logger.Info(
                     "Closing the Visual Studio Development Tools Environment (DTE), "
                     + "please wait..."
                 );
                 // Makes sure that there are no visual studio processes left in the 
                 // system if the user interrupts this program (for example by CTRL+C)
-                //Thread.Sleep(20000);
-                DevelopmentToolsEnvironment.Quit();
+                System.Threading.Thread.Sleep(20000);
+                developmentToolsEnvironment.Quit();
             }
             loaded = false;
         }
@@ -108,7 +121,7 @@ namespace TcBlack
 
             if (match.Success)
             {
-                Logger.Info(
+                logger.Info(
                     $"Found visual studio version {match.Groups[1].Value} in solution file."
                 );
                 return match.Groups[1].Value;
@@ -127,47 +140,32 @@ namespace TcBlack
             // TwinCAT project was created in
             string VisualStudioProgId = "VisualStudio.DTE." + visualStudioVersion;
             type = Type.GetTypeFromProgID(VisualStudioProgId);
-            Logger.Info(
+            logger.Info(
                 "Loading the Visual Studio Development Tools Environment (DTE)..."
             );
             // have devenv.exe automatically close when launched using automation
-            DevelopmentToolsEnvironment = (DTE2)Activator.CreateInstance(type, true);
-            DevelopmentToolsEnvironment.UserControl = false;
-            DevelopmentToolsEnvironment.SuppressUI = true;
-            DevelopmentToolsEnvironment.ToolWindows.ErrorList.ShowErrors = true;
-            DevelopmentToolsEnvironment.ToolWindows.ErrorList.ShowMessages = true;
-            DevelopmentToolsEnvironment.ToolWindows.ErrorList.ShowWarnings = true;
-            Logger.Debug("Getting Tc automation settings");
+            developmentToolsEnvironment = (DTE2)Activator.CreateInstance(type, true);
+            developmentToolsEnvironment.UserControl = false;
+            developmentToolsEnvironment.SuppressUI = true;
+            developmentToolsEnvironment.ToolWindows.ErrorList.ShowErrors = true;
+            developmentToolsEnvironment.ToolWindows.ErrorList.ShowMessages = true;
+            developmentToolsEnvironment.ToolWindows.ErrorList.ShowWarnings = true;
+            logger.Debug("Getting Tc automation settings");
             var tcAutomationSettings = 
-                DevelopmentToolsEnvironment.GetObject("TcAutomationSettings");
+                developmentToolsEnvironment.GetObject("TcAutomationSettings");
             tcAutomationSettings.SilentMode = true;
             // Uncomment this if you want to run a specific version of TwinCAT
-            Logger.Debug("Set remote manager version.");
+            logger.Debug("Set remote manager version.");
             ITcRemoteManager remoteManager = 
-                DevelopmentToolsEnvironment.GetObject("TcRemoteManager");
+                developmentToolsEnvironment.GetObject("TcRemoteManager");
             remoteManager.Version = remoteManagerVersion;
         }
 
         private void LoadSolution(string filePath)
         {
-            Logger.Debug($"Loading solution {filePath}");
-            visualStudioSolution = DevelopmentToolsEnvironment.Solution;
+            logger.Debug($"Loading solution {filePath}");
+            visualStudioSolution = developmentToolsEnvironment.Solution;
             visualStudioSolution.Open(filePath);
         }
-
-        public void BuildProject(string projectName)
-        {
-            visualStudioSolution.SolutionBuild.BuildProject(
-                "Release|TwinCAT RT (x64)", projectName, true
-            );
-        }
-
-        /// <returns>Returns null if no version was found</returns>
-        public string VisualStudioVersion { get; private set; }
-
-        public Project Project { get; private set; }
-
-        public DTE2 DevelopmentToolsEnvironment { get; private set; }
-
     }
 }

@@ -38,17 +38,17 @@ namespace TcBlack
         /// <returns></returns>
         private string GetTwinCatVersionFromTsprojFile(string projectOrTcPouPath)
         {
-            string tcVersion = "";
+            string version = "";
             try
             {
                 string tsprojPath = GetTsprojPath(projectOrTcPouPath);
-                tcVersion = GetTwinCatVersion(tsprojPath);
+                version = GetTwinCatVersion(tsprojPath);
             }
             catch (FileNotFoundException)
             {
             }
 
-            return tcVersion;
+            return version;
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace TcBlack
             return path;
         }
 
-         /// <summary>
+        /// <summary>
         /// Return the TwinCAT version from the tsproj file.
         /// </summary>
         /// <param name="tsprojPath">Path the tsproj file.</param>
