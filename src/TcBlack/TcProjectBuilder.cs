@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,21 +18,17 @@ namespace TcBlack
     /// </summary>
     public class TcProjectBuilder
     {
-        private readonly string devenvPath;
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly string slnPath;
         private readonly string projectPath;
         private readonly string tcVersion;
         private static VisualStudioInstance vsInstance = null;
-        protected string buildLogFile = "build.log";
 
         public TcProjectBuilder(string projectOrTcPouPath)
         {
             tcVersion = GetTwinCatVersionFromTsprojFile(projectOrTcPouPath);
             projectPath = GetParentPath(projectOrTcPouPath, ".plcproj");
             slnPath = GetParentPath(projectOrTcPouPath, ".sln");
-            string vsVersion = GetVsVersion(slnPath);
-            devenvPath = GetDevEnvPath(vsVersion);
         }
 
         /// <summary>
@@ -129,39 +124,7 @@ namespace TcBlack
             return path;
         }
 
-        /// <summary>
-        /// Return the Visual Studio version from the solution file.
-        /// </summary>
-        /// <param name="slnPath">Path the solution file.</param>
-        /// <returns>Major and minor version number of Visual Studio.</returns>
-        private string GetVsVersion(string slnPath)
-        {
-            string file;
-            try
-            {
-                file = File.ReadAllText(slnPath);
-            }
-            catch (ArgumentException)
-            {
-                return "";
-            }
-
-            string pattern = @"^VisualStudioVersion\s+=\s+(?<version>\d+\.\d+)";
-            Match match = Regex.Match(
-                file, pattern, RegexOptions.Multiline
-            );
-
-            if (match.Success)
-            {
-                return match.Groups[1].Value;
-            }
-            else
-            {
-                return "";
-            }
-        }
-
-        /// <summary>
+         /// <summary>
         /// Return the TwinCAT version from the tsproj file.
         /// </summary>
         /// <param name="tsprojPath">Path the tsproj file.</param>
@@ -184,37 +147,6 @@ namespace TcBlack
             );
 
             return match.Success ? match.Groups[1].Value : "";
-        }
-
-        /// <summary>
-        /// Return the path to devenv.com of the given Visual Studio version.
-        /// </summary>
-        /// <param name="vsVersion">
-        /// Visual Studio version to get the devenv.com path of.
-        /// </param>
-        /// <returns>
-        /// The path to devenv.com of the given Visual Studio version.
-        /// </returns>
-        private string GetDevEnvPath(string vsVersion)
-        {
-            RegistryKey rkey = Registry.LocalMachine
-                .OpenSubKey(
-                    @"SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VS7", false
-                );
-
-            try
-            {
-                return Path.Combine(
-                    rkey.GetValue(vsVersion).ToString(), 
-                    "Common7", 
-                    "IDE", 
-                    "devenv.com"
-                );
-            }
-            catch (NullReferenceException)
-            {
-                return "";
-            }
         }
 
         /// <summary>
@@ -270,26 +202,6 @@ namespace TcBlack
 
             Logger.Info("Exiting application...");
             MessageFilter.Revoke();
-        }
-
-        /// <summary>
-        /// Reads the last line from the build.log file to see if the build failed.
-        /// </summary>
-        /// <param name="buildLog">The </param>
-        public bool BuildFailed(string buildLog)
-        {
-            string pattern = 
-                @"(?:========== Build: )(\d+)(?:[a-z \-,]*)(\d+)(?:[a-z \-,]*)";
-            MatchCollection matches = Regex.Matches(buildLog, pattern);
-            if (matches.Count > 0)
-            {
-                var lastMatch = matches[matches.Count - 1];
-                int buildsFailed = Convert.ToInt16(lastMatch.Groups[2].Value);
-
-                return buildsFailed != 0;
-            }
-
-            return false;
         }
 
         /// <summary>

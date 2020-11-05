@@ -155,11 +155,6 @@ namespace TcBlack
             visualStudioSolution.Open(filePath);
         }
 
-        public void CleanSolution()
-        {
-            visualStudioSolution.SolutionBuild.Clean(true);
-        }
-
         public void BuildProject(string projectName)
         {
             visualStudioSolution.SolutionBuild.BuildProject(
@@ -174,7 +169,5 @@ namespace TcBlack
 
         public DTE2 DevelopmentToolsEnvironment { get; private set; }
 
-        public ErrorItems ErrorItems =>
-            DevelopmentToolsEnvironment.ToolWindows.ErrorList.ErrorItems;
     }
 }

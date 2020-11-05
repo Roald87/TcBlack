@@ -53,10 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutomationInterface.cs" />
     <Compile Include="Backup.cs" />
     <Compile Include="CompositeCode.cs" />
-    <Compile Include="Constants.cs" />
     <Compile Include="EmptyLine.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Keywords.cs" />
@@ -76,9 +74,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="BuildTwinCatProject.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="NLog.config">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

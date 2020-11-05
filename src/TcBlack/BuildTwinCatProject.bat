@@ -1,1 +1,0 @@
-start /wait "" %1 %2 /Project %3 /Build "Debug|TwinCAT RT (x64)" /Out build.log 
