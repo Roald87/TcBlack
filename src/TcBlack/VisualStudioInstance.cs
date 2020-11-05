@@ -76,8 +76,13 @@ namespace TcBlack
         public void BuildProject(string projectName)
         {
             visualStudioSolution.SolutionBuild.BuildProject(
-                "Release|TwinCAT RT (x64)", projectName, true
+                "Debug", projectName, true
             );
+
+            if (visualStudioSolution.SolutionBuild.LastBuildInfo > 0)
+            {
+                throw new ProjectBuildFailed();
+            }
         }
 
         /// <summary>

@@ -40,7 +40,7 @@ namespace TcBlackTests
         //        projectDirectory, "BrokenProjectForUnitTests", "PLC2", "PLC2.plcproj"
         //    );
         //    var plcProject = new TcProjectBuilder(brokenPlcProjectPath);
-        //    Assert.Throws<ProjectBuildFailed>(() => plcProject.Build(verbose: true));
+        //    Assert.Throws<ProjectBuildFailed>(() => plcProject.Build());
         //}
 
         [Theory]
