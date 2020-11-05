@@ -3,71 +3,96 @@ using System.Runtime.InteropServices;
 
 namespace TcBlack
 {
+    enum ServiceCall
+    {
+        TooBusyCancelAll = -1,
+        IsHandled = 0,
+        PendingMsg_WaitDefProcess = 2,
+        RetryLater = 99,
+    }
+
     /// <summary>
-    /// Source: https://docs.microsoft.com/en-us/previous-versions/ms228772(v=vs.140)
+    /// Prevents threading contention issues between external multi-threaded 
+    /// applications and Visual Studio.
     /// </summary>
+    /// <see cref="https://docs.microsoft.com/en-us/previous-versions/ms228772(v=vs.140)"/>
     public class MessageFilter : IOleMessageFilter
     {
-        // Class containing the IOleMessageFilter
-        // thread error-handling functions.
-
-        // Start the filter.
+        /// <summary>
+        /// Start the filter.
+        /// </summary>
         public static void Register()
         {
             IOleMessageFilter newFilter = new MessageFilter();
-            IOleMessageFilter oldFilter = null;
-            CoRegisterMessageFilter(newFilter, out oldFilter);
+            CoRegisterMessageFilter(newFilter, out IOleMessageFilter oldFilter);
         }
 
-        // Done with the filter, close it.
+        /// <summary>
+        /// Done with the filter, close it. 
+        /// </summary>
         public static void Revoke()
         {
-            IOleMessageFilter oldFilter = null;
-            CoRegisterMessageFilter(null, out oldFilter);
+            CoRegisterMessageFilter(null, out IOleMessageFilter oldFilter);
         }
 
-        //
-        // IOleMessageFilter functions.
-        // Handle incoming thread requests.
-        int IOleMessageFilter.HandleInComingCall(int dwCallType,
-          System.IntPtr hTaskCaller, int dwTickCount, System.IntPtr
-          lpInterfaceInfo)
+        /// <summary>
+        /// Handle incoming thread requests.
+        /// </summary>
+        /// <param name="dwCallType"></param>
+        /// <param name="hTaskCaller"></param>
+        /// <param name="dwTickCount"></param>
+        /// <param name="lpInterfaceInfo"></param>
+        /// <returns></returns>
+        int IOleMessageFilter.HandleInComingCall(
+            int dwCallType, IntPtr hTaskCaller, int dwTickCount, IntPtr lpInterfaceInfo
+        )
         {
-            //Return the flag SERVERCALL_ISHANDLED.
-            return 0;
+            return (int)ServiceCall.IsHandled;
         }
 
-        // Thread call was rejected, so try again.
-        int IOleMessageFilter.RetryRejectedCall(System.IntPtr
-          hTaskCallee, int dwTickCount, int dwRejectType)
+        /// <summary>
+        /// Thread call was rejected, so try again.
+        /// </summary>
+        /// <param name="hTaskCallee"></param>
+        /// <param name="dwTickCount"></param>
+        /// <param name="dwRejectType"></param>
+        /// <returns></returns>
+        int IOleMessageFilter.RetryRejectedCall(
+            IntPtr hTaskCallee, int dwTickCount, int dwRejectType
+        )
         {
             if (dwRejectType == 2)
-            // flag = SERVERCALL_RETRYLATER.
             {
-                // Retry the thread call immediately if return >=0 & 
-                // <100.
-                return 99;
+                // Retry the thread call immediately if return >=0 & <100.
+                return (int)ServiceCall.RetryLater;
             }
-            // Too busy; cancel call.
-            return -1;
+            return (int)ServiceCall.TooBusyCancelAll;
         }
 
-        int IOleMessageFilter.MessagePending(System.IntPtr hTaskCallee,
-          int dwTickCount, int dwPendingType)
+        int IOleMessageFilter.MessagePending(
+            IntPtr hTaskCallee, int dwTickCount, int dwPendingType
+        )
         {
-            //Return the flag PENDINGMSG_WAITDEFPROCESS.
-            return 2;
+            return (int)ServiceCall.PendingMsg_WaitDefProcess;
         }
 
-        // Implement the IOleMessageFilter interface.
+        /// <summary>
+        /// Implement the IOleMessageFilter interface.
+        /// </summary>
+        /// <param name="newFilter"></param>
+        /// <param name="oldFilter"></param>
+        /// <returns></returns>
         [DllImport("Ole32.dll")]
-        private static extern int
-          CoRegisterMessageFilter(IOleMessageFilter newFilter, out
-          IOleMessageFilter oldFilter);
+        private static extern int CoRegisterMessageFilter(
+            IOleMessageFilter newFilter, out IOleMessageFilter oldFilter
+        );
     }
 
-    [ComImport(), Guid("00000016-0000-0000-C000-000000000046"),
-    InterfaceTypeAttribute(ComInterfaceType.InterfaceIsIUnknown)]
+    [
+        ComImport(), 
+        Guid("00000016-0000-0000-C000-000000000046"),
+        InterfaceType(ComInterfaceType.InterfaceIsIUnknown)
+    ]
     interface IOleMessageFilter
     {
         [PreserveSig]
@@ -75,18 +100,21 @@ namespace TcBlack
             int dwCallType,
             IntPtr hTaskCaller,
             int dwTickCount,
-            IntPtr lpInterfaceInfo);
+            IntPtr lpInterfaceInfo
+        );
 
         [PreserveSig]
         int RetryRejectedCall(
             IntPtr hTaskCallee,
             int dwTickCount,
-            int dwRejectType);
+            int dwRejectType
+        );
 
         [PreserveSig]
         int MessagePending(
             IntPtr hTaskCallee,
             int dwTickCount,
-            int dwPendingType);
+            int dwPendingType
+        );
     }
 }
