@@ -160,7 +160,7 @@ namespace TcBlack
                 developmentToolsEnvironment.GetObject("TcAutomationSettings");
             tcAutomationSettings.SilentMode = true;
             // Uncomment this if you want to run a specific version of TwinCAT
-            logger.Debug("Set remote manager version.");
+            logger.Debug($"Setting remote manager version to {remoteManagerVersion}");
             ITcRemoteManager remoteManager = 
                 developmentToolsEnvironment.GetObject("TcRemoteManager");
             remoteManager.Version = remoteManagerVersion;
