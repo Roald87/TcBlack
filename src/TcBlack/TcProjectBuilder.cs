@@ -220,7 +220,7 @@ namespace TcBlack
         /// <summary>
         /// Build the project file.
         /// </summary>
-        public TcProjectBuilder Build(bool verbose)
+        public TcProjectBuilder Build()
         {
             TryLoadSolution();
             TryBuildTwinCatProject();

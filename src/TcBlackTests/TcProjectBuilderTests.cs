@@ -45,7 +45,7 @@ namespace TcBlackTests
             var plcProject = new MockTcProjectBuilder(
                 brokenProjectPath, failedBuildLogPath
             );
-            Assert.Throws<ProjectBuildFailed>(() => plcProject.Build(verbose:true));
+            Assert.Throws<ProjectBuildFailed>(() => plcProject.Build());
         }
 
         //// Only uncomment this if you want to test the real build process. 
