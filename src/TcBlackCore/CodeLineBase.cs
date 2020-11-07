@@ -2,7 +2,7 @@
 {
     public abstract class CodeLineBase
     {
-        protected string unformattedCode;
+        internal string unformattedCode;
 
         protected CodeLineBase(string unformattedCode)
         {
