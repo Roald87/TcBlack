@@ -10,7 +10,7 @@ namespace TcBlackCore
     /// </summary>
     public class ObjectDefinition : CodeLineBase
     {
-        public struct TcObject
+        private struct TcObject
         {
             public TcObject(
                 string objectType,
