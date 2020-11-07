@@ -236,7 +236,7 @@ namespace TcBlackTests
             VariableDeclaration variable = new VariableDeclaration(
                 unformattedCode:unformattedCode
             );
-            uint indents = 0;
+            int indents = 0;
             Assert.Equal(expected, variable.Format(ref indents));
         }
 
@@ -252,7 +252,7 @@ namespace TcBlackTests
             5
         )]
         public void FormatVariableDeclarationWithIndentation(
-            string unformattedCode, string expected, uint indents)
+            string unformattedCode, string expected, int indents)
         {
             Global.indentation = "    ";
             Global.lineEnding = "\n";
@@ -337,7 +337,7 @@ namespace TcBlackTests
             VariableDeclaration variable = new VariableDeclaration(
                 unformattedCode: unformattedCode
             );
-            uint indents = 0;
+            int indents = 0;
             Assert.Equal(expected, variable.Format(ref indents));
         }
 
@@ -373,7 +373,7 @@ namespace TcBlackTests
             VariableDeclaration variable = new VariableDeclaration(
                 unformattedCode: unformattedCode
             );
-            uint indents = 0;
+            int indents = 0;
             Assert.Equal(expected, variable.Format(ref indents));
         }
     }

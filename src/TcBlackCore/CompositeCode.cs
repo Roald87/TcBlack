@@ -27,7 +27,7 @@ namespace TcBlackCore
         /// </summary>
         /// <param name="indents">The number of indents.</param>
         /// <returns>The formatted code.</returns>
-        public override string Format(ref uint indents)
+        public override string Format(ref int indents)
         {
             string formattedString = "";
 
@@ -46,8 +46,8 @@ namespace TcBlackCore
         public CompositeCode Tokenize()
         {
             string lineEndingOfFile = 
-                _unformattedCode.Contains("\r\n") ? "\r\n" : "\n";
-            string[] lines = _unformattedCode.Split(
+                unformattedCode.Contains("\r\n") ? "\r\n" : "\n";
+            string[] lines = unformattedCode.Split(
                 new[] { lineEndingOfFile }, StringSplitOptions.None
             );
             foreach (string line in lines)

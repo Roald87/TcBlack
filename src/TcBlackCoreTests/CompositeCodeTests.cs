@@ -24,7 +24,7 @@ namespace TcBlackTests
             CompositeCode statements = 
                 new CompositeCode(unformattedCode: unformattedCode).Tokenize();
 
-            uint indents = 0;
+            int indents = 0;
             string actual = statements.Format(ref indents);
             string expected =
                 "// Single line comments are also not formatted, yet\n"
@@ -46,10 +46,11 @@ namespace TcBlackTests
             Global.indentation = "    ";
             Global.lineEnding = "\n";
             string unformattedCode = "";
-            uint indents = 0;
-            string actual = new CompositeCode(unformattedCode: unformattedCode)
-            .Tokenize()
-            .Format(ref indents);
+            int indents = 0;
+            string actual = 
+                new CompositeCode(unformattedCode: unformattedCode)
+                .Tokenize()
+                .Format(ref indents);
 
             string expected = "";
             Assert.Equal(expected, actual);
@@ -69,7 +70,7 @@ namespace TcBlackTests
                 + "VAR\n"
                 + "    isThatTrue : BOOL;\n"
                 + "END_VAR";
-            uint indents = 0;
+            int indents = 0;
             string actual = 
                 new CompositeCode(unformattedCode: unformattedCode)
                 .Tokenize()
@@ -102,7 +103,7 @@ namespace TcBlackTests
                 + "    someVar : BOOL;\n"
                 + "\n"
                 + "END_VAR\n";
-            uint indents = 0;
+            int indents = 0;
             string actual =
                 new CompositeCode(unformattedCode: unformattedCode)
                 .Tokenize()
@@ -125,7 +126,7 @@ namespace TcBlackTests
             Global.indentation = "    ";
             Global.lineEnding = "\n";
             string unformattedCode = "    //Some : FB_Some;\n";
-            uint indents = 0;
+            int indents = 0;
             string actual =
                 new CompositeCode(unformattedCode: unformattedCode)
                 .Tokenize()

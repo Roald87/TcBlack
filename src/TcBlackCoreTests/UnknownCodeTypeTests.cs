@@ -17,7 +17,7 @@ namespace TcBlackTests
             Global.lineEnding = "\n";
             var line = new UnknownCodeType(unformattedCode);
 
-            uint indents = 0;
+            int indents = 0;
             Assert.Equal(unformattedCode, line.Format(ref indents));
         }
     }

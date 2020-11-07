@@ -6,6 +6,7 @@ using System.Linq;
 using CommandLine;
 using TcBlackCore;
 
+[assembly: CLSCompliant(true)]
 namespace TcBlackCLI
 {
     class Program

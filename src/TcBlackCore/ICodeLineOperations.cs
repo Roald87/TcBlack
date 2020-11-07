@@ -2,6 +2,6 @@
 {
     internal interface ICodeLineOperations
     {
-        string Format(ref uint indent);
+        string Format(ref int indent);
     }
 }

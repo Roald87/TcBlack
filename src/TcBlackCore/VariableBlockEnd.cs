@@ -6,12 +6,12 @@
         {
         }
 
-        public override string Format(ref uint indents)
+        public override string Format(ref int indents)
         {
             indents = (indents == 0) ? 0 : indents -= 1;
 
             string formattedCode =
-                Global.indentation.Repeat(indents) + _unformattedCode.Trim();
+                Global.indentation.Repeat(indents) + unformattedCode.Trim();
 
             return formattedCode;
         }

@@ -99,7 +99,7 @@ namespace TcBlackExtension2
                 ITcPlcDeclaration declaration =
                   (ITcPlcDeclaration)dte.ActiveWindow.ProjectItem.Object;
 
-                uint indents = 0;
+                int indents = 0;
                 string text = declaration.DeclarationText;
                 Global.indentation = text.Contains("\t") ? "\t" : "    ";
                 Global.lineEnding = "\r\n";

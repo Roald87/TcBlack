@@ -69,7 +69,7 @@ namespace TcBlackCLI
         /// <returns>The formatted TcPOU object.</returns>
         public TcPou Format()
         {
-            uint indents = 0;
+            int indents = 0;
             XmlNodeList nodes = doc.SelectNodes(".//Declaration");
             foreach (XmlNode node in nodes)
             {

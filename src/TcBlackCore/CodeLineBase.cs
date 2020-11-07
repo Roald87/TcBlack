@@ -2,13 +2,13 @@
 {
     public abstract class CodeLineBase
     {
-        protected string _unformattedCode;
+        protected string unformattedCode;
 
         protected CodeLineBase(string unformattedCode)
         {
-            _unformattedCode = unformattedCode;
+            this.unformattedCode = unformattedCode;
         }
 
-        public abstract string Format(ref uint indents);
+        public abstract string Format(ref int indents);
     }
 }

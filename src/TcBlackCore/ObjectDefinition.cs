@@ -46,7 +46,7 @@ namespace TcBlackCore
         /// </summary>
         /// <param name="indents">Number of indents to place in front.</param>
         /// <returns>Formatted code.</returns>
-        public override string Format(ref uint indents)
+        public override string Format(ref int indents)
         {
             TcObject tokens = Tokenize();
 
@@ -70,11 +70,11 @@ namespace TcBlackCore
         /// <returns>The split object defination.</returns>
         private TcObject Tokenize()
         {
-            if (_unformattedCode.Contains("FUNCTION_BLOCK"))
+            if (unformattedCode.Contains("FUNCTION_BLOCK"))
             {
                 return TokenizeFunctionBlock();
             }
-            else if (_unformattedCode.Contains("INTERFACE"))
+            else if (unformattedCode.Contains("INTERFACE"))
             {
                 return TokenizeInterface();
             }
@@ -89,7 +89,7 @@ namespace TcBlackCore
             string pattern = @"INTERFACE\s+(\w+)\s*(?:EXTENDS((?:[\s,]+[\w\.]+)+))?";
 
             MatchCollection matches = Regex.Matches(
-                _unformattedCode, pattern, RegexOptions.IgnoreCase
+                unformattedCode, pattern, RegexOptions.IgnoreCase
             );
             if (matches.Count > 0)
             {
@@ -114,7 +114,7 @@ namespace TcBlackCore
         {
             string[] splitDefinition = Regex
                 .Split(
-                    _unformattedCode,
+                    unformattedCode,
                     @",|\s+",
                     RegexOptions.IgnorePatternWhitespace
                 )
@@ -181,7 +181,7 @@ namespace TcBlackCore
 
             string pattern = $@"{entityType}{accessModifier}{name}{dataType}";
 
-            MatchCollection matches = Regex.Matches(_unformattedCode, pattern);
+            MatchCollection matches = Regex.Matches(unformattedCode, pattern);
             if (matches.Count > 0)
             {
                 Match match = matches[0];

@@ -11,9 +11,9 @@ namespace TcBlackTests
         [InlineData("   VAR_INPUT     ", 1, "    VAR_INPUT", 2)]
         public void DifferentIndents(
             string originalCode, 
-            uint indents, 
+            int indents, 
             string expectedCode, 
-            uint expectedIndents
+            int expectedIndents
         )
         {
             Global.indentation = "    ";

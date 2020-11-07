@@ -33,7 +33,7 @@ namespace TcBlackCore
         {
         }
 
-        public override string Format(ref uint indents)
+        public override string Format(ref int indents)
         {
             TcDeclaration tokens = Tokenize();
             string formattedDatatype = (
@@ -72,16 +72,16 @@ namespace TcBlackCore
             
             string strInitRegex = $@"([""'])(?:(?=(\$?))\2.)*?\1(?=\s*;)";
 
-            Match match = Regex.Match(_unformattedCode, strInitRegex);
+            Match match = Regex.Match(unformattedCode, strInitRegex);
             string strInit = "";
             if (match.Length > 0)
             {
                 strInit = match.Groups[0].Value;
-                _unformattedCode = Regex.Replace(_unformattedCode, strInitRegex, "");
+                unformattedCode = Regex.Replace(unformattedCode, strInitRegex, "");
             }
 
             MatchCollection matches = Regex.Matches(
-                _unformattedCode,
+                unformattedCode,
                 pattern, 
                RegexOptions.IgnoreCase
             );
@@ -147,10 +147,10 @@ namespace TcBlackCore
     /// </summary>
     public static class StringExtensions
     {
-        public static string Repeat(this string s, uint n)
+        public static string Repeat(this string s, int n)
         {
-            string _repeatedString = new StringBuilder(s.Length * (int)n)
-                .Insert(0, s, (int)n)
+            string _repeatedString = new StringBuilder(s.Length * n)
+                .Insert(0, s, n)
                 .ToString();
 
             return _repeatedString;

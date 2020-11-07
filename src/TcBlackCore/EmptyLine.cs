@@ -6,7 +6,7 @@
         {
         }
 
-        public override string Format(ref uint indents)
+        public override string Format(ref int indents)
         {
             return Global.indentation.Repeat(indents);
         }
