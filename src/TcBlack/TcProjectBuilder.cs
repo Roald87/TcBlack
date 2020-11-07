@@ -1,7 +1,5 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -20,17 +18,60 @@ namespace TcBlack
     /// </summary>
     public class TcProjectBuilder
     {
-        private readonly string projectPath;
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         private readonly string slnPath;
-        private readonly string devenvPath;
-        protected string buildLogFile = "build.log";
+        private readonly string projectPath;
+        private readonly string tcVersion;
+        private static VisualStudioInstance vsInstance = null;
 
         public TcProjectBuilder(string projectOrTcPouPath)
         {
+            tcVersion = GetTwinCatVersionFromTsprojFile(projectOrTcPouPath);
             projectPath = GetParentPath(projectOrTcPouPath, ".plcproj");
             slnPath = GetParentPath(projectOrTcPouPath, ".sln");
-            string vsVersion = GetVsVersion(slnPath);
-            devenvPath = GetDevEnvPath(vsVersion);
+        }
+
+        /// <summary>
+        /// Tries to get the version number.
+        /// </summary>
+        /// <param name="projectOrTcPouPath"></param>
+        /// <returns></returns>
+        private string GetTwinCatVersionFromTsprojFile(string projectOrTcPouPath)
+        {
+            string version = "";
+            try
+            {
+                string tsprojPath = GetTsprojPath(projectOrTcPouPath);
+                version = GetTwinCatVersion(tsprojPath);
+            }
+            catch (FileNotFoundException)
+            {
+            }
+
+            return version;
+        }
+
+        /// <summary>
+        /// Return the path to the *.tsp(p)roj file.
+        /// </summary>
+        /// <param name="projectOrTcPouPath">Path to start the search from.</param>
+        /// <returns>Path to the *.tsp(p)roj file or FileNotFoundException.</returns>
+        private string GetTsprojPath(string projectOrTcPouPath)
+        {
+            string tsprojPath = "";
+            string[] tsprojExtensions = new string[] { ".tsproj", ".tspproj" };
+            foreach (string tsprojExtension in tsprojExtensions)
+            {
+                try
+                {
+                    tsprojPath = GetParentPath(projectOrTcPouPath, tsprojExtension);
+                }
+                catch(FileNotFoundException)
+                {
+                }
+            }
+
+            return tsprojPath;
         }
 
         /// <summary>
@@ -84,110 +125,83 @@ namespace TcBlack
         }
 
         /// <summary>
-        /// Return the Visual Studio version from the solution file.
+        /// Return the TwinCAT version from the tsproj file.
         /// </summary>
-        /// <param name="slnPath">Path the solution file.</param>
-        /// <returns>Major and minor version number of Visual Studio.</returns>
-        private string GetVsVersion(string slnPath)
+        /// <param name="tsprojPath">Path the tsproj file.</param>
+        /// <returns>Version number of TwinCAT.</returns>
+        private string GetTwinCatVersion(string tsprojPath)
         {
             string file;
             try
             {
-                file = File.ReadAllText(slnPath);
+                file = File.ReadAllText(tsprojPath);
             }
             catch (ArgumentException)
             {
                 return "";
             }
 
-            string pattern = @"^VisualStudioVersion\s+=\s+(?<version>\d+\.\d+)";
+            string pattern = "TcVersion=\"(\\d\\.\\d\\.\\d{4}\\.\\d+)\"";
             Match match = Regex.Match(
                 file, pattern, RegexOptions.Multiline
             );
 
-            if (match.Success)
-            {
-                return match.Groups[1].Value;
-            }
-            else
-            {
-                return "";
-            }
-        }
-
-        /// <summary>
-        /// Return the path to devenv.com of the given Visual Studio version.
-        /// </summary>
-        /// <param name="vsVersion">
-        /// Visual Studio version to get the devenv.com path of.
-        /// </param>
-        /// <returns>
-        /// The path to devenv.com of the given Visual Studio version.
-        /// </returns>
-        private string GetDevEnvPath(string vsVersion)
-        {
-            RegistryKey rkey = Registry.LocalMachine
-                .OpenSubKey(
-                    @"SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VS7", false
-                );
-
-            try
-            {
-                return Path.Combine(
-                    rkey.GetValue(vsVersion).ToString(), 
-                    "Common7", 
-                    "IDE", 
-                    "devenv.com"
-                );
-            }
-            catch (NullReferenceException)
-            {
-                return "";
-            }
+            return match.Success ? match.Groups[1].Value : "";
         }
 
         /// <summary>
         /// Build the project file.
         /// </summary>
-        public TcProjectBuilder Build(bool verbose)
+        public TcProjectBuilder Build()
         {
-            string currentDirectory = Directory.GetCurrentDirectory();
-            string buildScript = Path.Combine(
-                currentDirectory, "BuildTwinCatProject.bat"
-            );
-
-            ExecuteCommand(
-                $"{buildScript} \"{devenvPath}\" \"{slnPath}\" \"{projectPath}\"",
-                verbose
-            );
-
-            string buildLog = File.ReadAllText(buildLogFile);
-            if (BuildFailed(buildLog))
-            {
-                throw new ProjectBuildFailed();
-            }
+            TryLoadSolution();
+            TryBuildTwinCatProject();
 
             return this;
         }
 
         /// <summary>
-        /// Reads the last line from the build.log file to see if the build failed.
+        /// 
         /// </summary>
-        /// <param name="buildLog">The </param>
-        public bool BuildFailed(string buildLog)
+        private void TryLoadSolution()
         {
-            string pattern = 
-                @"(?:========== Build: )(\d+)(?:[a-z \-,]*)(\d+)(?:[a-z \-,]*)";
-            MatchCollection matches = Regex.Matches(buildLog, pattern);
-            if (matches.Count > 0)
+            Logger.Info("Starting solution...");
+            try
             {
-                var lastMatch = matches[matches.Count - 1];
-                int buildsFailed = Convert.ToInt16(lastMatch.Groups[2].Value);
+                MessageFilter.Register();
+                vsInstance = new VisualStudioInstance(slnPath);
+                vsInstance.Load(tcVersion);
+            }
+            catch
+            {
+                // Detailed error messages output by vsInstance.Load()
+                Logger.Error("Solution load failed");  
+                CleanUp();
+                throw new ProjectBuildFailed();
+            }
+        }
 
-                return buildsFailed != 0;
+        private void TryBuildTwinCatProject()
+        {
+            Logger.Info("Building TwinCAT project...");
+            vsInstance.BuildProject(projectPath);
+        }
+
+        /// <summary>
+        /// Cleans the system resources (the VS DTE)
+        /// </summary>
+        private static void CleanUp()
+        {
+            try
+            {
+                vsInstance.Close();
+            }
+            catch
+            {
             }
 
-            return false;
+            Logger.Info("Exiting application...");
+            MessageFilter.Revoke();
         }
 
         /// <summary>
@@ -219,42 +233,6 @@ namespace TcBlack
                     return "";
                 }
             }
-        }
-
-        /// <summary>
-        /// Execute a command in the windown command prompt cmd.exe.
-        /// Source: https://stackoverflow.com/a/5519517/6329629
-        /// </summary>
-        /// <param name="command"></param>
-        protected virtual void ExecuteCommand(string command, bool verbose)
-        {
-            var processInfo = new ProcessStartInfo("cmd.exe", "/c " + command)
-            {
-                CreateNoWindow = false,
-                UseShellExecute = false,
-                RedirectStandardError = true,
-                RedirectStandardOutput = true,
-            };
-
-            var process = Process.Start(processInfo);
-
-            if (verbose)
-            {
-                process.OutputDataReceived += (object sender, DataReceivedEventArgs e)
-                    => Console.WriteLine("output >> " + e.Data);
-                process.BeginOutputReadLine();
-
-                process.ErrorDataReceived += (object sender, DataReceivedEventArgs e)
-                    => Console.WriteLine("error >> " + e.Data);
-                process.BeginErrorReadLine();
-            }
-
-            process.WaitForExit();
-            if (verbose)
-            {
-                Console.WriteLine("ExitCode: {0}", process.ExitCode);
-            }
-            process.Close();
         }
     }
 }

@@ -61,7 +61,6 @@
     <Compile Include="BackupTests.cs" />
     <Compile Include="CompositeCodeTests.cs" />
     <Compile Include="EmptyLineTests.cs" />
-    <Compile Include="MockTcProjectBuilder.cs" />
     <Compile Include="ObjectDefinitionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TcPouTests.cs" />
