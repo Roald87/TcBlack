@@ -4,7 +4,7 @@
     {
         protected string _unformattedCode;
 
-        public CodeLineBase(string unformattedCode)
+        protected CodeLineBase(string unformattedCode)
         {
             _unformattedCode = unformattedCode;
         }
