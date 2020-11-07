@@ -1,5 +1,4 @@
-﻿using System.Text;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace TcBlackCore
 {
@@ -139,21 +138,6 @@ namespace TcBlackCore
         private string InsertSpacesAroundOperators(string unformatted)
         {
             return Regex.Replace(unformatted, @"(?<=\w|\))([-+\/*])", " $1 ");
-        }
-    }
-
-    /// <summary>
-    /// Source: https://stackoverflow.com/a/47915552/6329629
-    /// </summary>
-    public static class StringExtensions
-    {
-        public static string Repeat(this string s, int n)
-        {
-            string _repeatedString = new StringBuilder(s.Length * n)
-                .Insert(0, s, n)
-                .ToString();
-
-            return _repeatedString;
         }
     }
 }
