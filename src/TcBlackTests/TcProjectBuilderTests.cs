@@ -31,7 +31,7 @@ namespace TcBlackTests
             );
         }
 
-        //// Only uncomment this if you want to test the real build process. 
+        //// Uncomment this if you want to test the real failing build process. 
         //// Takes ~30 s to complete.
         //[Fact]
         //public void BuildRealBrokenProjectShouldRaiseException()
@@ -41,6 +41,29 @@ namespace TcBlackTests
         //    );
         //    var plcProject = new TcProjectBuilder(brokenPlcProjectPath);
         //    Assert.Throws<ProjectBuildFailed>(() => plcProject.Build());
+        //}
+
+        //// Uncomment this if you want to test the real successfull build process. 
+        //// Takes ~30 s to complete.
+        //[Fact]
+        //public void BuildRealWorkingProjectShouldMakeNewCompiledFile()
+        //{
+        //    string workingPlcProjectPath = Path.Combine(
+        //        projectDirectory, "WorkingProjectForUnitTests", "PLC", "PLC.plcproj"
+        //    );
+        //    var plcProject = new TcProjectBuilder(workingPlcProjectPath);
+        //    var hash = plcProject.Build().Hash;
+        //    string workingProjectDirectory = Path.GetDirectoryName(
+        //        workingPlcProjectPath
+        //    );
+        //    var compileDate = File.GetLastWriteTime(Path.Combine(
+        //        workingProjectDirectory, "_CompileInfo", $"{hash}.compileinfo"
+        //    ));
+        //    Assert.Equal(
+        //        compileDate, 
+        //        DateTime.Now, 
+        //        new TimeSpan(hours: 0, minutes: 1, seconds: 0)
+        //    );
         //}
 
         [Theory]
