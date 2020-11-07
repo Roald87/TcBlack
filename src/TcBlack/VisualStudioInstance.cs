@@ -98,7 +98,7 @@ namespace TcBlack
                 );
                 // Makes sure that there are no visual studio processes left in the 
                 // system if the user interrupts this program (for example by CTRL+C)
-                System.Threading.Thread.Sleep(20000);
+                //System.Threading.Thread.Sleep(20000);
                 developmentToolsEnvironment.Quit();
             }
             loaded = false;
