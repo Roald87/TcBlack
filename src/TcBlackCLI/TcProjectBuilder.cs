@@ -8,13 +8,6 @@ using System.Text.RegularExpressions;
 
 namespace TcBlackCLI
 {
-    public class ProjectBuildFailed : Exception
-    {
-        public ProjectBuildFailed()
-        {
-        }
-    }
-
     /// <summary>
     /// Builds a TwinCAT project using the devenv.
     /// </summary>
@@ -164,7 +157,7 @@ namespace TcBlackCLI
             string buildLog = File.ReadAllText(buildLogFile);
             if (BuildFailed(buildLog))
             {
-                throw new ProjectBuildFailed();
+                throw new ProjectBuildFailedException();
             }
 
             return this;

@@ -159,7 +159,7 @@ namespace TcBlackCLI
             {
                 hashBeforeFormat = tcProject.Build(options.Verbose).Hash;
             }
-            catch(ProjectBuildFailed)
+            catch(ProjectBuildFailedException)
             {
                 Console.WriteLine(
                     "Initial project build failed! No formatting will be done."
@@ -188,7 +188,7 @@ namespace TcBlackCLI
             {
                 hashAfterFormat = tcProject.Build(options.Verbose).Hash;
             }
-            catch(ProjectBuildFailed)
+            catch(ProjectBuildFailedException)
             {
                 Console.WriteLine(
                     "Project build failed after formatting! Undoing it."
