@@ -64,6 +64,7 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="TcBlack.ruleset" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="stdole">

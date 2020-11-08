@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -128,33 +129,33 @@ namespace TcBlackCore
             bool extends = false;
             foreach (string part in splitDefinition)
             {
-                bool implementsStarts = (part.ToLower() == "implements");
-                bool extendsStarts = (part.ToLower() == "extends");
-
+                bool extendsStarts = (part.ToUpperInvariant() == "EXTENDS");
                 if (implements && !extendsStarts)
                 {
                     interfaces.Add(part);
                 }
+
+                bool implementsStarts = (part.ToUpperInvariant() == "IMPLEMENTS");
                 if (extends && !implementsStarts)
                 {
                     parents.Add(part);
                 }
 
-                if (part.ToLower() == "implements")
+                if (implementsStarts)
                 {
                     implements = true;
                     extends = false;
                 }
-                else if (part.ToLower() == "extends")
+                else if (extendsStarts)
                 {
                     extends = true;
                     implements = false;
                 }
                 else if (
-                    part.ToLower() == "abstract"
-                    || part.ToLower() == "final"
-                    || part.ToLower() == "internal"
-                    || part.ToLower() == "public")
+                    part.ToUpperInvariant() == "ABSTRACT"
+                    || part.ToUpperInvariant() == "FINAL"
+                    || part.ToUpperInvariant() == "INTERNAL"
+                    || part.ToUpperInvariant() == "PUBLIC")
                 {
                     accessModifiers.Add(part);
                 }

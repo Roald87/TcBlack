@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace TcBlackCore
@@ -64,7 +65,9 @@ namespace TcBlackCore
                     }
                     Add(new EmptyLine(unformattedCode: line));
                 }
-                else if (line.StartsWith("END_VAR"))
+                else if (
+                    line.StartsWith("END_VAR", StringComparison.OrdinalIgnoreCase)
+                )
                 {
                     if (codeLines.Last() is VariableBlockStart)
                     {
@@ -80,16 +83,16 @@ namespace TcBlackCore
                         Add(new VariableBlockEnd(unformattedCode: line));
                     }
                 }
-                else if (line.StartsWith("VAR"))
+                else if (IsVariableBlockStart(line))
                 {
                     TryRemoveLastEmptyLine();
                     Add(new VariableBlockStart(unformattedCode: line));
                 }
                 else if (
-                    line.StartsWith("FUNCTION") 
-                    || line.StartsWith("METHOD") 
-                    || line.StartsWith("PROPERTY")
-                    || line.StartsWith("INTERFACE"))
+                    line.StartsWith("FUNCTION", StringComparison.OrdinalIgnoreCase) 
+                    || line.StartsWith("METHOD", StringComparison.OrdinalIgnoreCase) 
+                    || line.StartsWith("PROPERTY", StringComparison.OrdinalIgnoreCase)
+                    || line.StartsWith("INTERFACE", StringComparison.OrdinalIgnoreCase))
                 {
                     Add(new ObjectDefinition(unformattedCode: line));
                 }
@@ -106,6 +109,15 @@ namespace TcBlackCore
             RemoveAllEmptyLinesAtTheEnd();
 
             return this;
+        }
+
+        private bool IsVariableBlockStart(string text)
+        {
+            string trimmedText = text.Trim().ToUpperInvariant();
+
+            return 
+                trimmedText == "VAR" 
+                || trimmedText.StartsWith("VAR_", StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>

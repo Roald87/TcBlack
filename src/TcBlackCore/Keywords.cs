@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace TcBlackCore
 {
@@ -168,7 +169,7 @@ namespace TcBlackCore
 
         protected static string UpText(Match m)
         {
-            return m.ToString().ToUpper();
+            return m.ToString().ToUpper(CultureInfo.InvariantCulture);
         }
 
         public static string Upper(string data)
