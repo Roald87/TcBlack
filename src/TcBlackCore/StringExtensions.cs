@@ -8,15 +8,15 @@ namespace TcBlackCore
     /// </summary>
     public static class StringExtensions
     {
-        public static string Repeat(this string s, int n)
+        public static string Repeat(this string text, int times)
         {
-            if (s == null)
+            if (text == null)
             {
-                throw new ArgumentNullException("s");
+                throw new ArgumentNullException("text");
             }
 
-            string _repeatedString = new StringBuilder(s.Length * n)
-                .Insert(0, s, n)
+            string _repeatedString = new StringBuilder(text.Length * times)
+                .Insert(0, text, times)
                 .ToString();
 
             return _repeatedString;
