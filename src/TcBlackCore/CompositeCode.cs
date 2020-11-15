@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 
 namespace TcBlackCore
 {
-    public class CompositeCode : CodeLineBase, ICodeLineOperations
+    public class CompositeCode : CodeLineBase
     {
         private List<CodeLineBase> codeLines;
 
