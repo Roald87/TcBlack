@@ -3,10 +3,10 @@ using System.Text.RegularExpressions;
 
 namespace TcBlackCore
 {
-    class Keywords
+    static class Keywords
     {
-        protected static MatchEvaluator KeywordsEval = new MatchEvaluator(UpText);
-        protected static string[] KeywordList =
+        static MatchEvaluator KeywordsEval = new MatchEvaluator(UpText);
+        static string[] KeywordList =
         {
             "abs",
             "acos",
@@ -156,18 +156,14 @@ namespace TcBlackCore
             "xword",
             "pvoid",
         };
-        protected static Regex KeywordsRegex = new Regex(
+        static Regex KeywordsRegex = new Regex(
            @"(?<!\w)(" + string.Join("|", KeywordList) + @")(?!\w)",
             RegexOptions.IgnoreCase
         );
 
-        protected static Regex SpacingRegex = new Regex(@"\s+");
+        static Regex SpacingRegex = new Regex(@"\s+");
 
-        public Keywords()
-        {
-        }
-
-        protected static string UpText(Match m)
+        static string UpText(Match m)
         {
             return m.ToString().ToUpper(CultureInfo.InvariantCulture);
         }
