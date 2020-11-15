@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Backup.cs" />
+    <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectBuildFailed.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
