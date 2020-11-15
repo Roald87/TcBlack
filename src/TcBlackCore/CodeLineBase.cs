@@ -9,6 +9,12 @@
             this.unformattedCode = unformattedCode;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Microsoft.Design", 
+            "CA1045:DoNotPassTypesByReference", 
+            MessageId = "0#",
+            Justification = "Don't know an alternative."
+        )]
         public abstract string Format(ref int indents);
     }
 }
