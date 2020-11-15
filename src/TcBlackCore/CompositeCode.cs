@@ -164,7 +164,7 @@ namespace TcBlackCore
         {
             var code = new VariableDeclaration(codeLine).Tokenize();
 
-            return code.Name != "";
+            return !string.IsNullOrEmpty(code.Name);
         }
     }
 }
