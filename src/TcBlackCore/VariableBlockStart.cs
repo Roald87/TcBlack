@@ -9,7 +9,7 @@
         public override string Format(ref int indents)
         {
             string formattedCode = 
-                Global.indentation.Repeat(indents) + unformattedCode.Trim();
+                Globals.indentation.Repeat(indents) + unformattedCode.Trim();
             indents += 1;
 
             return formattedCode;

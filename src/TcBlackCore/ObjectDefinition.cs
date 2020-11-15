@@ -52,7 +52,7 @@ namespace TcBlackCore
             TcObject tokens = Tokenize();
 
             string formattedCode =
-                Global.indentation.Repeat(indents)
+                Globals.indentation.Repeat(indents)
                 + tokens.ObjectType
                 + (tokens.AccessModifier.Length > 0 ? $" {tokens.AccessModifier}" : "")
                 + $" {tokens.Name}"

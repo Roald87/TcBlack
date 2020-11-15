@@ -41,7 +41,7 @@ namespace TcBlackCore
             );
                 
             string formattedCode = (
-                    Global.indentation.Repeat(indents)
+                    Globals.indentation.Repeat(indents)
                     + tokens.Name
                     + (tokens.Allocation.Length > 0 ? $" AT {tokens.Allocation}" : "")
                     + $" : {formattedDatatype}"

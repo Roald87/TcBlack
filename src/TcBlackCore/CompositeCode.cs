@@ -34,7 +34,7 @@ namespace TcBlackCore
 
             foreach (CodeLineBase codeLine in codeLines)
             {
-                formattedString += codeLine.Format(ref indents) + Global.lineEnding;
+                formattedString += codeLine.Format(ref indents) + Globals.lineEnding;
             }
 
             return formattedString;

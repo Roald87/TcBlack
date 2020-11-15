@@ -39,8 +39,8 @@ namespace TcBlackTests
             string variable, string type
         )
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             VariableDeclaration varDecl = new VariableDeclaration(
                 $"{variable}:{type};"
             );
@@ -74,8 +74,8 @@ namespace TcBlackTests
         (
             string variable, string allocation, string type)
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             VariableDeclaration varDecl = new VariableDeclaration(
                 $"{variable} AT {allocation}:{type};"
             );
@@ -118,8 +118,8 @@ namespace TcBlackTests
             string variable, string allocation, string type, string initialization
         )
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             VariableDeclaration varDecl = new VariableDeclaration(
                 $"{variable}{allocation}:{type}:={initialization};"
             );
@@ -150,8 +150,8 @@ namespace TcBlackTests
             string comment
         )
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             VariableDeclaration varDecl = new VariableDeclaration(
                 $"{variable}{allocation}:{type}:={initialization};{comment}"
             );
@@ -231,8 +231,8 @@ namespace TcBlackTests
         )]
         public void FormatVariableDeclaration(string unformattedCode, string expected)
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             VariableDeclaration variable = new VariableDeclaration(
                 unformattedCode:unformattedCode
             );
@@ -254,8 +254,8 @@ namespace TcBlackTests
         public void FormatVariableDeclarationWithIndentation(
             string unformattedCode, string expected, int indents)
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             VariableDeclaration variable = new VariableDeclaration(
                 unformattedCode: unformattedCode
             );
@@ -283,8 +283,8 @@ namespace TcBlackTests
         )]
         public void RemoveWhitespace(string input, string expected)
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             VariableDeclaration variable = new VariableDeclaration(
                 unformattedCode: ""
             );
@@ -332,8 +332,8 @@ namespace TcBlackTests
         )]
         public void SpecialCharStringInitialization(string unformattedCode, string expected)
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             VariableDeclaration variable = new VariableDeclaration(
                 unformattedCode: unformattedCode
             );
@@ -368,8 +368,8 @@ namespace TcBlackTests
         )]
         public void UpperCaseKeywords(string unformattedCode, string expected)
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             VariableDeclaration variable = new VariableDeclaration(
                 unformattedCode: unformattedCode
             );

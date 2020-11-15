@@ -1,6 +1,6 @@
 ﻿namespace TcBlackCore
 {
-    public static class Global
+    public static class Globals
     {
         public static string lineEnding = "";
         public static string indentation = "";

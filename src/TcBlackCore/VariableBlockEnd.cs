@@ -11,7 +11,7 @@
             indents = (indents == 0) ? 0 : indents -= 1;
 
             string formattedCode =
-                Global.indentation.Repeat(indents) + unformattedCode.Trim();
+                Globals.indentation.Repeat(indents) + unformattedCode.Trim();
 
             return formattedCode;
         }

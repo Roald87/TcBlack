@@ -13,8 +13,8 @@ namespace TcBlackTests
         [InlineData("  {attribute 'hide'}")]
         public void DifferentEmptyLines(string unformattedCode)
         {
-            Global.indentation = " ";
-            Global.lineEnding = "\n";
+            Globals.indentation = " ";
+            Globals.lineEnding = "\n";
             var line = new UnknownCodeType(unformattedCode);
 
             int indents = 0;

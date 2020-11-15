@@ -14,8 +14,8 @@ namespace TcBlackTests
             string unformattedCode, int initialIndents, string expected
         )
         {
-            Global.indentation = " ";
-            Global.lineEnding = "\n";
+            Globals.indentation = " ";
+            Globals.lineEnding = "\n";
             EmptyLine line = new EmptyLine(unformattedCode);
 
             int indents = initialIndents;

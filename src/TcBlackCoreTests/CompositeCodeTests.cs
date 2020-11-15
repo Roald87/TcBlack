@@ -9,8 +9,8 @@ namespace TcBlackTests
         [Fact]
         public void FormatDeclaration()
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             string unformattedCode =
                 "// Single line comments are also not formatted, yet\n" 
                 + "FUNCTION AddIntegers:DINT\n"
@@ -43,8 +43,8 @@ namespace TcBlackTests
         [Fact]
         public void FormatEmptyDeclaration()
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             string unformattedCode = "";
             int indents = 0;
             string actual = 
@@ -59,8 +59,8 @@ namespace TcBlackTests
         [Fact]
         public void RemoveEmptyVariableTypeDeclarations()
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             string unformattedCode =
                 "FUNCTION_BLOCK Something\n"
                 + "VAR_INPUT\n"
@@ -87,8 +87,8 @@ namespace TcBlackTests
         [Fact]
         public void RemoveEmptyLinesBeforeAndAfterVarBlockStartAndEnd()
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             string unformattedCode =
                 "FUNCTION Abx\n"
                 + "\n" 
@@ -123,8 +123,8 @@ namespace TcBlackTests
         [Fact]
         public void CommentWithoutASpace()
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             string unformattedCode = "    //Some : FB_Some;\n";
             int indents = 0;
             string actual =
