@@ -54,7 +54,7 @@ namespace TcBlackCLI
                     {
                         Console.WriteLine(
                             $"One of the files doesn't exist. " +
-                            $"Check the filesnames and try again."
+                            $"Check the filenames and try again."
                         );
                         return;
                     }
@@ -126,7 +126,7 @@ namespace TcBlackCLI
             {
                 Console.WriteLine(
                     $"One of the files doesn't exist. " +
-                    $"Check the filesnames and try again."
+                    $"Check the filenames and try again."
                 );
                 return;
             }
