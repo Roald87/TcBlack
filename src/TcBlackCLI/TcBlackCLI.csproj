@@ -52,7 +52,7 @@
     <Compile Include="Backup.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="ProjectBuildFailed.cs" />
+    <Compile Include="ProjectBuildFailedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TcPou.cs" />
     <Compile Include="TcProjectBuilder.cs" />

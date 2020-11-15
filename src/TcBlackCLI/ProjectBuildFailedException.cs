@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 
 namespace TcBlackCLI
 {
+    [Serializable]
     public class ProjectBuildFailedException : Exception
     {
         public ProjectBuildFailedException()
