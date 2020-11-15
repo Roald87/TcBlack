@@ -110,7 +110,7 @@ namespace TcBlackCore
             return this;
         }
 
-        private bool IsVariableBlockStart(string text)
+        static private bool IsVariableBlockStart(string text)
         {
             string trimmedText = text.Trim().ToUpperInvariant();
 
@@ -160,7 +160,7 @@ namespace TcBlackCore
         /// </summary>
         /// <param name="codeLine">Code line to inspect</param>
         /// <returns>Returns true if it thinks the code is a declaration.</returns>
-        private bool LooksLikeVariableDeclaration(string codeLine)
+        static private bool LooksLikeVariableDeclaration(string codeLine)
         {
             var code = new VariableDeclaration(codeLine).Tokenize();
 
