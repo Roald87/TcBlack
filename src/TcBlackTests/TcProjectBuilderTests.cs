@@ -31,7 +31,24 @@ namespace TcBlackTests
             );
         }
 
-        //// Uncomment this if you want to test the real failing build process. 
+        [Fact]
+        public void BuildMockBrokenProjectShouldRaiseException()
+        {
+            string brokenProjectPath = Path.Combine(
+                projectDirectory, "BrokenProjectForUnitTests", "PLC2", "PLC2.plcproj"
+            );
+            string failedBuildLogPath = Path.Combine(
+                testDirectory, 
+                "TcProjectBuildTestData", 
+                "failedBuildWithExtraTextBelow.log"
+            );
+            var plcProject = new MockTcProjectBuilder(
+                brokenProjectPath, failedBuildLogPath
+            );
+            Assert.Throws<ProjectBuildFailed>(() => plcProject.Build(verbose:true));
+        }
+
+        //// Only uncomment this if you want to test the real build process. 
         //// Takes ~30 s to complete.
         //[Fact]
         //public void BuildRealBrokenProjectShouldRaiseException()
@@ -40,30 +57,7 @@ namespace TcBlackTests
         //        projectDirectory, "BrokenProjectForUnitTests", "PLC2", "PLC2.plcproj"
         //    );
         //    var plcProject = new TcProjectBuilder(brokenPlcProjectPath);
-        //    Assert.Throws<ProjectBuildFailed>(() => plcProject.Build());
-        //}
-
-        //// Uncomment this if you want to test the real successfull build process. 
-        //// Takes ~30 s to complete.
-        //[Fact]
-        //public void BuildRealWorkingProjectShouldMakeNewCompiledFile()
-        //{
-        //    string workingPlcProjectPath = Path.Combine(
-        //        projectDirectory, "WorkingProjectForUnitTests", "PLC", "PLC.plcproj"
-        //    );
-        //    var plcProject = new TcProjectBuilder(workingPlcProjectPath);
-        //    var hash = plcProject.Build().Hash;
-        //    string workingProjectDirectory = Path.GetDirectoryName(
-        //        workingPlcProjectPath
-        //    );
-        //    var compileDate = File.GetLastWriteTime(Path.Combine(
-        //        workingProjectDirectory, "_CompileInfo", $"{hash}.compileinfo"
-        //    ));
-        //    Assert.Equal(
-        //        compileDate, 
-        //        DateTime.Now, 
-        //        new TimeSpan(hours: 0, minutes: 1, seconds: 0)
-        //    );
+        //    Assert.Throws<ProjectBuildFailed>(() => plcProject.Build(verbose: true));
         //}
 
         [Theory]
@@ -74,6 +68,27 @@ namespace TcBlackTests
             Assert.Throws<FileNotFoundException>(
                 ()=> new TcProjectBuilder(projectPath)
             );
+        }
+
+        private static readonly string testDataDirectory = Path.Combine(
+            testDirectory, "TcProjectBuildTestData"
+        );
+        private static readonly string workingPlcProjectPath = Path.Combine(
+            projectDirectory, "WorkingProjectForUnitTests", "PLC", "PLC.plcproj"
+        );
+        [Theory]
+        [InlineData("succesfulBuild.log", false)]
+        [InlineData("failedBuildWithExtraTextBelow.log", true)]
+        [InlineData("firstBuildOkSecondBuildFailed.log", true)]
+        public void CheckIfBuildFailedFromLogFile(string logFile, bool buildFailed)
+        {
+            TcProjectBuilder tcProject = new TcProjectBuilder(workingPlcProjectPath);
+            string logFileContent = File.ReadAllText(
+                Path.Combine(testDataDirectory, logFile)
+            );
+            bool actual = tcProject.BuildFailed(logFileContent);
+
+            Assert.Equal(buildFailed, actual);
         }
 
         private static readonly string workingProjectPouDirectory = Path.Combine(

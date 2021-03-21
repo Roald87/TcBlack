@@ -52,9 +52,14 @@ namespace TcBlack
                 HelpText = "Overrides the line ending of all files with UNIX' \\n."
             )]
             public bool UnixLineEnding { get; set; }
+
+            [Option(
+                Default = false,
+                HelpText = "Outputs build info. Has no effect in non-safe mode."
+            )]
+            public bool Verbose { get; set; }
         }
 
-        [STAThread]
         static void Main(string[] args)
         {
             Parser.Default.ParseArguments<Options>(args).WithParsed(options =>
@@ -150,7 +155,7 @@ namespace TcBlack
             string hashBeforeFormat = string.Empty;
             try
             {
-                hashBeforeFormat = tcProject.Build().Hash;
+                hashBeforeFormat = tcProject.Build(options.Verbose).Hash;
             }
             catch(ProjectBuildFailed)
             {
@@ -179,7 +184,7 @@ namespace TcBlack
             string hashAfterFormat = string.Empty;
             try
             {
-                hashAfterFormat = tcProject.Build().Hash;
+                hashAfterFormat = tcProject.Build(options.Verbose).Hash;
             }
             catch(ProjectBuildFailed)
             {
