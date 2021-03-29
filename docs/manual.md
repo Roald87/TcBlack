@@ -27,7 +27,7 @@ TcBlack --help
 
 Select one or more `.TcPOU` or `.TcIO` files to format. Before any formatting is done, a `.bak` back-up copy of each file is generated. This is an extra safety measure in case unintended changes are made and/or the code is not under source control.
 
-The options `--file` and `--project` are mually exclusive, i.e. you can only use one of them!
+The options `--file` and `--project` are mutually exclusive, i.e. you can only use one of them!
 
 Note: Currently _TcBlack_ only formats the declaration part of function blocks, functions, methods, properties and interfaces. Formatting of the implementation is planned for a future release.
 
@@ -57,7 +57,7 @@ Select a `.plcproj` file to format. _TcBlack_ tries to find all the `.TcPOU` and
 
 Before any formatting is done, a `.bak` back-up copy of each file is generated. This is an extra safety measure in case unintended changes are made and/or the code is not under source control.
 
-The options `--file` and `--project` are mually exclusive, i.e. you can only use one of them!
+The options `--file` and `--project` are mutually exclusive, i.e. you can only use one of them!
 
 Note: Currently _TcBlack_ only formats the declaration part of function blocks, functions, methods, properties and interfaces. Formatting of the implementation is planned for a future release.
 
