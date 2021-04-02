@@ -20,7 +20,7 @@ namespace TcBlackTests
                 projectDirectory, "WorkingProjectForUnitTests", "PLC", "PLC.plcproj"
             ));
 
-            Assert.Equal("7526D772-C42C-771C-E7F5-8B6DA4DF5F84", plcProject.Hash);
+            Assert.Equal("E7C52539-BBF0-7365-BEC4-14FF9FECC46D", plcProject.Hash);
         }
 
         [Fact]
@@ -102,7 +102,7 @@ namespace TcBlackTests
             string path = Path.Combine(workingProjectPouDirectory, filename);
             var plcProject = new TcProjectBuilder(path);
 
-            Assert.Equal("7526D772-C42C-771C-E7F5-8B6DA4DF5F84", plcProject.Hash);
+            Assert.Equal("E7C52539-BBF0-7365-BEC4-14FF9FECC46D", plcProject.Hash);
         }
 
         [Fact]
