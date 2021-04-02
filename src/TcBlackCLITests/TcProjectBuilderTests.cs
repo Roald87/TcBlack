@@ -11,7 +11,7 @@ namespace TcBlackTests
         private static readonly string testDirectory = 
             Directory.GetParent(currentDirectory).Parent.FullName;
         private static readonly string projectDirectory = 
-            Directory.GetParent(testDirectory).FullName;
+            Path.Combine(testDirectory, "..", "..", "twincat");
 
         [Fact]
         public void GetHashOfProjectWithHash()
@@ -144,11 +144,8 @@ namespace TcBlackTests
         [Fact]
         public void FindOnlyExactExtensionForThreeCharacterExtensions()
         {
-            //var plcProject = new TcProjectBuilder(
-            //    @"C:\Users\roald\Source\Repos\TcBlack\src\ShowcaseProject\PLC3\POUs\FB_Child.TcPOU"
-            //);
-            string projectPath = Path.GetFullPath(
-                "../../../WorkingProjectForUnitTests/PLC/plcproj"
+            string projectPath = Path.Combine(
+                projectDirectory, "WorkingProjectForUnitTests", "PLC", "plcproj"
             );
             var exception = Record.Exception(() => new TcProjectBuilder(projectPath));
             Assert.Null(exception);
