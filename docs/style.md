@@ -73,7 +73,7 @@ AnotherFunctionBlock(
 ```
 
 You might have noticed that closing brackets are always dedented and that a trailing
-comma is always added. Such formatting produces smaller diffs; when you add or remove an
+comma is always added ([#18](https://github.com/Roald87/TcBlack/issues/18)). Such formatting produces smaller diffs; when you add or remove an
 element, it's always just one line. Also, having the closing bracket dedented provides a
 clear delimiter between two distinct sections of the code that otherwise share the same
 indentation level (like the arguments list in the example above).
