@@ -7,7 +7,7 @@ _TcBlack_ is available as a command line tool ([TcBlackCLI](https://github.com/R
 
 `FB_Child` from ShowcaseProject formatted using the _TcBlackExtension_ for Visual Studio. 
 
-![tcblack_extension](docs/tcblack_extension.gif)
+![tcblack_extension](tcblack_extension.gif)
 
 ## _TcBlackCLI_ usage
 
