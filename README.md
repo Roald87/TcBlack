@@ -9,14 +9,6 @@ _TcBlack_ is available as a command line tool ([TcBlackCLI](https://github.com/R
 
 ![tcblack_extension](tcblack_extension.gif)
 
-![](docs/tcblack_extension2.gif)
-
-![](docs/tcblack_extension3.gif)
-
-![](docs/tcblack_extension4.gif)
-
-![](docs/tcblack_extension5.gif)
-
 ## _TcBlackCLI_ usage
 
 1. [Download](https://github.com/Roald87/TcBlack/releases/latest) the latest release. 
