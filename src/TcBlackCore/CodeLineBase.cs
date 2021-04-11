@@ -1,4 +1,7 @@
-﻿namespace TcBlackCore
+﻿using System;
+
+[assembly: CLSCompliant(true)]
+namespace TcBlackCore
 {
     public abstract class CodeLineBase
     {

@@ -1,7 +1,9 @@
-﻿using Xunit;
-using TcBlackCLI;
+﻿using System;
 using System.IO;
+using TcBlackCLI;
+using Xunit;
 
+[assembly: CLSCompliant(false)]
 namespace TcBlackTests
 {
     public class BackupTests

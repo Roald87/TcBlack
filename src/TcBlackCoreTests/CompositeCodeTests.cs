@@ -1,6 +1,8 @@
-﻿using TcBlackCore;
+﻿using System;
+using TcBlackCore;
 using Xunit;
 
+[assembly: CLSCompliant(false)]
 namespace TcBlackTests
 {
     [Collection("Sequential")]
