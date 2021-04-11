@@ -2,30 +2,6 @@
 
 namespace TcBlackCore
 {
-    public struct TcDeclaration
-    {
-        public TcDeclaration(
-            string name,
-            string allocation,
-            string dataType,
-            string initialization,
-            string comment
-        )
-        {
-            Name = name;
-            Allocation = allocation;
-            DataType = dataType;
-            Initialization = initialization;
-            Comment = comment;
-        }
-
-        public string Name { get; }
-        public string Allocation { get; }
-        public string DataType { get; }
-        public string Initialization { get; }
-        public string Comment { get; }
-    }
-
     public class VariableDeclaration : CodeLineBase
     {
         public VariableDeclaration(string unformattedCode) : base(unformattedCode)

@@ -1,4 +1,4 @@
-﻿namespace TcBlack
+﻿namespace TcBlackCore
 {
     public struct TcDeclaration
     {
