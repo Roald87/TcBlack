@@ -28,7 +28,7 @@ namespace TcBlackTests
                 testDataPath, "BackupFileAlreadyExists.txt"
             );
             // Shouldn't raise an exception that the file already exists
-            Backup backup = new Backup(filename);
+            new Backup(filename);
         }
 
         [Fact]
