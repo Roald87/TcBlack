@@ -35,6 +35,12 @@
     <CodeAnalysisRuleSet>
     </CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>TcBlackCLI.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CommandLine, Version=2.8.0.0, Culture=neutral, PublicKeyToken=5a870481e358d379, processorArchitecture=MSIL">
       <HintPath>..\packages\CommandLineParser.2.8.0\lib\net461\CommandLine.dll</HintPath>
@@ -66,6 +72,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="TcBlack.ruleset" />
+    <None Include="TcBlackCLI.pfx" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="stdole">
