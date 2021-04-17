@@ -38,7 +38,7 @@ jobs:
          Set-Content -Path src/TcBlackCLI/TcBlackCLI_certificate.txt -Value '${{ secrets.TCBLACKCLI_CERTIFICATE }}'
          certutil -decode src/TcBlackCLI/TcBlackCLI_certificate.txt src/TcBlackCLI/TcBlackCLI.pfx
          Set-Content -Path src/TcBlackCore/TcBlackCore_certificate.txt -Value '${{ secrets.TCBLACKCORE_CERTIFICATE }}'
-         certutil -decode src/TcBlackCore/TcBlackCore_certificate.txt src/TcBlackCore/TcBlackCore.pfx
+         certutil -decode src/TcBlackCore/TcBlackCore_certificate.txt src/TcBlackCore/TcBlackCoreSign.pfx
 
       - name: Build the solution
         run: msbuild src/TcBlack.sln /m
