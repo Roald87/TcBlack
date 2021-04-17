@@ -246,7 +246,7 @@ namespace TcBlackCLI
             process.WaitForExit();
             if (verbose)
             {
-                Console.WriteLine("ExitCode: {0}", process.ExitCode);
+                Console.WriteLine("Exit code: {0}", process.ExitCode);
             }
             process.Close();
         }
