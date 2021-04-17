@@ -32,9 +32,16 @@ jobs:
         
       - name: Restore NuGet packages
         run: nuget restore src/TcBlack.sln
-        
+
+      - name: Create certificates
+        run: |
+         Set-Content -Path src/TcBlackCLI/TcBlackCLI_certificate.txt -Value '${{ secrets.TCBLACKCLI_CERTIFICATE }}'
+         certutil -decode src/TcBlackCLI/TcBlackCLI_certificate.txt src/TcBlackCLI/TcBlackCLI.pfx
+         Set-Content -Path src/TcBlackCore/TcBlackCore_certificate.txt -Value '${{ secrets.TCBLACKCORE_CERTIFICATE }}'
+         certutil -decode src/TcBlackCore/TcBlackCore_certificate.txt src/TcBlackCore/TcBlackCore.pfx
+
       - name: Build the solution
-        run: msbuild src/TcBlack.sln
+        run: msbuild src/TcBlack.sln /m
         
       - name: Run Tests
         run: vstest.console.exe src\TcBlackCLITests\bin\Debug\TcBlackCLITests.dll src\TcBlackCoreTests\bin\Debug\TcBlackCoreTests.dll
