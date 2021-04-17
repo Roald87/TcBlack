@@ -56,8 +56,8 @@ namespace TcBlackTests
             string expected = File.ReadAllText(expectedFile);
             string actual = File.ReadAllText(fileToFormat);
             backup.Restore().Delete();
-            Assert.DoesNotContain("\r\n", expected); 
-            Assert.DoesNotContain("\r\n", actual);
+            Assert.DoesNotContain("\r\n", expected, StringComparison.Ordinal); 
+            Assert.DoesNotContain("\r\n", actual, StringComparison.Ordinal);
             Assert.Equal(expected, actual);
         }
 
