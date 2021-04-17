@@ -16,7 +16,8 @@ namespace TcBlackCLI
         private readonly string projectPath;
         private readonly string slnPath;
         private readonly string devenvPath;
-        protected string buildLogFile = "build.log";
+
+        protected string BuildLogFile { get; set; } = "build.log";
 
         public TcProjectBuilder(string projectOrTcPouPath)
         {
@@ -154,7 +155,7 @@ namespace TcBlackCLI
                 verbose
             );
 
-            string buildLog = File.ReadAllText(buildLogFile);
+            string buildLog = File.ReadAllText(BuildLogFile);
             if (BuildFailed(buildLog))
             {
                 throw new ProjectBuildFailedException();
