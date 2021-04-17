@@ -34,6 +34,11 @@
             ;
         }
 
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         public static bool operator==(TcDeclaration obj1, TcDeclaration obj2)
         {
             if (obj1 == null)
