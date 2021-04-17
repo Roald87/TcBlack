@@ -24,6 +24,12 @@ namespace TcBlackTests
         }
 
         [Fact]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Microsoft.Usage",
+            "CA1806: Do not ignore method results.",
+            Justification = 
+                "Only check that no execption is raised if the file already exists."
+        )]
         public void BackupFileAlreadyExistsShouldOverwriteBackupFile()
         {
             string filename = Path.Combine(
