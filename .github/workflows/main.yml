@@ -39,6 +39,7 @@ jobs:
          certutil -decode src/TcBlackCLI/TcBlackCLI_certificate.txt src/TcBlackCLI/TcBlackCLI.pfx
          Set-Content -Path src/TcBlackCore/TcBlackCore_certificate.txt -Value '${{ secrets.TCBLACKCORE_CERTIFICATE }}'
          certutil -decode src/TcBlackCore/TcBlackCore_certificate.txt src/TcBlackCore/TcBlackCoreSign.pfx
+         sn -i src/TcBlackCore/TcBlackCoreSign.pfx VS_KEY_CF714F96108C1502 
 
       - name: Build the solution
         run: msbuild src/TcBlack.sln /m
