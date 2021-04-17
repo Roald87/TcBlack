@@ -33,7 +33,7 @@ namespace TcBlackCLI
         /// </summary>
         /// <param name="extension">The extension to look for.</param>
         /// <returns>Path to the directory with given extension.</returns>
-        private string GetParentPath(string startingPath, string extension)
+        private static string GetParentPath(string startingPath, string extension)
         {
             string path = "";
             string parentPath = Path.GetDirectoryName(startingPath);
@@ -82,7 +82,7 @@ namespace TcBlackCLI
         /// </summary>
         /// <param name="slnPath">Path the solution file.</param>
         /// <returns>Major and minor version number of Visual Studio.</returns>
-        private string GetVsVersion(string slnPath)
+        private static string GetVsVersion(string slnPath)
         {
             string file;
             try
@@ -118,7 +118,7 @@ namespace TcBlackCLI
         /// <returns>
         /// The path to devenv.com of the given Visual Studio version.
         /// </returns>
-        private string GetDevEnvPath(string vsVersion)
+        private static string GetDevEnvPath(string vsVersion)
         {
             RegistryKey rkey = Registry.LocalMachine
                 .OpenSubKey(
@@ -168,7 +168,7 @@ namespace TcBlackCLI
         /// Reads the last line from the build.log file to see if the build failed.
         /// </summary>
         /// <param name="buildLog">The </param>
-        public bool BuildFailed(string buildLog)
+        public static bool BuildFailed(string buildLog)
         {
             string pattern = 
                 @"(?:========== Build: )(\d+)(?:[a-z \-,]*)(\d+)(?:[a-z \-,]*)";

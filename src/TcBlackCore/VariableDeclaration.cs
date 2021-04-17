@@ -94,7 +94,7 @@ namespace TcBlackCore
         /// <param name="str">The string to remove spaces from.</param>
         /// <returns>Cleaned up string.</returns>
         /// <remarks>source: https://stackoverflow.com/a/63486599/6329629 </remarks>
-        public string RemoveWhiteSpaceIfPossible(string str)
+        public static string RemoveWhiteSpaceIfPossible(string str)
         {
             string pattern = (
                 "\\s+(?=[^[]*\\])"
@@ -111,7 +111,7 @@ namespace TcBlackCore
         /// <example>
         /// "a+b" => "a + b"
         /// </example>
-        private string InsertSpacesAroundOperators(string unformatted)
+        private static string InsertSpacesAroundOperators(string unformatted)
         {
             return Regex.Replace(unformatted, @"(?<=\w|\))([-+\/*])", " $1 ");
         }

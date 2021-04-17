@@ -45,7 +45,11 @@ namespace TcBlackTests
                 $"{variable}:{type};"
             );
             TcDeclaration expectedDecl = new TcDeclaration(
-                variable.Trim(), "", varDecl.RemoveWhiteSpaceIfPossible(type), "", ""
+                variable.Trim(), 
+                "", 
+                VariableDeclaration.RemoveWhiteSpaceIfPossible(type), 
+                "", 
+                ""
             );
             AssertEquals(expectedDecl, varDecl.Tokenize());
         }
@@ -127,8 +131,8 @@ namespace TcBlackTests
             TcDeclaration expectedDecl = new TcDeclaration(
                 variable.Trim(), 
                 _allocation.Trim(),
-                varDecl.RemoveWhiteSpaceIfPossible(type), 
-                varDecl.RemoveWhiteSpaceIfPossible(initialization), ""
+                VariableDeclaration.RemoveWhiteSpaceIfPossible(type),
+                VariableDeclaration.RemoveWhiteSpaceIfPossible(initialization), ""
             );
 
             AssertEquals(expectedDecl, varDecl.Tokenize());
@@ -159,8 +163,8 @@ namespace TcBlackTests
             TcDeclaration expectedDecl = new TcDeclaration(
                 variable.Trim(),
                 _allocation.Trim(),
-                varDecl.RemoveWhiteSpaceIfPossible(type.Trim()),
-                varDecl.RemoveWhiteSpaceIfPossible(initialization),
+                VariableDeclaration.RemoveWhiteSpaceIfPossible(type.Trim()),
+                VariableDeclaration.RemoveWhiteSpaceIfPossible(initialization),
                 comment.Trim()
             );
 
@@ -283,12 +287,7 @@ namespace TcBlackTests
         )]
         public void RemoveWhitespace(string input, string expected)
         {
-            Globals.indentation = "    ";
-            Globals.lineEnding = "\n";
-            VariableDeclaration variable = new VariableDeclaration(
-                unformattedCode: ""
-            );
-            string actual = variable.RemoveWhiteSpaceIfPossible(input);
+            string actual = VariableDeclaration.RemoveWhiteSpaceIfPossible(input);
 
             Assert.Equal(expected, actual);
         }
