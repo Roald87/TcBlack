@@ -37,7 +37,12 @@ jobs:
          certutil -decode src/TcBlackCLI/TcBlackCLI_certificate.txt src/TcBlackCLI/TcBlackCLI.pfx
          Set-Content -Path src/TcBlackCore/TcBlackCore_certificate.txt -Value '${{ secrets.TCBLACKCORE_CERTIFICATE }}'
          certutil -decode src/TcBlackCore/TcBlackCore_certificate.txt src/TcBlackCore/TcBlackCoreSign.pfx
-         & "C:/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.6.1 Tools/sn.exe" -i src/TcBlackCore/TcBlackCoreSign.pfx VS_KEY_CF714F96108C1502 
+      
+      # Download tool to install the certificate to the Strong Name CSP
+      - name: Install certificates
+        run: |
+         wget https://github.com/honzajscz/SnInstallPfx/releases/download/0.1.2-beta/SnInstallPfx.exe -OutFile SnInstallPfx.exe
+         .\SnInstallPfx.exe src/TcBlackCore/TcBlackCoreSign.pfx '${{ secrets.TCBLACKCORE_PASS }}'
 
       - name: Build the solution
         run: msbuild src/TcBlack.sln /m
