@@ -41,7 +41,7 @@ jobs:
       # Download tool to install the certificate to the Strong Name CSP
       - name: Install certificates
         run: |
-         wget https://github.com/honzajscz/SnInstallPfx/releases/download/0.1.2-beta/SnInstallPfx.exe -OutFile SnInstallPfx.exe
+         Invoke-WebRequest https://github.com/honzajscz/SnInstallPfx/releases/download/0.1.2-beta/SnInstallPfx.exe -OutFile SnInstallPfx.exe
          .\SnInstallPfx.exe src/TcBlackCore/TcBlackCoreSign.pfx '${{ secrets.TCBLACKCORE_PASS }}'
 
       - name: Build the solution
