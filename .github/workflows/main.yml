@@ -44,8 +44,10 @@ jobs:
          Invoke-WebRequest https://github.com/honzajscz/SnInstallPfx/releases/download/0.1.2-beta/SnInstallPfx.exe -OutFile SnInstallPfx.exe
          .\SnInstallPfx.exe src/TcBlackCore/TcBlackCoreSign.pfx '${{ secrets.TCBLACKCORE_PASS }}'
 
-      - name: Build the solution
-        run: msbuild src/TcBlack.sln /m
+      - name: Build the Core and CLI
+        run: |
+          msbuild src\TcBlackCore\TcBlackCore.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU
+          msbuild src\TcBlackCLI\TcBlackCLI.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU
         
   tests:
     runs-on: windows-2016
