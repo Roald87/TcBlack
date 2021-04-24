@@ -48,11 +48,14 @@ jobs:
         run: |
           msbuild src\TcBlackCore\TcBlackCore.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU
           msbuild src\TcBlackCLI\TcBlackCLI.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU
-        
-  tests:
-    runs-on: windows-2016
-    needs: build
-    steps:
-      - name: Run Tests
-        run: vstest.console.exe src\TcBlackCLITests\bin\Debug\TcBlackCLITests.dll src\TcBlackCoreTests\bin\Debug\TcBlackCoreTests.dll
-      
+          msbuild src\TcBlackCoreTests\TcBlackCoreTests.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU
+          msbuild src\TcBlackCLITests\TcBlackCLITests.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU
+            
+      - name: Setup VSTest Path
+        uses: darenm/Setup-VSTest@v1
+
+      - name: Run unit tests
+        run : |
+          vstest.console.exe src\TcBlackCLITests\bin\Release\TcBlackCLITests.dll src\TcBlackCoreTests\bin\Release\TcBlackCoreTests.dll
+          
+            
