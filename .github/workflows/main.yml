@@ -48,11 +48,12 @@ jobs:
         run: |
           msbuild src\TcBlackCore\TcBlackCore.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU
           msbuild src\TcBlackCLI\TcBlackCLI.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU
+          msbuild src\TcBlackCoreTests\TcBlackCoreTests.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU
+          msbuild src\TcBlackCLITests\TcBlackCLITests.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU
         
   tests:
     runs-on: windows-2016
     needs: build
     steps:
-      - name: Run Tests
-        run: vstest.console.exe src\TcBlackCLITests\bin\Debug\TcBlackCLITests.dll src\TcBlackCoreTests\bin\Debug\TcBlackCoreTests.dll
-      
+     - name: Run unit tests
+       uses: tonyhallett/vstest-solution-action@v1.0.0
