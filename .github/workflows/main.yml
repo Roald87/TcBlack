@@ -50,10 +50,6 @@ jobs:
           msbuild src\TcBlackCLI\TcBlackCLI.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU
           msbuild src\TcBlackCoreTests\TcBlackCoreTests.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU
           msbuild src\TcBlackCLITests\TcBlackCLITests.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU
-        
-  tests:
-    runs-on: windows-2016
-    needs: build
-    steps:
-     - name: Run unit tests
-       uses: tonyhallett/vstest-solution-action@v1.0.0
+
+      - name: Run unit tests
+        uses: tonyhallett/vstest-solution-action@v1.0.0
