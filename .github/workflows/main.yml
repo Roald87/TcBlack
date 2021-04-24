@@ -42,7 +42,8 @@ jobs:
       - name: Install certificates
         run: |
          Invoke-WebRequest https://github.com/honzajscz/SnInstallPfx/releases/download/0.1.2-beta/SnInstallPfx.exe -OutFile SnInstallPfx.exe
-         .\SnInstallPfx.exe src/TcBlackCore/TcBlackCoreSign.pfx '${{ secrets.TCBLACKCORE_PASS }}'
+         .\SnInstallPfx.exe src/TcBlackCore/TcBlackCoreSign.pfx '${{ secrets.TCBLACKCORE_PASS }}' 
+         .\SnInstallPfx.exe src/TcBlackCLI/TcBlackCLI.pfx '${{ secrets.TCBLACKCLI_PASS }}'
 
       - name: Build the Core and CLI
         run: |
