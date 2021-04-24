@@ -15,7 +15,6 @@
 *.bak
 LineIDs.dbg
 _Boot/
-_CompileInfo/
 _Libraries/
 
 ## Ignore Visual Studio temporary files, build results, and
@@ -368,3 +367,8 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+!failedBuildWithExtraTextBelow.log
+!firstBuildOkSecondBuildFailed.log
+!succesfulBuild.log
+!E7C52539-BBF0-7365-BEC4-14FF9FECC46D.compileinfo
