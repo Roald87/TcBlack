@@ -8,7 +8,7 @@ namespace TcBlackTests
             string projectPath, string buildLogPath
         ) : base(projectPath)
         {
-            buildLogFile = buildLogPath;
+            BuildLogFile = buildLogPath;
         }
 
         /// <summary>

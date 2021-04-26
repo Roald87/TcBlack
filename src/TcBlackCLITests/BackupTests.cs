@@ -1,7 +1,9 @@
-﻿using Xunit;
-using TcBlackCLI;
+﻿using System;
 using System.IO;
+using TcBlackCLI;
+using Xunit;
 
+[assembly: CLSCompliant(false)]
 namespace TcBlackTests
 {
     public class BackupTests
@@ -22,13 +24,19 @@ namespace TcBlackTests
         }
 
         [Fact]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Microsoft.Usage",
+            "CA1806: Do not ignore method results.",
+            Justification = 
+                "Only check that no execption is raised if the file already exists."
+        )]
         public void BackupFileAlreadyExistsShouldOverwriteBackupFile()
         {
             string filename = Path.Combine(
                 testDataPath, "BackupFileAlreadyExists.txt"
             );
             // Shouldn't raise an exception that the file already exists
-            Backup backup = new Backup(filename);
+            new Backup(filename);
         }
 
         [Fact]

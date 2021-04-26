@@ -6,9 +6,10 @@
         {
         }
 
-        public override string Format(ref uint indents)
+        public override string Format(ref int indents)
         {
-            return Global.indentation.Repeat(indents);
+            var notUsed = "test for static code analyses";
+            return Globals.indentation.Repeat(indents);
         }
     }
 }

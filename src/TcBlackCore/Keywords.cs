@@ -1,11 +1,12 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace TcBlackCore
 {
-    class Keywords
+    static class Keywords
     {
-        protected static MatchEvaluator KeywordsEval = new MatchEvaluator(UpText);
-        protected static string[] KeywordList =
+        static MatchEvaluator KeywordsEval = new MatchEvaluator(UpText);
+        static string[] KeywordList =
         {
             "abs",
             "acos",
@@ -155,20 +156,16 @@ namespace TcBlackCore
             "xword",
             "pvoid",
         };
-        protected static Regex KeywordsRegex = new Regex(
+        static Regex KeywordsRegex = new Regex(
            @"(?<!\w)(" + string.Join("|", KeywordList) + @")(?!\w)",
             RegexOptions.IgnoreCase
         );
 
-        protected static Regex SpacingRegex = new Regex(@"\s+");
+        static Regex SpacingRegex = new Regex(@"\s+");
 
-        public Keywords()
+        static string UpText(Match m)
         {
-        }
-
-        protected static string UpText(Match m)
-        {
-            return m.ToString().ToUpper();
+            return m.ToString().ToUpper(CultureInfo.InvariantCulture);
         }
 
         public static string Upper(string data)
