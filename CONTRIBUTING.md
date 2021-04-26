@@ -52,21 +52,29 @@ it's that easy!
 - Notes (possibly including why you think this might be happening, or stuff you tried 
 that didn't work).
 
-## Use a Consistent Coding Style
+## Build environment
 * Make sure to edit the project with the same version of Visual Studio as the master 
 branch. TcBlack has been developed using Visual Studio 2017. You can download
 [VS2017 Community edition](https://visualstudio.microsoft.com/vs/older-downloads/) for 
 free.
+* *If using Visual Studio 2019 make sure to update the `Microsoft.VSSDK.BuildTools` nuget
+package in the `TcBlackExtension` project to version `15.9.3039`(unfortunaly `15.9.3043`is
+not available on nuget.org)*								   				 
+* Add your own `pfx` file in the `TcBlackCore` project. This is neccessary to sign the
+assembly. This can be done by navigating to the `TcBlackCore` project settings, go to 
+`signing` and add a new keyfile with the name `TcBlackCoreSign.pfx`. Make sure to enter 
+a password.  See also [here](https://github.com/Roald87/TcBlack/issues/57#issuecomment-814382341) 
+* Although most of the development will take place in C#, it is good to use the same 
+TwinCAT version if you're making changes to the TwinCAT projects. TcBlack currently 
+uses **TwinCAT 4024.7**.
+
+## Use a Consistent Coding Style
 * In order to keep the code readable, a maximum line length of 88 characters is used.
 This is the same in [Black](https://github.com/psf/black) for Python. You can add
 a [Guideline](https://marketplace.visualstudio.com/items?itemName=PaulHarrington.EditorGuidelines)
 to the Visual Studio to help you here.
 
-Although most of the development will take place in C#, it is good to use the same 
-TwinCAT version if you're making changes to the TwinCAT projects. TcBlack currently 
-uses **TwinCAT 4024.7**.
-
-Furthermore use the following editor settings:
+Furthermore use the following TwinCAT editor settings:
 
 * Make sure that your TwinCAT development environment uses spaces instead of tabs. The 
 default behaviour of the TwinCAT development environment is to use tabs so it needs to 
@@ -89,4 +97,3 @@ By contributing, you agree that your contributions will be licensed under its MI
 
 ## References
 This document was adapted from TcUnits's excellent [contribution guidelines](https://github.com/tcunit/TcUnit/blob/master/CONTRIBUTING.md).
-
