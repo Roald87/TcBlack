@@ -16,13 +16,13 @@ namespace TcBlackTests
         )]
         public void FormatObjectDefinitionsWithDifferentIndentsAndSpacings(
             string originalCode,
-            uint indents,
+            int indents,
             string expectedCode,
-            uint expectedIndents
+            int expectedIndents
         )
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             ObjectDefinition var = new ObjectDefinition(originalCode);
             Assert.Equal(expectedCode, var.Format(ref indents));
             Assert.Equal(expectedIndents, indents);
@@ -53,10 +53,10 @@ namespace TcBlackTests
             string originalCode, string expectedCode
         )
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             ObjectDefinition var = new ObjectDefinition(originalCode);
-            uint indents = 0;
+            int indents = 0;
             Assert.Equal(expectedCode, var.Format(ref indents));
         }
 
@@ -73,10 +73,10 @@ namespace TcBlackTests
             string originalCode, string expectedCode
         )
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             ObjectDefinition var = new ObjectDefinition(originalCode);
-            uint indents = 0;
+            int indents = 0;
             Assert.Equal(expectedCode, var.Format(ref indents));
         }
 
@@ -137,10 +137,10 @@ namespace TcBlackTests
             string originalCode, string expectedCode
         )
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             ObjectDefinition var = new ObjectDefinition(originalCode);
-            uint indents = 0;
+            int indents = 0;
             Assert.Equal(expectedCode, var.Format(ref indents));
         }
 
@@ -161,10 +161,10 @@ namespace TcBlackTests
             string originalCode, string expectedCode
         )
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             ObjectDefinition var = new ObjectDefinition(originalCode);
-            uint indents = 0;
+            int indents = 0;
             Assert.Equal(expectedCode, var.Format(ref indents));
         }
 
@@ -213,10 +213,10 @@ namespace TcBlackTests
             string originalCode, string expectedCode
         )
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             ObjectDefinition var = new ObjectDefinition(originalCode);
-            uint indents = 0;
+            int indents = 0;
             Assert.Equal(expectedCode, var.Format(ref indents));
         }
 
@@ -247,10 +247,10 @@ namespace TcBlackTests
         )]
         public void FormatInterfaces(string originalCode, string expectedCode)
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             ObjectDefinition var = new ObjectDefinition(originalCode);
-            uint indents = 0;
+            int indents = 0;
             Assert.Equal(expectedCode, var.Format(ref indents));
         }
     }

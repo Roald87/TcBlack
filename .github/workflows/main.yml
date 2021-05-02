@@ -42,14 +42,15 @@ jobs:
       - name: Install certificates
         run: |
          Invoke-WebRequest https://github.com/honzajscz/SnInstallPfx/releases/download/0.1.2-beta/SnInstallPfx.exe -OutFile SnInstallPfx.exe
-         .\SnInstallPfx.exe src/TcBlackCore/TcBlackCoreSign.pfx '${{ secrets.TCBLACKCORE_PASS }}'
+         .\SnInstallPfx.exe src/TcBlackCore/TcBlackCoreSign.pfx '${{ secrets.TCBLACKCORE_PASS }}' 
+         .\SnInstallPfx.exe src/TcBlackCLI/TcBlackCLI.pfx '${{ secrets.TCBLACKCLI_PASS }}'
 
-      - name: Build the Core and CLI
+      - name: Build TcBlackCore and CLI
         run: |
-          msbuild src\TcBlackCore\TcBlackCore.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU
-          msbuild src\TcBlackCLI\TcBlackCLI.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU
-          msbuild src\TcBlackCoreTests\TcBlackCoreTests.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU
-          msbuild src\TcBlackCLITests\TcBlackCLITests.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU
+          msbuild src\TcBlackCore\TcBlackCore.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU -p:TreatWarningsAsErrors=true
+          msbuild src\TcBlackCLI\TcBlackCLI.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU -p:TreatWarningsAsErrors=true
+          msbuild src\TcBlackCoreTests\TcBlackCoreTests.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU -p:TreatWarningsAsErrors=true
+          msbuild src\TcBlackCLITests\TcBlackCLITests.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU -p:TreatWarningsAsErrors=true
             
       - name: Setup VSTest Path
         uses: darenm/Setup-VSTest@v1

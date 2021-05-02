@@ -23,8 +23,8 @@ namespace TcBlackCLI
             doc.Load(path);
 
             text = doc.InnerXml;
-            Global.lineEnding = text.Contains("\r\n") ? "\r\n" : "\n";
-            Global.indentation = text.Contains("\t") ? "\t" : "    ";
+            Globals.lineEnding = text.Contains("\r\n") ? "\r\n" : "\n";
+            Globals.indentation = text.Contains("\t") ? "\t" : "    ";
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace TcBlackCLI
         /// </param>
         public TcPou(string path, string indentation) : this(path)
         {
-            Global.indentation = indentation;
+            Globals.indentation = indentation;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace TcBlackCLI
         /// <param name="windowsLineEnding">If true use '\r\n' else uses '\n'.</param>
         public TcPou(string path, bool windowsLineEnding) : this(path)
         {
-            Global.lineEnding = windowsLineEnding ? "\r\n" : "\n";
+            Globals.lineEnding = windowsLineEnding ? "\r\n" : "\n";
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace TcBlackCLI
         public TcPou(string path, string indentation, bool windowsLineEnding) 
             : this(path, windowsLineEnding)
         {
-            Global.indentation = indentation;
+            Globals.indentation = indentation;
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace TcBlackCLI
         /// <returns>The formatted TcPOU object.</returns>
         public TcPou Format()
         {
-            uint indents = 0;
+            int indents = 0;
             XmlNodeList nodes = doc.SelectNodes(".//Declaration");
             foreach (XmlNode node in nodes)
             {
@@ -89,7 +89,7 @@ namespace TcBlackCLI
             using (var w = XmlWriter.Create(tcPouPath, new XmlWriterSettings
             {
                 Indent = true,
-                NewLineChars = Global.lineEnding,
+                NewLineChars = Globals.lineEnding,
             }))
             {
                 doc.Save(w);

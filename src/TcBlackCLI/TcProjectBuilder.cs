@@ -8,13 +8,6 @@ using System.Text.RegularExpressions;
 
 namespace TcBlackCLI
 {
-    public class ProjectBuildFailed : Exception
-    {
-        public ProjectBuildFailed()
-        {
-        }
-    }
-
     /// <summary>
     /// Builds a TwinCAT project using the devenv.
     /// </summary>
@@ -23,7 +16,8 @@ namespace TcBlackCLI
         private readonly string projectPath;
         private readonly string slnPath;
         private readonly string devenvPath;
-        protected string buildLogFile = "build.log";
+
+        protected string BuildLogFile { get; set; } = "build.log";
 
         public TcProjectBuilder(string projectOrTcPouPath)
         {
@@ -39,7 +33,7 @@ namespace TcBlackCLI
         /// </summary>
         /// <param name="extension">The extension to look for.</param>
         /// <returns>Path to the directory with given extension.</returns>
-        private string GetParentPath(string startingPath, string extension)
+        private static string GetParentPath(string startingPath, string extension)
         {
             string path = "";
             string parentPath = Path.GetDirectoryName(startingPath);
@@ -88,7 +82,7 @@ namespace TcBlackCLI
         /// </summary>
         /// <param name="slnPath">Path the solution file.</param>
         /// <returns>Major and minor version number of Visual Studio.</returns>
-        private string GetVsVersion(string slnPath)
+        private static string GetVsVersion(string slnPath)
         {
             string file;
             try
@@ -124,7 +118,7 @@ namespace TcBlackCLI
         /// <returns>
         /// The path to devenv.com of the given Visual Studio version.
         /// </returns>
-        private string GetDevEnvPath(string vsVersion)
+        private static string GetDevEnvPath(string vsVersion)
         {
             RegistryKey rkey = Registry.LocalMachine
                 .OpenSubKey(
@@ -161,10 +155,10 @@ namespace TcBlackCLI
                 verbose
             );
 
-            string buildLog = File.ReadAllText(buildLogFile);
+            string buildLog = File.ReadAllText(BuildLogFile);
             if (BuildFailed(buildLog))
             {
-                throw new ProjectBuildFailed();
+                throw new ProjectBuildFailedException();
             }
 
             return this;
@@ -174,7 +168,7 @@ namespace TcBlackCLI
         /// Reads the last line from the build.log file to see if the build failed.
         /// </summary>
         /// <param name="buildLog">The </param>
-        public bool BuildFailed(string buildLog)
+        public static bool BuildFailed(string buildLog)
         {
             string pattern = 
                 @"(?:========== Build: )(\d+)(?:[a-z \-,]*)(\d+)(?:[a-z \-,]*)";
@@ -252,7 +246,7 @@ namespace TcBlackCLI
             process.WaitForExit();
             if (verbose)
             {
-                Console.WriteLine("ExitCode: {0}", process.ExitCode);
+                Console.WriteLine("Exit code: {0}", process.ExitCode);
             }
             process.Close();
         }

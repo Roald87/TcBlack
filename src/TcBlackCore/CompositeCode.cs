@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace TcBlackCore
 {
-    public class CompositeCode : CodeLineBase, ICodeLineOperations
+    public class CompositeCode : CodeLineBase
     {
         private List<CodeLineBase> codeLines;
 
@@ -27,13 +27,13 @@ namespace TcBlackCore
         /// </summary>
         /// <param name="indents">The number of indents.</param>
         /// <returns>The formatted code.</returns>
-        public override string Format(ref uint indents)
+        public override string Format(ref int indents)
         {
             string formattedString = "";
 
             foreach (CodeLineBase codeLine in codeLines)
             {
-                formattedString += codeLine.Format(ref indents) + Global.lineEnding;
+                formattedString += codeLine.Format(ref indents) + Globals.lineEnding;
             }
 
             return formattedString;
@@ -46,8 +46,8 @@ namespace TcBlackCore
         public CompositeCode Tokenize()
         {
             string lineEndingOfFile = 
-                _unformattedCode.Contains("\r\n") ? "\r\n" : "\n";
-            string[] lines = _unformattedCode.Split(
+                unformattedCode.Contains("\r\n") ? "\r\n" : "\n";
+            string[] lines = unformattedCode.Split(
                 new[] { lineEndingOfFile }, StringSplitOptions.None
             );
             foreach (string line in lines)
@@ -64,7 +64,9 @@ namespace TcBlackCore
                     }
                     Add(new EmptyLine(unformattedCode: line));
                 }
-                else if (line.StartsWith("END_VAR"))
+                else if (
+                    line.StartsWith("END_VAR", StringComparison.OrdinalIgnoreCase)
+                )
                 {
                     if (codeLines.Last() is VariableBlockStart)
                     {
@@ -80,16 +82,16 @@ namespace TcBlackCore
                         Add(new VariableBlockEnd(unformattedCode: line));
                     }
                 }
-                else if (line.StartsWith("VAR"))
+                else if (IsVariableBlockStart(line))
                 {
                     TryRemoveLastEmptyLine();
                     Add(new VariableBlockStart(unformattedCode: line));
                 }
                 else if (
-                    line.StartsWith("FUNCTION") 
-                    || line.StartsWith("METHOD") 
-                    || line.StartsWith("PROPERTY")
-                    || line.StartsWith("INTERFACE"))
+                    line.StartsWith("FUNCTION", StringComparison.OrdinalIgnoreCase) 
+                    || line.StartsWith("METHOD", StringComparison.OrdinalIgnoreCase) 
+                    || line.StartsWith("PROPERTY", StringComparison.OrdinalIgnoreCase)
+                    || line.StartsWith("INTERFACE", StringComparison.OrdinalIgnoreCase))
                 {
                     Add(new ObjectDefinition(unformattedCode: line));
                 }
@@ -106,6 +108,15 @@ namespace TcBlackCore
             RemoveAllEmptyLinesAtTheEnd();
 
             return this;
+        }
+
+        static private bool IsVariableBlockStart(string text)
+        {
+            string trimmedText = text.Trim().ToUpperInvariant();
+
+            return 
+                trimmedText == "VAR" 
+                || trimmedText.StartsWith("VAR_", StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -149,11 +160,11 @@ namespace TcBlackCore
         /// </summary>
         /// <param name="codeLine">Code line to inspect</param>
         /// <returns>Returns true if it thinks the code is a declaration.</returns>
-        private bool LooksLikeVariableDeclaration(string codeLine)
+        static private bool LooksLikeVariableDeclaration(string codeLine)
         {
             var code = new VariableDeclaration(codeLine).Tokenize();
 
-            return code.Name != "";
+            return !string.IsNullOrEmpty(code.Name);
         }
     }
 }

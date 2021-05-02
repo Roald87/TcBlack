@@ -6,61 +6,12 @@ using System.Linq;
 using CommandLine;
 using TcBlackCore;
 
+[assembly: CLSCompliant(true)]
 namespace TcBlackCLI
 {
     class Program
     {
-        /// <summary>
-        /// Options for command line interface.
-        /// </summary>
-        class Options
-        {
-            [Option(
-                'f',
-                "file",
-                HelpText = "TcPOU/TcIO file(s) to format.",
-                SetName = "files"
-            )]
-            public IEnumerable<string> File { get; set; }
-            [Option(
-                'p',
-                "project",
-                Default = "",
-                HelpText = "Plc project to format.",
-                SetName = "files"
-            )]
-            public string Project { get; set; }
-
-            [Option(
-                Default = false,
-                HelpText =
-                    "Compiles project before and after formatting, in order to check "
-                    + "if the code has changed. WARNING: Takes > 30 seconds!"
-            )]
-            public bool Safe { get; set; }
-
-            [Option(
-                Default = "",
-                HelpText = "Override the indentation found in the file(s)."
-            )]
-            public string Indentation { get; set; }
-
-            [Option(
-                HelpText = "Overrides the line ending of all files with Windows' \\r\\n"
-            )]
-            public bool WindowsLineEnding { get; set; }
-            [Option(
-                HelpText = "Overrides the line ending of all files with UNIX' \\n."
-            )]
-            public bool UnixLineEnding { get; set; }
-
-            [Option(
-                Default = false,
-                HelpText = "Outputs build info. Has no effect in non-safe mode."
-            )]
-            public bool Verbose { get; set; }
-        }
-
+        [STAThread]
         static void Main(string[] args)
         {
             Parser.Default.ParseArguments<Options>(args).WithParsed(options =>
@@ -103,7 +54,7 @@ namespace TcBlackCLI
                     {
                         Console.WriteLine(
                             $"One of the files doesn't exist. " +
-                            $"Check the filesnames and try again."
+                            $"Check the filenames and try again."
                         );
                         return;
                     }
@@ -158,7 +109,7 @@ namespace TcBlackCLI
             {
                 hashBeforeFormat = tcProject.Build(options.Verbose).Hash;
             }
-            catch(ProjectBuildFailed)
+            catch(ProjectBuildFailedException)
             {
                 Console.WriteLine(
                     "Initial project build failed! No formatting will be done."
@@ -175,7 +126,7 @@ namespace TcBlackCLI
             {
                 Console.WriteLine(
                     $"One of the files doesn't exist. " +
-                    $"Check the filesnames and try again."
+                    $"Check the filenames and try again."
                 );
                 return;
             }
@@ -187,7 +138,7 @@ namespace TcBlackCLI
             {
                 hashAfterFormat = tcProject.Build(options.Verbose).Hash;
             }
-            catch(ProjectBuildFailed)
+            catch(ProjectBuildFailedException)
             {
                 Console.WriteLine(
                     "Project build failed after formatting! Undoing it."

@@ -6,9 +6,9 @@
         {
         }
 
-        public override string Format(ref uint indents)
+        public override string Format(ref int indents)
         {
-            return _unformattedCode;
+            return unformattedCode;
         }
     }
 }

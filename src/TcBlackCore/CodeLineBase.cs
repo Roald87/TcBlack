@@ -1,14 +1,23 @@
-﻿namespace TcBlackCore
+﻿using System;
+
+[assembly: CLSCompliant(true)]
+namespace TcBlackCore
 {
     public abstract class CodeLineBase
     {
-        protected string _unformattedCode;
+        internal string unformattedCode;
 
-        public CodeLineBase(string unformattedCode)
+        protected CodeLineBase(string unformattedCode)
         {
-            _unformattedCode = unformattedCode;
+            this.unformattedCode = unformattedCode;
         }
 
-        public abstract string Format(ref uint indents);
+        [System.Diagnostics.CodeAnalysis.SuppressMessage(
+            "Microsoft.Design", 
+            "CA1045:DoNotPassTypesByReference", 
+            MessageId = "0#",
+            Justification = "Don't know an alternative."
+        )]
+        public abstract string Format(ref int indents);
     }
 }

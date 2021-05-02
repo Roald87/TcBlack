@@ -11,14 +11,14 @@ namespace TcBlackTests
         [InlineData("\t\t", 1, " ")]
         [InlineData("\t      ", 2, "  ")]
         public void DifferentEmptyLines(
-            string unformattedCode, uint initialIndents, string expected
+            string unformattedCode, int initialIndents, string expected
         )
         {
-            Global.indentation = " ";
-            Global.lineEnding = "\n";
+            Globals.indentation = " ";
+            Globals.lineEnding = "\n";
             EmptyLine line = new EmptyLine(unformattedCode);
 
-            uint indents = initialIndents;
+            int indents = initialIndents;
             Assert.Equal(expected, line.Format(ref indents));
         }
     }

@@ -45,7 +45,7 @@ namespace TcBlackTests
             var plcProject = new MockTcProjectBuilder(
                 brokenProjectPath, failedBuildLogPath
             );
-            Assert.Throws<ProjectBuildFailed>(() => plcProject.Build(verbose:true));
+            Assert.Throws<ProjectBuildFailedException>(() => plcProject.Build(verbose:true));
         }
 
         //// Only uncomment this if you want to test the real build process. 
@@ -57,7 +57,7 @@ namespace TcBlackTests
         //        projectDirectory, "BrokenProjectForUnitTests", "PLC2", "PLC2.plcproj"
         //    );
         //    var plcProject = new TcProjectBuilder(brokenPlcProjectPath);
-        //    Assert.Throws<ProjectBuildFailed>(() => plcProject.Build(verbose: true));
+        //    Assert.Throws<ProjectBuildFailedException>(() => plcProject.Build(verbose: true));
         //}
 
         [Theory]
@@ -73,20 +73,16 @@ namespace TcBlackTests
         private static readonly string testDataDirectory = Path.Combine(
             testDirectory, "TcProjectBuildTestData"
         );
-        private static readonly string workingPlcProjectPath = Path.Combine(
-            projectDirectory, "WorkingProjectForUnitTests", "PLC", "PLC.plcproj"
-        );
         [Theory]
         [InlineData("succesfulBuild.log", false)]
         [InlineData("failedBuildWithExtraTextBelow.log", true)]
         [InlineData("firstBuildOkSecondBuildFailed.log", true)]
         public void CheckIfBuildFailedFromLogFile(string logFile, bool buildFailed)
         {
-            TcProjectBuilder tcProject = new TcProjectBuilder(workingPlcProjectPath);
             string logFileContent = File.ReadAllText(
                 Path.Combine(testDataDirectory, logFile)
             );
-            bool actual = tcProject.BuildFailed(logFileContent);
+            bool actual = TcProjectBuilder.BuildFailed(logFileContent);
 
             Assert.Equal(buildFailed, actual);
         }

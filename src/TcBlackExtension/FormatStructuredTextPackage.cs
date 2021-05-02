@@ -5,6 +5,7 @@ using System.Threading;
 using Microsoft.VisualStudio.Shell;
 using Task = System.Threading.Tasks.Task;
 
+[assembly: CLSCompliant(false)]
 namespace TcBlackExtension2
 {
     /// <summary>

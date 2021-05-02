@@ -1,4 +1,4 @@
-﻿namespace TcBlack
+﻿namespace TcBlackCore
 {
     public struct TcDeclaration
     {
@@ -32,6 +32,11 @@
                 && Initialization == other.Initialization 
                 && Comment == other.Comment
             ;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         public static bool operator==(TcDeclaration obj1, TcDeclaration obj2)

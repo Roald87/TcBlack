@@ -39,13 +39,17 @@ namespace TcBlackTests
             string variable, string type
         )
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             VariableDeclaration varDecl = new VariableDeclaration(
                 $"{variable}:{type};"
             );
             TcDeclaration expectedDecl = new TcDeclaration(
-                variable.Trim(), "", varDecl.RemoveWhiteSpaceIfPossible(type), "", ""
+                variable.Trim(), 
+                "", 
+                VariableDeclaration.RemoveWhiteSpaceIfPossible(type), 
+                "", 
+                ""
             );
             AssertEquals(expectedDecl, varDecl.Tokenize());
         }
@@ -74,8 +78,8 @@ namespace TcBlackTests
         (
             string variable, string allocation, string type)
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             VariableDeclaration varDecl = new VariableDeclaration(
                 $"{variable} AT {allocation}:{type};"
             );
@@ -118,8 +122,8 @@ namespace TcBlackTests
             string variable, string allocation, string type, string initialization
         )
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             VariableDeclaration varDecl = new VariableDeclaration(
                 $"{variable}{allocation}:{type}:={initialization};"
             );
@@ -127,8 +131,8 @@ namespace TcBlackTests
             TcDeclaration expectedDecl = new TcDeclaration(
                 variable.Trim(), 
                 _allocation.Trim(),
-                varDecl.RemoveWhiteSpaceIfPossible(type), 
-                varDecl.RemoveWhiteSpaceIfPossible(initialization), ""
+                VariableDeclaration.RemoveWhiteSpaceIfPossible(type),
+                VariableDeclaration.RemoveWhiteSpaceIfPossible(initialization), ""
             );
 
             AssertEquals(expectedDecl, varDecl.Tokenize());
@@ -150,8 +154,8 @@ namespace TcBlackTests
             string comment
         )
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             VariableDeclaration varDecl = new VariableDeclaration(
                 $"{variable}{allocation}:{type}:={initialization};{comment}"
             );
@@ -159,8 +163,8 @@ namespace TcBlackTests
             TcDeclaration expectedDecl = new TcDeclaration(
                 variable.Trim(),
                 _allocation.Trim(),
-                varDecl.RemoveWhiteSpaceIfPossible(type.Trim()),
-                varDecl.RemoveWhiteSpaceIfPossible(initialization),
+                VariableDeclaration.RemoveWhiteSpaceIfPossible(type.Trim()),
+                VariableDeclaration.RemoveWhiteSpaceIfPossible(initialization),
                 comment.Trim()
             );
 
@@ -231,12 +235,12 @@ namespace TcBlackTests
         )]
         public void FormatVariableDeclaration(string unformattedCode, string expected)
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             VariableDeclaration variable = new VariableDeclaration(
                 unformattedCode:unformattedCode
             );
-            uint indents = 0;
+            int indents = 0;
             Assert.Equal(expected, variable.Format(ref indents));
         }
 
@@ -252,10 +256,10 @@ namespace TcBlackTests
             5
         )]
         public void FormatVariableDeclarationWithIndentation(
-            string unformattedCode, string expected, uint indents)
+            string unformattedCode, string expected, int indents)
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             VariableDeclaration variable = new VariableDeclaration(
                 unformattedCode: unformattedCode
             );
@@ -283,12 +287,7 @@ namespace TcBlackTests
         )]
         public void RemoveWhitespace(string input, string expected)
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
-            VariableDeclaration variable = new VariableDeclaration(
-                unformattedCode: ""
-            );
-            string actual = variable.RemoveWhiteSpaceIfPossible(input);
+            string actual = VariableDeclaration.RemoveWhiteSpaceIfPossible(input);
 
             Assert.Equal(expected, actual);
         }
@@ -332,12 +331,12 @@ namespace TcBlackTests
         )]
         public void SpecialCharStringInitialization(string unformattedCode, string expected)
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             VariableDeclaration variable = new VariableDeclaration(
                 unformattedCode: unformattedCode
             );
-            uint indents = 0;
+            int indents = 0;
             Assert.Equal(expected, variable.Format(ref indents));
         }
 
@@ -368,12 +367,12 @@ namespace TcBlackTests
         )]
         public void UpperCaseKeywords(string unformattedCode, string expected)
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             VariableDeclaration variable = new VariableDeclaration(
                 unformattedCode: unformattedCode
             );
-            uint indents = 0;
+            int indents = 0;
             Assert.Equal(expected, variable.Format(ref indents));
         }
     }

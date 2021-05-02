@@ -12,13 +12,13 @@ namespace TcBlackTests
         [InlineData("   END_VAR     ", 0, "END_VAR", 0)]
         public void DifferentIndents(
             string originalCode, 
-            uint indents, 
+            int indents, 
             string expectedCode, 
-            uint expectedIndents
+            int expectedIndents
         )
         {
-            Global.indentation = "    ";
-            Global.lineEnding = "\n";
+            Globals.indentation = "    ";
+            Globals.lineEnding = "\n";
             VariableBlockEnd var = new VariableBlockEnd(originalCode);
             Assert.Equal(expectedCode, var.Format(ref indents));
             Assert.Equal(expectedIndents, indents);

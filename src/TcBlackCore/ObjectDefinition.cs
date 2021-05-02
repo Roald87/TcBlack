@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -10,7 +11,7 @@ namespace TcBlackCore
     /// </summary>
     public class ObjectDefinition : CodeLineBase
     {
-        public struct TcObject
+        private struct TcObject
         {
             public TcObject(
                 string objectType,
@@ -46,12 +47,12 @@ namespace TcBlackCore
         /// </summary>
         /// <param name="indents">Number of indents to place in front.</param>
         /// <returns>Formatted code.</returns>
-        public override string Format(ref uint indents)
+        public override string Format(ref int indents)
         {
             TcObject tokens = Tokenize();
 
             string formattedCode =
-                Global.indentation.Repeat(indents)
+                Globals.indentation.Repeat(indents)
                 + tokens.ObjectType
                 + (tokens.AccessModifier.Length > 0 ? $" {tokens.AccessModifier}" : "")
                 + $" {tokens.Name}"
@@ -70,11 +71,11 @@ namespace TcBlackCore
         /// <returns>The split object defination.</returns>
         private TcObject Tokenize()
         {
-            if (_unformattedCode.Contains("FUNCTION_BLOCK"))
+            if (unformattedCode.Contains("FUNCTION_BLOCK"))
             {
                 return TokenizeFunctionBlock();
             }
-            else if (_unformattedCode.Contains("INTERFACE"))
+            else if (unformattedCode.Contains("INTERFACE"))
             {
                 return TokenizeInterface();
             }
@@ -89,7 +90,7 @@ namespace TcBlackCore
             string pattern = @"INTERFACE\s+(\w+)\s*(?:EXTENDS((?:[\s,]+[\w\.]+)+))?";
 
             MatchCollection matches = Regex.Matches(
-                _unformattedCode, pattern, RegexOptions.IgnoreCase
+                unformattedCode, pattern, RegexOptions.IgnoreCase
             );
             if (matches.Count > 0)
             {
@@ -114,7 +115,7 @@ namespace TcBlackCore
         {
             string[] splitDefinition = Regex
                 .Split(
-                    _unformattedCode,
+                    unformattedCode,
                     @",|\s+",
                     RegexOptions.IgnorePatternWhitespace
                 )
@@ -128,33 +129,33 @@ namespace TcBlackCore
             bool extends = false;
             foreach (string part in splitDefinition)
             {
-                bool implementsStarts = (part.ToLower() == "implements");
-                bool extendsStarts = (part.ToLower() == "extends");
-
+                bool extendsStarts = (part.ToUpperInvariant() == "EXTENDS");
                 if (implements && !extendsStarts)
                 {
                     interfaces.Add(part);
                 }
+
+                bool implementsStarts = (part.ToUpperInvariant() == "IMPLEMENTS");
                 if (extends && !implementsStarts)
                 {
                     parents.Add(part);
                 }
 
-                if (part.ToLower() == "implements")
+                if (implementsStarts)
                 {
                     implements = true;
                     extends = false;
                 }
-                else if (part.ToLower() == "extends")
+                else if (extendsStarts)
                 {
                     extends = true;
                     implements = false;
                 }
                 else if (
-                    part.ToLower() == "abstract"
-                    || part.ToLower() == "final"
-                    || part.ToLower() == "internal"
-                    || part.ToLower() == "public")
+                    part.ToUpperInvariant() == "ABSTRACT"
+                    || part.ToUpperInvariant() == "FINAL"
+                    || part.ToUpperInvariant() == "INTERNAL"
+                    || part.ToUpperInvariant() == "PUBLIC")
                 {
                     accessModifiers.Add(part);
                 }
@@ -181,7 +182,7 @@ namespace TcBlackCore
 
             string pattern = $@"{entityType}{accessModifier}{name}{dataType}";
 
-            MatchCollection matches = Regex.Matches(_unformattedCode, pattern);
+            MatchCollection matches = Regex.Matches(unformattedCode, pattern);
             if (matches.Count > 0)
             {
                 Match match = matches[0];
