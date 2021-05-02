@@ -71,7 +71,6 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="TcBlack.ruleset" />
     <None Include="TcBlackCLI.pfx" />
   </ItemGroup>
   <ItemGroup>
