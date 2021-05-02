@@ -45,9 +45,9 @@ jobs:
          .\SnInstallPfx.exe src/TcBlackCore/TcBlackCoreSign.pfx '${{ secrets.TCBLACKCORE_PASS }}' 
          .\SnInstallPfx.exe src/TcBlackCLI/TcBlackCLI.pfx '${{ secrets.TCBLACKCLI_PASS }}'
 
-      - name: Build TcBlackCore and CLI
+      - name: Build all projects
         run: |
-          msbuild src\TcBlack.sln -t:Build -p:Configuration=Release -p:Platform=AnyCPU -p:TreatWarningsAsErrors=true
+          msbuild src\TcBlack.sln -t:Build -p:Configuration=Release -p:Platform="Any CPU" -p:TreatWarningsAsErrors=true
             
       - name: Setup VSTest Path
         uses: darenm/Setup-VSTest@v1
