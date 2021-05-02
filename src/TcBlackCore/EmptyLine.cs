@@ -8,7 +8,6 @@
 
         public override string Format(ref int indents)
         {
-            var notUsed = "test for static code analyses";
             return Globals.indentation.Repeat(indents);
         }
     }
