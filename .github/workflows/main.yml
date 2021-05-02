@@ -47,10 +47,10 @@ jobs:
 
       - name: Build TcBlackCore and CLI
         run: |
-          msbuild src\TcBlackCore\TcBlackCore.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU -warnaserror
-          msbuild src\TcBlackCLI\TcBlackCLI.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU -warnaserror
-          msbuild src\TcBlackCoreTests\TcBlackCoreTests.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU -warnaserror
-          msbuild src\TcBlackCLITests\TcBlackCLITests.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU -warnaserror
+          msbuild src\TcBlackCore\TcBlackCore.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU -p:TreatWarningsAsErrors=true
+          msbuild src\TcBlackCLI\TcBlackCLI.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU -p:TreatWarningsAsErrors=true
+          msbuild src\TcBlackCoreTests\TcBlackCoreTests.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU -p:TreatWarningsAsErrors=true
+          msbuild src\TcBlackCLITests\TcBlackCLITests.csproj -t:Build -p:Configuration=Release -p:Platform=AnyCPU -p:TreatWarningsAsErrors=true
             
       - name: Setup VSTest Path
         uses: darenm/Setup-VSTest@v1
