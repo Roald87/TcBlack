@@ -56,10 +56,7 @@ that didn't work).
 * Make sure to edit the project with the same version of Visual Studio as the master 
 branch. TcBlack has been developed using Visual Studio 2017. You can download
 [VS2017 Community edition](https://visualstudio.microsoft.com/vs/older-downloads/) for 
-free.
-* *If using Visual Studio 2019 make sure to update the `Microsoft.VSSDK.BuildTools` nuget
-package in the `TcBlackExtension` project to version `15.9.3039`(unfortunaly `15.9.3043`is
-not available on nuget.org)*								   				 
+free.							   				 
 * Add your own `pfx` file in the `TcBlackCore` project. This is neccessary to sign the
 assembly. This can be done by navigating to the `TcBlackCore` project settings, go to 
 `signing` and add a new keyfile with the name `TcBlackCoreSign.pfx`. Make sure to enter 
