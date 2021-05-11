@@ -56,11 +56,7 @@ that didn't work).
 * Make sure to edit the project with the same version of Visual Studio as the master 
 branch. TcBlack has been developed using Visual Studio 2017. You can download
 [VS2017 Community edition](https://visualstudio.microsoft.com/vs/older-downloads/) for 
-free.							   				 
-* Add your own `pfx` file in the `TcBlackCore` project. This is neccessary to sign the
-assembly. This can be done by navigating to the `TcBlackCore` project settings, go to 
-`signing` and add a new keyfile with the name `TcBlackCoreSign.pfx`. Make sure to enter 
-a password.  See also [here](https://github.com/Roald87/TcBlack/issues/57#issuecomment-814382341) 
+free.
 * Although most of the development will take place in C#, it is good to use the same 
 TwinCAT version if you're making changes to the TwinCAT projects. TcBlack currently 
 uses **TwinCAT 4024.7**.
