@@ -96,6 +96,7 @@ namespace TcBlackExtension2
             DTE dte = Package.GetGlobalService(typeof(DTE)) as DTE;
             if (dte.ActiveWindow.ProjectItem.Object is ITcPlcDeclaration)
             {
+                dte.ActiveDocument.Save("");
                 ITcPlcDeclaration declaration =
                   (ITcPlcDeclaration)dte.ActiveWindow.ProjectItem.Object;
 
