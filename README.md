@@ -1,5 +1,5 @@
 # TcBlack: TwinCAT code formatter
-Opinionated code formatter for TwinCAT. Currently in the **alpha state**. Use at your **own risk** and only with files which are under source control.
+Opinionated code formatter for TwinCAT. Currently in the **alpha state**. Use at your **own risk** and only with files which are under source control!
 
 _TcBlack_ is available as a command line tool ([TcBlackCLI](https://github.com/Roald87/TcBlack/releases/tag/v0.2.0)) as well as a visual studio extension ([TcBlackExtension](https://github.com/Roald87/TcBlack/releases/tag/TcBlackExtension_v0.1.0)). 
 
