@@ -1,9 +1,14 @@
 name: CI
 
-on: [push, pull_request]
-  paths:
-    - 'src/**'
-    - '.github/workflows/*'
+on:
+  push:
+    paths:
+      - 'src/**'
+      - '.github/workflows/*'
+  pull_request:
+    paths:
+      - 'src/**'
+      - '.github/workflows/*'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
