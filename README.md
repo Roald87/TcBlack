@@ -1,6 +1,8 @@
 ![Official TcBlack logo](TcBlack_logo.png)
 
-![](tcblacklogo.PNG)
+![sdf](tcblacklogo.png)
+
+![sadfsad](https://github.com/Roald87/TcBlack/raw/750ab1a221f6bc50514966a345532187b79e975f/tcblacklogo.png)
 
 ![paint](tcblacklogo_paint.png)
 
