@@ -1,4 +1,4 @@
-![Official TcBlack logo](logo/TcBlack_logo.png)
+![Official TcBlack logo](TcBlack_logo.png)
 
 # TcBlack: TwinCAT code formatter
 
