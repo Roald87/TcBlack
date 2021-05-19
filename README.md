@@ -2,6 +2,8 @@
 
 ![](tcblacklogo.PNG)
 
+![paint](tcblacklogo_paint.png)
+
 # TcBlack: TwinCAT code formatter
 
 Opinionated code formatter for TwinCAT. Currently in the **alpha state**. Use at your **own risk** and only with files which are under source control.
