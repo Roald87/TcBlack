@@ -1,4 +1,4 @@
-![Official TcBlack logo](TcBlack_logo.png)
+![Official TcBlack logo](logo/tcblack_logo.png)
 
 ![sdf](tcblacklogo.png)
 
