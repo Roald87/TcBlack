@@ -29,20 +29,6 @@ jobs:
       - name: Restore NuGet packages
         run: nuget restore src/TcBlack.sln
 
-      - name: Create certificates
-        run: |
-         Set-Content -Path src/TcBlackCLI/TcBlackCLI_certificate.txt -Value '${{ secrets.TCBLACKCLI_CERTIFICATE }}'
-         certutil -decode src/TcBlackCLI/TcBlackCLI_certificate.txt src/TcBlackCLI/TcBlackCLI.pfx
-         Set-Content -Path src/TcBlackCore/TcBlackCore_certificate.txt -Value '${{ secrets.TCBLACKCORE_CERTIFICATE }}'
-         certutil -decode src/TcBlackCore/TcBlackCore_certificate.txt src/TcBlackCore/TcBlackCoreSign.pfx
-      
-      # Download tool to install the certificate to the Strong Name CSP
-      - name: Install certificates
-        run: |
-         Invoke-WebRequest https://github.com/honzajscz/SnInstallPfx/releases/download/0.1.2-beta/SnInstallPfx.exe -OutFile SnInstallPfx.exe
-         .\SnInstallPfx.exe src/TcBlackCore/TcBlackCoreSign.pfx '${{ secrets.TCBLACKCORE_PASS }}' 
-         .\SnInstallPfx.exe src/TcBlackCLI/TcBlackCLI.pfx '${{ secrets.TCBLACKCLI_PASS }}'
-
       - name: Build all projects
         run: |
           msbuild src\TcBlack.sln -t:Build -p:Configuration=Release -p:Platform="Any CPU" -p:TreatWarningsAsErrors=true
