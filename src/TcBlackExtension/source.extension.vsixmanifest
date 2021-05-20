@@ -8,6 +8,7 @@
         <License>LICENSE.txt</License>
         <GettingStartedGuide>https://github.com/Roald87/TcBlack/</GettingStartedGuide>
         <ReleaseNotes>https://github.com/Roald87/TcBlack/releases</ReleaseNotes>
+        <Icon>TcBlack_icon.ico</Icon>
         <Tags>twincat structured text opninionated code formatter</Tags>
     </Metadata>
     <Installation>
