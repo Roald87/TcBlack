@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v1
+        uses: microsoft/setup-msbuild@v1.0.2
         with:
           vs-version: '[15.9,15.10)'
 
@@ -31,18 +31,13 @@ jobs:
       - name: Restore NuGet packages
         run: nuget restore src/TcBlack.sln
 
-      - name: Build TcBlackCore and CLI
+      - name: Build all projects
         run: |
-          msbuild src\TcBlackCore\TcBlackCore.csproj -t:Rebuild -p:Configuration=Release -p:Platform=AnyCPU -p:TreatWarningsAsErrors=true
-          msbuild src\TcBlackCLI\TcBlackCLI.csproj -t:Rebuild -p:Configuration=Release -p:Platform=AnyCPU -p:TreatWarningsAsErrors=true
-          msbuild src\TcBlackCoreTests\TcBlackCoreTests.csproj -t:Rebuild -p:Configuration=Release -p:Platform=AnyCPU -p:TreatWarningsAsErrors=true
-          msbuild src\TcBlackCLITests\TcBlackCLITests.csproj -t:Rebuild -p:Configuration=Release -p:Platform=AnyCPU -p:TreatWarningsAsErrors=true
+          msbuild src\TcBlack.sln -t:Build -p:Configuration=Release -p:Platform="Any CPU" -p:TreatWarningsAsErrors=true
             
       - name: Setup VSTest Path
         uses: darenm/Setup-VSTest@v1
 
       - name: Run unit tests
         run : |
-          vstest.console.exe src\TcBlackCLITests\bin\Release\TcBlackCLITests.dll src\TcBlackCoreTests\bin\Release\TcBlackCoreTests.dll
-          
-            
+          vstest.console.exe src\TcBlackCLITests\bin\Release\TcBlackCLITests.dll src\TcBlackCoreTests\bin\Release\TcBlackCoreTests.dll            

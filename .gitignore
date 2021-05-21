@@ -98,7 +98,6 @@ StyleCopReport.xml
 *.pgd
 *.rsp
 *.sbr
-*.tlb
 *.tli
 *.tlh
 *.tmp
