@@ -21,7 +21,7 @@ Select one or more `.TcPOU` or `.TcIO` files to format. Before any formatting is
 
 The options `--file` and `--project` are mutually exclusive, i.e. you can only use one of them!
 
-Note: Currently _TcBlack_ only formats the declaration part of function blocks, functions, methods, properties and interfaces. Formatting of the implementation is planned for a future release.
+Note: Currently _TcBlack_ only formats the declaration part of programs, function blocks, functions, methods, properties and interfaces. Formatting of the implementation is planned for a future release.
 
 ### Examples
 
