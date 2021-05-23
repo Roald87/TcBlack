@@ -23,11 +23,10 @@ namespace TcBlackTests
                 + "    {attribute 'hide'}\n"
                 + "anotherBool : BOOL:=TRUE;\n"
                 + "END_VAR\n\n\n";
-            CompositeCode statements = 
-                new CompositeCode(unformattedCode: unformattedCode).Tokenize();
 
             int indents = 0;
-            string actual = statements.Format(ref indents);
+            string actual = new CompositeCode(unformattedCode: unformattedCode)
+                .Format(ref indents);
             string expected =
                 "// Single line comments are also not formatted, yet\n"
                 + "FUNCTION AddIntegers : DINT\n"
@@ -49,9 +48,7 @@ namespace TcBlackTests
             Globals.lineEnding = "\n";
             string unformattedCode = "";
             int indents = 0;
-            string actual = 
-                new CompositeCode(unformattedCode: unformattedCode)
-                .Tokenize()
+            string actual = new CompositeCode(unformattedCode: unformattedCode)
                 .Format(ref indents);
 
             string expected = "";
@@ -73,9 +70,7 @@ namespace TcBlackTests
                 + "    isThatTrue : BOOL;\n"
                 + "END_VAR";
             int indents = 0;
-            string actual = 
-                new CompositeCode(unformattedCode: unformattedCode)
-                .Tokenize()
+            string actual = new CompositeCode(unformattedCode: unformattedCode)               
                 .Format(ref indents);
 
             string expected = 
@@ -106,9 +101,7 @@ namespace TcBlackTests
                 + "\n"
                 + "END_VAR\n";
             int indents = 0;
-            string actual =
-                new CompositeCode(unformattedCode: unformattedCode)
-                .Tokenize()
+            string actual = new CompositeCode(unformattedCode: unformattedCode)
                 .Format(ref indents);
 
             string expected =
@@ -129,9 +122,7 @@ namespace TcBlackTests
             Globals.lineEnding = "\n";
             string unformattedCode = "    //Some : FB_Some;\n";
             int indents = 0;
-            string actual =
-                new CompositeCode(unformattedCode: unformattedCode)
-                .Tokenize()
+            string actual = new CompositeCode(unformattedCode: unformattedCode)
                 .Format(ref indents);
 
             string expected = "    //Some : FB_Some;\n";

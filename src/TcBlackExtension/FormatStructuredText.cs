@@ -104,9 +104,7 @@ namespace TcBlackExtension2
                 string text = declaration.DeclarationText;
                 TcBlackCore.Globals.indentation = text.Contains("\t") ? "\t" : "    ";
                 TcBlackCore.Globals.lineEnding = "\r\n";
-                string formatedCode = new CompositeCode(text)
-                    .Tokenize()
-                    .Format(ref indents);
+                string formatedCode = new CompositeCode(text).Format(ref indents);
                 declaration.DeclarationText = formatedCode;
             }
         }

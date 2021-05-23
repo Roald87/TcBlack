@@ -29,8 +29,8 @@ namespace TcBlackCore
         /// <returns>The formatted code.</returns>
         public override string Format(ref int indents)
         {
+            Tokenize();
             string formattedString = "";
-
             foreach (CodeLineBase codeLine in codeLines)
             {
                 formattedString += codeLine.Format(ref indents) + Globals.lineEnding;
@@ -43,7 +43,7 @@ namespace TcBlackCore
         /// Assigns a specific type to each line.
         /// </summary>
         /// <returns>The CompositeStatement class itself.</returns>
-        public CompositeCode Tokenize()
+        private CompositeCode Tokenize()
         {
             string lineEndingOfFile = 
                 unformattedCode.Contains("\r\n") ? "\r\n" : "\n";
@@ -95,7 +95,7 @@ namespace TcBlackCore
                 {
                     Add(new ObjectDefinition(unformattedCode: line));
                 }
-                else if (LooksLikeVariableDeclaration(line))
+                else if (new VariableDeclaration(line).LooksLikeVariableDeclaration())
                 {
                     Add(new VariableDeclaration(unformattedCode: line));
                 }
@@ -152,19 +152,6 @@ namespace TcBlackCore
                     break;
                 }
             }
-        }
-
-        /// <summary>
-        /// Uses a regex pattern match in Tokenize to check if the code looks like a 
-        /// declaration.
-        /// </summary>
-        /// <param name="codeLine">Code line to inspect</param>
-        /// <returns>Returns true if it thinks the code is a declaration.</returns>
-        static private bool LooksLikeVariableDeclaration(string codeLine)
-        {
-            var code = new VariableDeclaration(codeLine).Tokenize();
-
-            return !string.IsNullOrEmpty(code.Name);
         }
     }
 }

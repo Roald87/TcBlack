@@ -31,7 +31,7 @@ namespace TcBlackCore
             return formattedCode;
         }
 
-        public TcDeclaration Tokenize()
+        private TcDeclaration Tokenize()
         {
             string variable_pattern = @"^\s*(\w+)\s*";
             string address_pattern = @"(?:AT\s+)?([\w+%.*]*)?\s*";
@@ -89,12 +89,24 @@ namespace TcBlackCore
         }
 
         /// <summary>
+        /// Tokenizes the declaration to check if it finds a variable name.
+        /// </summary>
+        /// <param name="codeLine">Code line to inspect</param>
+        /// <returns>Returns true if it thinks the code is a declaration.</returns>
+        public bool LooksLikeVariableDeclaration()
+        {
+            var declaration = new VariableDeclaration(unformattedCode).Tokenize();
+
+            return !string.IsNullOrEmpty(declaration.Name);
+        }
+
+        /// <summary>
         /// Removes spaces between square and round brackets, except if it is a string.
         /// </summary>
         /// <param name="str">The string to remove spaces from.</param>
         /// <returns>Cleaned up string.</returns>
         /// <remarks>source: https://stackoverflow.com/a/63486599/6329629 </remarks>
-        public static string RemoveWhiteSpaceIfPossible(string str)
+        private static string RemoveWhiteSpaceIfPossible(string str)
         {
             string pattern = (
                 "\\s+(?=[^[]*\\])"
