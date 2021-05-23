@@ -29,8 +29,8 @@ namespace TcBlackCore
         /// <returns>The formatted code.</returns>
         public override string Format(ref int indents)
         {
+            Tokenize();
             string formattedString = "";
-
             foreach (CodeLineBase codeLine in codeLines)
             {
                 formattedString += codeLine.Format(ref indents) + Globals.lineEnding;
@@ -43,7 +43,7 @@ namespace TcBlackCore
         /// Assigns a specific type to each line.
         /// </summary>
         /// <returns>The CompositeStatement class itself.</returns>
-        public CompositeCode Tokenize()
+        private CompositeCode Tokenize()
         {
             string lineEndingOfFile = 
                 unformattedCode.Contains("\r\n") ? "\r\n" : "\n";
