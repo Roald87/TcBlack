@@ -94,11 +94,9 @@ namespace TcBlackExtension2
             ThreadHelper.ThrowIfNotOnUIThread();
 
             DTE dte = Package.GetGlobalService(typeof(DTE)) as DTE;
-            if (dte.ActiveWindow.ProjectItem.Object is ITcPlcDeclaration)
+            if (dte.ActiveWindow.ProjectItem.Object is ITcPlcDeclaration declaration)
             {
                 dte.ActiveDocument.Save("");
-                ITcPlcDeclaration declaration =
-                  (ITcPlcDeclaration)dte.ActiveWindow.ProjectItem.Object;
 
                 int indents = 0;
                 string text = declaration.DeclarationText;
