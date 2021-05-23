@@ -74,7 +74,7 @@ namespace TcBlackCLI
             foreach (XmlNode node in nodes)
             {
                 string formattedCode = 
-                    new CompositeCode(node.InnerText).Tokenize().Format(ref indents);
+                    new CompositeCode(node.InnerText).Format(ref indents);
                 node.InnerXml = $"<![CDATA[{formattedCode}]]>";
             }
 
