@@ -37,7 +37,7 @@ _TcBlack_ is available as a command line tool ([TcBlackCLI](https://github.com/R
 For more info enter `> TcBlack --help` in the command prompt or check the 
 [manual](docs/manual.md).
 
-## Installing the xxtension
+## Installing the extension
 
 To install the VSIX extension in Visual Studio or TcXaeShell please see the [installation guide](docs/vsix_installation.md).
 
