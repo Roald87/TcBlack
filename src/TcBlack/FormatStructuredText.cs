@@ -6,7 +6,7 @@ using Task = System.Threading.Tasks.Task;
 using TcBlackCore;
 using TCatSysManagerLib;
 
-namespace TcBlackExtension2
+namespace TcBlack
 {
     /// <summary>
     /// Command handler

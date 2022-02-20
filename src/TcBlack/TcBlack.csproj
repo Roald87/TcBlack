@@ -29,8 +29,8 @@
     <ProjectGuid>{DE482F7D-9E9D-481C-A9B7-871D7ED05212}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TcBlackExtension</RootNamespace>
-    <AssemblyName>TcBlackExtension</AssemblyName>
+    <RootNamespace>TcBlack</RootNamespace>
+    <AssemblyName>TcBlack</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>

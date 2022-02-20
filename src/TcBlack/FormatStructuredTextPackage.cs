@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Shell;
 using Task = System.Threading.Tasks.Task;
 
 [assembly: CLSCompliant(false)]
-namespace TcBlackExtension2
+namespace TcBlack
 {
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.

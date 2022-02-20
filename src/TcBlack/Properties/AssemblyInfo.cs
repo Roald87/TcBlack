@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TcBlackExtension")]
+[assembly: AssemblyTitle("TcBlack")]
 [assembly: AssemblyDescription("Opinionated formatter for TwinCAT Structured Text")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TcBlackExtension")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCompany("Roald Ruiter")]
+[assembly: AssemblyProduct("TcBlack")]
+[assembly: AssemblyCopyright("Copyright 2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

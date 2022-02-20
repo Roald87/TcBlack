@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="TcBlackExtension.a8d35469-ab91-41dc-bdb0-f276c3ad6370" Version="0.1.1" Language="en-US" Publisher="Roald Ruiter" />
-        <DisplayName>TcBlackExtension</DisplayName>
+        <Identity Id="TcBlack.a8d35469-ab91-41dc-bdb0-f276c3ad6370" Version="0.1.1" Language="en-US" Publisher="Roald Ruiter" />
+        <DisplayName>TcBlack</DisplayName>
         <Description xml:space="preserve">Opinionated formatter for TwinCAT Structured Text.</Description>
         <MoreInfo>https://github.com/Roald87/TcBlack/</MoreInfo>
         <License>LICENSE.txt</License>

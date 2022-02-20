@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcBlackCoreTests", "TcBlack
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcBlackCore", "TcBlackCore\TcBlackCore.csproj", "{434C7A68-C27F-4F46-977E-2F60441FEB64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcBlackExtension", "TcBlackExtension\TcBlackExtension.csproj", "{DE482F7D-9E9D-481C-A9B7-871D7ED05212}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TcBlack", "TcBlack\TcBlack.csproj", "{DE482F7D-9E9D-481C-A9B7-871D7ED05212}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
