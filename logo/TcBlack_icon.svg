@@ -1,3 +1,139 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="277.5238095238097 165.33465326429067 83.99999999999994 103.99999999999997" width="200" height="250"><defs><path d="M278.52 166.33L358.52 166.33L358.52 266.33L278.52 266.33L278.52 166.33Z" id="c1GjzOCrds"></path><path d="M292.27 175L332.27 175L332.27 186L292.27 186L292.27 175Z" id="j8mFnADfA"></path><path d="M347.27 192L317.27 192L317.27 203L347.27 203L347.27 192Z" id="cbqjvosZl"></path><path d="M322.27 209L292.27 209L292.27 220L322.27 220L322.27 209Z" id="aU3SrzpIZ"></path><path d="M347.27 228L317.27 228L317.27 239L347.27 239L347.27 228Z" id="f35lZwJfpg"></path><path d="M292.27 245L332.27 245L332.27 256L292.27 256L292.27 245Z" id="b1aB768ROj"></path></defs><g><g><use xlink:href="#c1GjzOCrds" opacity="1" fill="#000000" fill-opacity="1"></use></g><g><use xlink:href="#j8mFnADfA" opacity="1" fill="#ffffff" fill-opacity="1"></use></g><g><use xlink:href="#cbqjvosZl" opacity="1" fill="#ffffff" fill-opacity="1"></use></g><g><use xlink:href="#aU3SrzpIZ" opacity="1" fill="#ffffff" fill-opacity="1"></use></g><g><use xlink:href="#f35lZwJfpg" opacity="1" fill="#ffffff" fill-opacity="1"></use></g><g><use xlink:href="#b1aB768ROj" opacity="1" fill="#ffffff" fill-opacity="1"></use></g></g></svg>
+<svg
+   version="1.1"
+   preserveAspectRatio="xMidYMid meet"
+   viewBox="277.5238095238097 165.33465326429067 83.99999999999994 103.99999999999997"
+   width="200"
+   height="250"
+   id="svg285"
+   sodipodi:docname="TcBlack_icon.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview287"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="3.328"
+     inkscape:cx="51.382212"
+     inkscape:cy="125"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g283" />
+  <defs
+     id="defs257">
+    <path
+       d="M278.52 166.33L358.52 166.33L358.52 266.33L278.52 266.33L278.52 166.33Z"
+       id="c1GjzOCrds" />
+    <path
+       d="M292.27 175L332.27 175L332.27 186L292.27 186L292.27 175Z"
+       id="j8mFnADfA" />
+    <path
+       d="M347.27 192L317.27 192L317.27 203L347.27 203L347.27 192Z"
+       id="cbqjvosZl" />
+    <path
+       d="M322.27 209L292.27 209L292.27 220L322.27 220L322.27 209Z"
+       id="aU3SrzpIZ" />
+    <path
+       d="M347.27 228L317.27 228L317.27 239L347.27 239L347.27 228Z"
+       id="f35lZwJfpg" />
+    <path
+       d="M292.27 245L332.27 245L332.27 256L292.27 256L292.27 245Z"
+       id="b1aB768ROj" />
+  </defs>
+  <g
+     id="g283">
+    <g
+       id="g261">
+      <use
+         xlink:href="#c1GjzOCrds"
+         opacity="1"
+         fill="#000000"
+         fill-opacity="1"
+         id="use259" />
+    </g>
+    <g
+       id="g195"
+       transform="translate(-1.25,0.83)">
+      <g
+         id="g265">
+        <use
+           xlink:href="#j8mFnADfA"
+           opacity="1"
+           fill="#ffffff"
+           fill-opacity="1"
+           id="use263"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+      </g>
+      <g
+         id="g269"
+         transform="translate(0,0.49999994)">
+        <use
+           xlink:href="#cbqjvosZl"
+           opacity="1"
+           fill="#ffffff"
+           fill-opacity="1"
+           id="use267"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+      </g>
+      <g
+         id="g273"
+         transform="translate(0,1.0000021)">
+        <use
+           xlink:href="#aU3SrzpIZ"
+           opacity="1"
+           fill="#ffffff"
+           fill-opacity="1"
+           id="use271"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+      </g>
+      <g
+         id="g277"
+         transform="translate(0,-0.49999578)">
+        <use
+           xlink:href="#f35lZwJfpg"
+           opacity="1"
+           fill="#ffffff"
+           fill-opacity="1"
+           id="use275"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+      </g>
+      <g
+         id="g281">
+        <use
+           xlink:href="#b1aB768ROj"
+           opacity="1"
+           fill="#ffffff"
+           fill-opacity="1"
+           id="use279"
+           x="0"
+           y="0"
+           width="100%"
+           height="100%" />
+      </g>
+    </g>
+  </g>
+</svg>
