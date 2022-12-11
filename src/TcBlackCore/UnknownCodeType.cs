@@ -2,9 +2,7 @@
 {
     public class UnknownCodeType : CodeLineBase
     {
-        public UnknownCodeType(string unformattedCode) : base(unformattedCode)
-        {
-        }
+        public UnknownCodeType(string unformattedCode) : base(unformattedCode) { }
 
         public override string Format(ref int indents)
         {

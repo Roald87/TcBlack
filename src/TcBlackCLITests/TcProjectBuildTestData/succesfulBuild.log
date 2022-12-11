@@ -1,5 +1,5 @@
 
-The operation could not be completed. De parameter is onjuist. 
+The operation could not be completed. De parameter is onjuist.
 
 ------ Build started: Project: PLC, Configuration: Debug TwinCAT RT (x64) ------
 ------ Build started: Application: TwinCAT_Project1.PLC -------
@@ -22,7 +22,7 @@ PLC.PLC : message: generate boot information...
 
 The following files were specified on the command line:
 
-	
+
 
 These files could not be found and will not be loaded.------ Build started: Project: PLC, Configuration: Debug TwinCAT RT (x64) ------
 ------ Build started: Application: TwinCAT_Project1.PLC -------
@@ -45,7 +45,7 @@ PLC.PLC : message: generate boot information...
 
 The following files were specified on the command line:
 
-	
+
 
 These files could not be found and will not be loaded.------ Build started: Project: PLC, Configuration: Debug TwinCAT RT (x64) ------
 ------ Build started: Application: TwinCAT_Project1.PLC -------
@@ -86,7 +86,7 @@ PLC.PLC : message: generate boot information...
 
 The following files were specified on the command line:
 
-	
+
 
 These files could not be found and will not be loaded.------ Build started: Project: PLC, Configuration: Debug TwinCAT RT (x64) ------
 ------ Build started: Application: TwinCAT_Project1.PLC -------

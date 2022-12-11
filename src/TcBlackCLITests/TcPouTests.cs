@@ -40,9 +40,10 @@ namespace TcBlackTests
         public void FormatFileWithUnixTypeLineEnd()
         {
             string fileToFormat = Path.Combine(
-                testDataDirectory, "FB_InputTabAndUnixLineEnd.TcPOU"
+                testDataDirectory,
+                "FB_InputTabAndUnixLineEnd.TcPOU"
             );
-            // git keeps changing the line endings. In order to make sure it uses the 
+            // git keeps changing the line endings. In order to make sure it uses the
             // correct line ending, I'll change them manually here.
             ReplaceWindowsLineEndingForUnixOnes(fileToFormat);
             Backup backup = new Backup(fileToFormat);
@@ -50,13 +51,14 @@ namespace TcBlackTests
             new TcPou(fileToFormat).Format().Save();
 
             string expectedFile = Path.Combine(
-                testDataDirectory, "FB_ExpectedTabAndUnixLineEnd.TcPOU"
+                testDataDirectory,
+                "FB_ExpectedTabAndUnixLineEnd.TcPOU"
             );
             ReplaceWindowsLineEndingForUnixOnes(expectedFile);
             string expected = File.ReadAllText(expectedFile);
             string actual = File.ReadAllText(fileToFormat);
             backup.Restore().Delete();
-            Assert.DoesNotContain("\r\n", expected, StringComparison.Ordinal); 
+            Assert.DoesNotContain("\r\n", expected, StringComparison.Ordinal);
             Assert.DoesNotContain("\r\n", actual, StringComparison.Ordinal);
             Assert.Equal(expected, actual);
         }
@@ -65,14 +67,16 @@ namespace TcBlackTests
         private void OverrideIndentationOfFile()
         {
             string fileToFormat = Path.Combine(
-                testDataDirectory, "FB_InputOverrideIndentation.TcPOU"
+                testDataDirectory,
+                "FB_InputOverrideIndentation.TcPOU"
             );
             Backup backup = new Backup(fileToFormat);
 
-            new TcPou(fileToFormat, indentation:"  ").Format().Save();
+            new TcPou(fileToFormat, indentation: "  ").Format().Save();
 
             string expectedFile = Path.Combine(
-                testDataDirectory, "FB_ExpectedOverrideIndentation.TcPOU"
+                testDataDirectory,
+                "FB_ExpectedOverrideIndentation.TcPOU"
             );
             string expected = File.ReadAllText(expectedFile);
             string actual = File.ReadAllText(fileToFormat);
@@ -84,14 +88,16 @@ namespace TcBlackTests
         private void OverrideLineBreakOfFile()
         {
             string fileToFormat = Path.Combine(
-                testDataDirectory, "FB_InputOverrideLineEnding.TcPOU"
+                testDataDirectory,
+                "FB_InputOverrideLineEnding.TcPOU"
             );
             Backup backup = new Backup(fileToFormat);
 
-            new TcPou(fileToFormat, windowsLineEnding:false).Format().Save();
+            new TcPou(fileToFormat, windowsLineEnding: false).Format().Save();
 
             string expectedFile = Path.Combine(
-                testDataDirectory, "FB_ExpectedOverrideLineEnding.TcPOU"
+                testDataDirectory,
+                "FB_ExpectedOverrideLineEnding.TcPOU"
             );
             ReplaceWindowsLineEndingForUnixOnes(expectedFile);
             string expected = File.ReadAllText(expectedFile);
@@ -104,17 +110,17 @@ namespace TcBlackTests
         private void OverrideLineBreakAndIndentationOfFile()
         {
             string fileToFormat = Path.Combine(
-                testDataDirectory, "FB_InputOverrideLineEndingAndIndentation.TcPOU"
+                testDataDirectory,
+                "FB_InputOverrideLineEndingAndIndentation.TcPOU"
             );
             ReplaceWindowsLineEndingForUnixOnes(fileToFormat);
             Backup backup = new Backup(fileToFormat);
 
-            new TcPou(fileToFormat, windowsLineEnding:true, indentation:"    ")
-                .Format()
-                .Save();
+            new TcPou(fileToFormat, windowsLineEnding: true, indentation: "    ").Format().Save();
 
             string expectedFile = Path.Combine(
-                testDataDirectory, "FB_ExpectedOverrideLineEndingAndIndentation.TcPOU"
+                testDataDirectory,
+                "FB_ExpectedOverrideLineEndingAndIndentation.TcPOU"
             );
             string expected = File.ReadAllText(expectedFile);
             string actual = File.ReadAllText(fileToFormat);

@@ -45,28 +45,25 @@ namespace TcBlackCore
         /// <returns>The CompositeStatement class itself.</returns>
         private CompositeCode Tokenize()
         {
-            string lineEndingOfFile = 
-                unformattedCode.Contains("\r\n") ? "\r\n" : "\n";
+            string lineEndingOfFile = unformattedCode.Contains("\r\n") ? "\r\n" : "\n";
             string[] lines = unformattedCode.Split(
-                new[] { lineEndingOfFile }, StringSplitOptions.None
+                new[] { lineEndingOfFile },
+                StringSplitOptions.None
             );
             foreach (string line in lines)
             {
                 if (line.Trim().Length == 0)
                 {
                     if (
-                        codeLines.Count > 0 
-                        && (codeLines.Last() is EmptyLine 
-                        || codeLines.Last() is VariableBlockStart)
+                        codeLines.Count > 0
+                        && (codeLines.Last() is EmptyLine || codeLines.Last() is VariableBlockStart)
                     )
                     {
                         continue;
                     }
                     Add(new EmptyLine(unformattedCode: line));
                 }
-                else if (
-                    line.StartsWith("END_VAR", StringComparison.OrdinalIgnoreCase)
-                )
+                else if (line.StartsWith("END_VAR", StringComparison.OrdinalIgnoreCase))
                 {
                     if (codeLines.Last() is VariableBlockStart)
                     {
@@ -88,10 +85,11 @@ namespace TcBlackCore
                     Add(new VariableBlockStart(unformattedCode: line));
                 }
                 else if (
-                    line.StartsWith("FUNCTION", StringComparison.OrdinalIgnoreCase) 
-                    || line.StartsWith("METHOD", StringComparison.OrdinalIgnoreCase) 
+                    line.StartsWith("FUNCTION", StringComparison.OrdinalIgnoreCase)
+                    || line.StartsWith("METHOD", StringComparison.OrdinalIgnoreCase)
                     || line.StartsWith("PROPERTY", StringComparison.OrdinalIgnoreCase)
-                    || line.StartsWith("INTERFACE", StringComparison.OrdinalIgnoreCase))
+                    || line.StartsWith("INTERFACE", StringComparison.OrdinalIgnoreCase)
+                )
                 {
                     Add(new ObjectDefinition(unformattedCode: line));
                 }
@@ -114,8 +112,7 @@ namespace TcBlackCore
         {
             string trimmedText = text.Trim().ToUpperInvariant();
 
-            return 
-                trimmedText == "VAR" 
+            return trimmedText == "VAR"
                 || trimmedText.StartsWith("VAR_", StringComparison.OrdinalIgnoreCase);
         }
 
@@ -131,9 +128,7 @@ namespace TcBlackCore
                     codeLines.RemoveAt(codeLines.Count - 1);
                 }
             }
-            catch (InvalidOperationException)
-            {
-            }
+            catch (InvalidOperationException) { }
         }
 
         /// <summary>

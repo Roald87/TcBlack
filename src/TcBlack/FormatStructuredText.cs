@@ -21,8 +21,7 @@ namespace TcBlack
         /// <summary>
         /// Command menu group (command set GUID).
         /// </summary>
-        public static readonly Guid CommandSet = 
-            new Guid("2331eac3-39e5-4347-b678-a146d49c0a07");
+        public static readonly Guid CommandSet = new Guid("2331eac3-39e5-4347-b678-a146d49c0a07");
 
         /// <summary>
         /// VS Package that provides this command, not null.
@@ -38,8 +37,8 @@ namespace TcBlack
         private FormatStructuredText(AsyncPackage package, OleMenuCommandService commandService)
         {
             this.package = package ?? throw new ArgumentNullException(nameof(package));
-            commandService = commandService ?? 
-                throw new ArgumentNullException(nameof(commandService));
+            commandService =
+                commandService ?? throw new ArgumentNullException(nameof(commandService));
 
             var menuCommandID = new CommandID(CommandSet, CommandId);
             var menuItem = new MenuCommand(Execute, menuCommandID);
@@ -49,21 +48,14 @@ namespace TcBlack
         /// <summary>
         /// Gets the instance of the command.
         /// </summary>
-        public static FormatStructuredText Instance
-        {
-            get;
-            private set;
-        }
+        public static FormatStructuredText Instance { get; private set; }
 
         /// <summary>
         /// Gets the service provider from the owner package.
         /// </summary>
         private IAsyncServiceProvider ServiceProvider
         {
-            get
-            {
-                return this.package;
-            }
+            get { return this.package; }
         }
 
         /// <summary>
@@ -74,11 +66,11 @@ namespace TcBlack
         {
             // Switch to the main thread - the call to AddCommand in FormatStructuredText's constructor requires
             // the UI thread.
-            await ThreadHelper.JoinableTaskFactory
-                .SwitchToMainThreadAsync(package.DisposalToken);
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
-            OleMenuCommandService commandService = await package.GetServiceAsync(
-                (typeof(IMenuCommandService))) as OleMenuCommandService;
+            OleMenuCommandService commandService =
+                await package.GetServiceAsync((typeof(IMenuCommandService)))
+                as OleMenuCommandService;
             Instance = new FormatStructuredText(package, commandService);
         }
 

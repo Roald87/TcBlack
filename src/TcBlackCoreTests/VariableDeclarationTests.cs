@@ -22,15 +22,11 @@ namespace TcBlackTests
         [InlineData("refInt ", "REFERENCE TO INT")]
         [InlineData("aSample ", "ARRAY[*] OF INT")]
         [InlineData("typeclass ", "__SYSTEM.TYPE_CLASS")]
-        public void VarAndTypeVariousWhitespaceArrangements(
-            string variable, string type
-        )
+        public void VarAndTypeVariousWhitespaceArrangements(string variable, string type)
         {
             Globals.indentation = "    ";
             Globals.lineEnding = "\n";
-            VariableDeclaration varDecl = new VariableDeclaration(
-                $"{variable}:{type};"
-            );
+            VariableDeclaration varDecl = new VariableDeclaration($"{variable}:{type};");
             string expectedDecl = $"{variable.Trim()} : {type.Trim()};";
             int indent = 0;
             Assert.Equal(expectedDecl, varDecl.Format(ref indent));
@@ -56,17 +52,18 @@ namespace TcBlackTests
         [InlineData("_bBool  ", " %QB7 ", " BOOL  ")]
         [InlineData("bCurrent_3", " %MD48 ", "LREAL ")]
         [InlineData("Current", "%IW2.5.7.1 ", "DINT")]
-        public void VarAllocationAndTypeVariousWhitespaceArangements
-        (
-            string variable, string allocation, string type)
+        public void VarAllocationAndTypeVariousWhitespaceArangements(
+            string variable,
+            string allocation,
+            string type
+        )
         {
             Globals.indentation = "    ";
             Globals.lineEnding = "\n";
             VariableDeclaration varDecl = new VariableDeclaration(
                 $"{variable} AT {allocation}:{type};"
             );
-            string expectedDecl =
-                $"{variable.Trim()} AT {allocation.Trim()} : {type.Trim()};";
+            string expectedDecl = $"{variable.Trim()} AT {allocation.Trim()} : {type.Trim()};";
             int indent = 0;
             Assert.Equal(expectedDecl, varDecl.Format(ref indent));
         }
@@ -79,19 +76,18 @@ namespace TcBlackTests
         [InlineData("Light", "", "photons  ", "2.4 ")]
         [InlineData("SomeWords ", "", "T_MaxString ", " 'Black quartz watch my vow.'")]
         [InlineData(" Character ", "", " STRING(1)", "' '")]
-        [InlineData(
-            "aSample_3  ", "", "ARRAY[1..2, 2..3, 3..4] OF INT ", "[2(0), 4(4), 2, 3]"
-        )]
+        [InlineData("aSample_3  ", "", "ARRAY[1..2, 2..3, 3..4] OF INT ", "[2(0), 4(4), 2, 3]")]
         [InlineData("wsWSTRING ", "", "WSTRING", "\"abc\"")]
-        [InlineData(
-            "dtDATEANDTIME ", "", "DATE_AND_TIME    ", "DT#2017-02-20-11:07:00  "
-        )]
+        [InlineData("dtDATEANDTIME ", "", "DATE_AND_TIME    ", "DT#2017-02-20-11:07:00  ")]
         [InlineData("   tdTIMEOFDAY ", "", "  TIME_OF_DAY ", "    TOD#11:07:00")]
         [InlineData("nDINT", "", "DINT", "-12345")]
         [InlineData(" nDWORD", "", "DWORD", "16#6789ABCD")]
         [InlineData("sVar  ", "", "STRING(35)", "'This is a String'")]
         public void VarAllocationTypeAndInitializationVariousWhitespaceArangements(
-            string variable, string allocation, string type, string initialization
+            string variable,
+            string allocation,
+            string type,
+            string initialization
         )
         {
             Globals.indentation = "    ";
@@ -100,9 +96,8 @@ namespace TcBlackTests
                 $"{variable}{allocation}:{type}:={initialization};"
             );
             string _allocation = allocation.Length > 0 ? $" {allocation.Trim()}" : "";
-            string expectedDecl = 
-                $"{variable.Trim()}{_allocation} : {type.Trim()}" +
-                $" := {initialization.Trim()};";
+            string expectedDecl =
+                $"{variable.Trim()}{_allocation} : {type.Trim()}" + $" := {initialization.Trim()};";
             int indent = 0;
             Assert.Equal(expectedDecl, varDecl.Format(ref indent));
         }
@@ -129,7 +124,8 @@ namespace TcBlackTests
             "Name : STRING; (* Multi \n line \n comment *)"
         )]
         public void AllDeclarationsVariousWhitespaceArangements(
-            string unformattedCode, string expected
+            string unformattedCode,
+            string expected
         )
         {
             Globals.indentation = "    ";
@@ -142,7 +138,7 @@ namespace TcBlackTests
         [Theory]
         [InlineData("   variable1  : BOOL      ;", "variable1 : BOOL;")]
         [InlineData(
-            "deviceDown      AT     %QX0.2  :        BOOL ; ", 
+            "deviceDown      AT     %QX0.2  :        BOOL ; ",
             "deviceDown AT %QX0.2 : BOOL;"
         )]
         [InlineData("devSpeed:TIME:=T#10ms;", "devSpeed : TIME := T#10MS;")]
@@ -150,12 +146,8 @@ namespace TcBlackTests
             "fbSample   :   FB_Sample(nId_Init := 11, fIn_Init := 33.44)   ;",
             "fbSample : FB_Sample(nId_Init:=11, fIn_Init:=33.44);"
         )]
-        [InlineData(
-            "var1   :   REAL := 8   ; // Comment", "var1 : REAL := 8; // Comment"
-        )]
-        [InlineData(
-            "character   :   STRING(1) :=  ' ' ; ", "character : STRING(1) := ' ';"
-        )]
+        [InlineData("var1   :   REAL := 8   ; // Comment", "var1 : REAL := 8; // Comment")]
+        [InlineData("character   :   STRING(1) :=  ' ' ; ", "character : STRING(1) := ' ';")]
         [InlineData(
             "MSG : INT := 253; // Do not put a double space, after a comma.",
             "MSG : INT := 253; // Do not put a double space, after a comma."
@@ -168,10 +160,7 @@ namespace TcBlackTests
             "SomeArray : ARRAY[1..(n *(end +  1) -  4)/initial] OF REAL;",
             "SomeArray : ARRAY[1..(n * (end + 1) - 4) / initial] OF REAL;"
         )]
-        [InlineData(
-            "SomeArray : ARRAY[-10..-5] OF INT;",
-            "SomeArray : ARRAY[-10..-5] OF INT;"
-        )]
+        [InlineData("SomeArray : ARRAY[-10..-5] OF INT;", "SomeArray : ARRAY[-10..-5] OF INT;")]
         [InlineData(
             "SomeArray : ARRAY[- 10..(2*-14)/SYSTEM.Number] OF INT;",
             "SomeArray : ARRAY[-10..(2 * -14) / SYSTEM.Number] OF INT;"
@@ -197,25 +186,23 @@ namespace TcBlackTests
             Globals.indentation = "    ";
             Globals.lineEnding = "\n";
             VariableDeclaration variable = new VariableDeclaration(
-                unformattedCode:unformattedCode
+                unformattedCode: unformattedCode
             );
             int indents = 0;
             Assert.Equal(expected, variable.Format(ref indents));
         }
 
         [Theory]
-        [InlineData(
-            "var1   :   REAL := 8   ; // Comment",
-            "    var1 : REAL := 8; // Comment",
-            1
-        )]
+        [InlineData("var1   :   REAL := 8   ; // Comment", "    var1 : REAL := 8; // Comment", 1)]
         [InlineData(
             "deviceDown      AT     %QX0.2  :        BOOL ; ",
             "                    deviceDown AT %QX0.2 : BOOL;",
             5
         )]
         public void FormatVariableDeclarationWithIndentation(
-            string unformattedCode, string expected, int indents
+            string unformattedCode,
+            string expected,
+            int indents
         )
         {
             Globals.indentation = "    ";
@@ -236,19 +223,19 @@ namespace TcBlackTests
             "Numbers : ARRAY[1..2, 2..3, 3..4] OF UINT := [2(0), 4(4), 2, 3];"
         )]
         [InlineData(
-            "stPoly1  :ST_Polygonline:=(aStartPoint:=[3,3],aPoint1:=[5,2], " 
-            + "aPoint2:=  [7,3],aPoint3:=[8,5],aPoint4:=[5,7],aEndPoint:=[3,5]);",
+            "stPoly1  :ST_Polygonline:=(aStartPoint:=[3,3],aPoint1:=[5,2], "
+                + "aPoint2:=  [7,3],aPoint3:=[8,5],aPoint4:=[5,7],aEndPoint:=[3,5]);",
             "stPoly1 : ST_Polygonline := (aStartPoint:=[3, 3], aPoint1:=[5, 2], "
-            + "aPoint2:=[7, 3], aPoint3:=[8, 5], aPoint4:=[5, 7], " 
-            + "aEndPoint:=[3, 5]);"
+                + "aPoint2:=[7, 3], aPoint3:=[8, 5], aPoint4:=[5, 7], "
+                + "aEndPoint:=[3, 5]);"
         )]
         [InlineData(
             "aSample4 AT %Q*: ARRAY[1..3] OF ST_STRUCT1 :="
-            + "[(n1 := 1, n2:= 10, n3:= 4723),"
-            + "(n1:= 2, n2:= 0, n3:= 299 ),(n1:= 14, n2 := 5, n3:= 112)];",
+                + "[(n1 := 1, n2:= 10, n3:= 4723),"
+                + "(n1:= 2, n2:= 0, n3:= 299 ),(n1:= 14, n2 := 5, n3:= 112)];",
             "aSample4 AT %Q* : ARRAY[1..3] OF ST_STRUCT1 := "
-            + "[(n1:=1, n2:=10, n3:=4723),"
-            + " (n1:=2, n2:=0, n3:=299), (n1:=14, n2:=5, n3:=112)];"
+                + "[(n1:=1, n2:=10, n3:=4723),"
+                + " (n1:=2, n2:=0, n3:=299), (n1:=14, n2:=5, n3:=112)];"
         )]
         [InlineData(
             "afbSample1:ARRAY[0..1,0..1] OF FB_Sample["
@@ -263,12 +250,12 @@ namespace TcBlackTests
                 + "(nId_Init:=15, fIn_Init:=44.55)];"
         )]
         public void FormatDeclarationWithArrayOrStructInitialization(
-            string unformattedCode, string expected
+            string unformattedCode,
+            string expected
         )
         {
             int indents = 0;
-            string actual = 
-                new VariableDeclaration(unformattedCode).Format(ref indents);
+            string actual = new VariableDeclaration(unformattedCode).Format(ref indents);
             Assert.Equal(expected, actual);
         }
 
@@ -321,30 +308,15 @@ namespace TcBlackTests
         }
 
         [Theory]
-        [InlineData(
-            "devSpeed:TIME:=T#10ms;",
-            "devSpeed : TIME := T#10MS;"
-        )]
-        [InlineData(
-            "devSpeed:time:=T#2d5h6m1s10ms;",
-            "devSpeed : TIME := T#2D5H6M1S10MS;"
-        )]
-        [InlineData(
-            "MSG : int := 253;",
-            "MSG : INT := 253;"
-        )]
+        [InlineData("devSpeed:TIME:=T#10ms;", "devSpeed : TIME := T#10MS;")]
+        [InlineData("devSpeed:time:=T#2d5h6m1s10ms;", "devSpeed : TIME := T#2D5H6M1S10MS;")]
+        [InlineData("MSG : int := 253;", "MSG : INT := 253;")]
         [InlineData(
             "SomeArray : array[1..(n * (end + 1) - 4) / initial] OF real;",
             "SomeArray : ARRAY[1..(n * (end + 1) - 4) / initial] OF REAL;"
         )]
-        [InlineData(
-            "ptr : pointer  to  dword ; ",
-            "ptr : POINTER TO DWORD;"
-        )]
-        [InlineData(
-            "ptr : pointer  to pointer to dword ; ",
-            "ptr : POINTER TO POINTER TO DWORD;"
-        )]
+        [InlineData("ptr : pointer  to  dword ; ", "ptr : POINTER TO DWORD;")]
+        [InlineData("ptr : pointer  to pointer to dword ; ", "ptr : POINTER TO POINTER TO DWORD;")]
         public void UpperCaseKeywords(string unformattedCode, string expected)
         {
             Globals.indentation = "    ";

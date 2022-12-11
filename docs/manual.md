@@ -15,7 +15,7 @@ TcBlack --help
 
 ## Format files
 
-`-f {filename1} {filename2} ...` or `--file {filename1} {filename2} ...` 
+`-f {filename1} {filename2} ...` or `--file {filename1} {filename2} ...`
 
 Select one or more `.TcPOU` or `.TcIO` files to format. Before any formatting is done, a `.bak` back-up copy of each file is generated. This is an extra safety measure in case unintended changes are made and/or the code is not under source control.
 
@@ -39,9 +39,9 @@ Format multiple files with the long command option.
 
 ## Format a plc project
 
-`-p {project}` or `--project {project}` 
+`-p {project}` or `--project {project}`
 
-Select a `.plcproj` file to format. _TcBlack_ tries to find all the `.TcPOU` and `.TcIO` files in the subdirectories of the `.plcproj` file. Then it will format all the found files. 
+Select a `.plcproj` file to format. _TcBlack_ tries to find all the `.TcPOU` and `.TcIO` files in the subdirectories of the `.plcproj` file. Then it will format all the found files.
 
 Before any formatting is done, a `.bak` back-up copy of each file is generated. This is an extra safety measure in case unintended changes are made and/or the code is not under source control.
 

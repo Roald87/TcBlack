@@ -46,23 +46,18 @@ namespace TcBlackCLI
             {
                 try
                 {
-                    IEnumerable<string> filesWithExtension = Directory.EnumerateFiles(
-                            parentPath, $"*{extension}"
-                        ).Where(
-                            x => x.Substring(x.Length - extension.Length) == extension
-                        );
+                    IEnumerable<string> filesWithExtension = Directory
+                        .EnumerateFiles(parentPath, $"*{extension}")
+                        .Where(x => x.Substring(x.Length - extension.Length) == extension);
                     path = filesWithExtension.Single();
                     break;
                 }
-                catch (Exception ex) when (
-                    ex is DirectoryNotFoundException || ex is ArgumentException
-                )
+                catch (Exception ex)
+                    when (ex is DirectoryNotFoundException || ex is ArgumentException)
                 {
                     throw new FileNotFoundException(exceptionMessage);
                 }
-                catch (InvalidOperationException)
-                {
-                }
+                catch (InvalidOperationException) { }
 
                 try
                 {
@@ -95,9 +90,7 @@ namespace TcBlackCLI
             }
 
             string pattern = @"^VisualStudioVersion\s+=\s+(?<version>\d+\.\d+)";
-            Match match = Regex.Match(
-                file, pattern, RegexOptions.Multiline
-            );
+            Match match = Regex.Match(file, pattern, RegexOptions.Multiline);
 
             if (match.Success)
             {
@@ -120,17 +113,17 @@ namespace TcBlackCLI
         /// </returns>
         private static string GetDevEnvPath(string vsVersion)
         {
-            RegistryKey rkey = Registry.LocalMachine
-                .OpenSubKey(
-                    @"SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VS7", false
-                );
+            RegistryKey rkey = Registry.LocalMachine.OpenSubKey(
+                @"SOFTWARE\Wow6432Node\Microsoft\VisualStudio\SxS\VS7",
+                false
+            );
 
             try
             {
                 return Path.Combine(
-                    rkey.GetValue(vsVersion).ToString(), 
-                    "Common7", 
-                    "IDE", 
+                    rkey.GetValue(vsVersion).ToString(),
+                    "Common7",
+                    "IDE",
                     "devenv.com"
                 );
             }
@@ -146,9 +139,7 @@ namespace TcBlackCLI
         public TcProjectBuilder Build(bool verbose)
         {
             string currentDirectory = Directory.GetCurrentDirectory();
-            string buildScript = Path.Combine(
-                currentDirectory, "BuildTwinCatProject.bat"
-            );
+            string buildScript = Path.Combine(currentDirectory, "BuildTwinCatProject.bat");
 
             ExecuteCommand(
                 $"{buildScript} \"{devenvPath}\" \"{slnPath}\" \"{projectPath}\"",
@@ -170,8 +161,7 @@ namespace TcBlackCLI
         /// <param name="buildLog">The </param>
         public static bool BuildFailed(string buildLog)
         {
-            string pattern = 
-                @"(?:========== Build: )(\d+)(?:[a-z \-,]*)(\d+)(?:[a-z \-,]*)";
+            string pattern = @"(?:========== Build: )(\d+)(?:[a-z \-,]*)(\d+)(?:[a-z \-,]*)";
             MatchCollection matches = Regex.Matches(buildLog, pattern);
             if (matches.Count > 0)
             {
@@ -188,7 +178,8 @@ namespace TcBlackCLI
         /// Get the hash of the compiled project. Hash doesn't change when whitespaces
         /// are adjusted or comments are added/removed.
         /// </summary>
-        public string Hash {
+        public string Hash
+        {
             get
             {
                 if (projectPath.Length == 0)
@@ -198,9 +189,7 @@ namespace TcBlackCLI
                 try
                 {
                     string projectDirectory = Path.GetDirectoryName(projectPath);
-                    string compileDirectory = Path.Combine(
-                        projectDirectory, "_CompileInfo"
-                    );
+                    string compileDirectory = Path.Combine(projectDirectory, "_CompileInfo");
                     string latestCompileInfo = new DirectoryInfo(compileDirectory)
                         .GetFiles()
                         .OrderByDescending(f => f.LastWriteTime)
@@ -234,12 +223,12 @@ namespace TcBlackCLI
 
             if (verbose)
             {
-                process.OutputDataReceived += (object sender, DataReceivedEventArgs e)
-                    => Console.WriteLine("output >> " + e.Data);
+                process.OutputDataReceived += (object sender, DataReceivedEventArgs e) =>
+                    Console.WriteLine("output >> " + e.Data);
                 process.BeginOutputReadLine();
 
-                process.ErrorDataReceived += (object sender, DataReceivedEventArgs e)
-                    => Console.WriteLine("error >> " + e.Data);
+                process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) =>
+                    Console.WriteLine("error >> " + e.Data);
                 process.BeginErrorReadLine();
             }
 

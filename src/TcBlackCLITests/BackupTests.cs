@@ -4,6 +4,7 @@ using TcBlackCLI;
 using Xunit;
 
 [assembly: CLSCompliant(false)]
+
 namespace TcBlackTests
 {
     public class BackupTests
@@ -13,9 +14,7 @@ namespace TcBlackTests
         [Fact]
         public void InitializeObjectCreatesBackupFile()
         {
-            string filename = Path.Combine(
-                testDataPath, "InitializeObjectCreatesBackupFile.txt"
-            );
+            string filename = Path.Combine(testDataPath, "InitializeObjectCreatesBackupFile.txt");
             Backup backup = new Backup(filename);
             // Shouldn't raise a DirectoryNotFoundException
             File.ReadAllText(filename + ".bak");
@@ -27,14 +26,11 @@ namespace TcBlackTests
         [System.Diagnostics.CodeAnalysis.SuppressMessage(
             "Microsoft.Usage",
             "CA1806: Do not ignore method results.",
-            Justification = 
-                "Only check that no execption is raised if the file already exists."
+            Justification = "Only check that no execption is raised if the file already exists."
         )]
         public void BackupFileAlreadyExistsShouldOverwriteBackupFile()
         {
-            string filename = Path.Combine(
-                testDataPath, "BackupFileAlreadyExists.txt"
-            );
+            string filename = Path.Combine(testDataPath, "BackupFileAlreadyExists.txt");
             // Shouldn't raise an exception that the file already exists
             new Backup(filename);
         }
