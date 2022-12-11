@@ -3,6 +3,7 @@ using TcBlackCore;
 using Xunit;
 
 [assembly: CLSCompliant(false)]
+
 namespace TcBlackTests
 {
     [Collection("Sequential")]
@@ -14,7 +15,7 @@ namespace TcBlackTests
             Globals.indentation = "    ";
             Globals.lineEnding = "\n";
             string unformattedCode =
-                "// Single line comments are also not formatted, yet\n" 
+                "// Single line comments are also not formatted, yet\n"
                 + "FUNCTION AddIntegers:DINT\n"
                 + "VAR_INPUT\n"
                 + "var1:      LREAL  :=9.81 ;      // Comment\n"
@@ -25,8 +26,7 @@ namespace TcBlackTests
                 + "END_VAR\n\n\n";
 
             int indents = 0;
-            string actual = new CompositeCode(unformattedCode: unformattedCode)
-                .Format(ref indents);
+            string actual = new CompositeCode(unformattedCode: unformattedCode).Format(ref indents);
             string expected =
                 "// Single line comments are also not formatted, yet\n"
                 + "FUNCTION AddIntegers : DINT\n"
@@ -48,8 +48,7 @@ namespace TcBlackTests
             Globals.lineEnding = "\n";
             string unformattedCode = "";
             int indents = 0;
-            string actual = new CompositeCode(unformattedCode: unformattedCode)
-                .Format(ref indents);
+            string actual = new CompositeCode(unformattedCode: unformattedCode).Format(ref indents);
 
             string expected = "";
             Assert.Equal(expected, actual);
@@ -70,14 +69,10 @@ namespace TcBlackTests
                 + "    isThatTrue : BOOL;\n"
                 + "END_VAR";
             int indents = 0;
-            string actual = new CompositeCode(unformattedCode: unformattedCode)               
-                .Format(ref indents);
+            string actual = new CompositeCode(unformattedCode: unformattedCode).Format(ref indents);
 
-            string expected = 
-                "FUNCTION_BLOCK Something\n"
-                + "VAR\n"
-                + "    isThatTrue : BOOL;\n"
-                + "END_VAR\n";
+            string expected =
+                "FUNCTION_BLOCK Something\n" + "VAR\n" + "    isThatTrue : BOOL;\n" + "END_VAR\n";
             Assert.Equal(expected, actual);
         }
 
@@ -88,7 +83,7 @@ namespace TcBlackTests
             Globals.lineEnding = "\n";
             string unformattedCode =
                 "FUNCTION Abx\n"
-                + "\n" 
+                + "\n"
                 + "VAR_INPUT\n"
                 + "\n"
                 + "    number : INT;\n"
@@ -101,8 +96,7 @@ namespace TcBlackTests
                 + "\n"
                 + "END_VAR\n";
             int indents = 0;
-            string actual = new CompositeCode(unformattedCode: unformattedCode)
-                .Format(ref indents);
+            string actual = new CompositeCode(unformattedCode: unformattedCode).Format(ref indents);
 
             string expected =
                 "FUNCTION Abx\n"
@@ -122,8 +116,7 @@ namespace TcBlackTests
             Globals.lineEnding = "\n";
             string unformattedCode = "    //Some : FB_Some;\n";
             int indents = 0;
-            string actual = new CompositeCode(unformattedCode: unformattedCode)
-                .Format(ref indents);
+            string actual = new CompositeCode(unformattedCode: unformattedCode).Format(ref indents);
 
             string expected = "    //Some : FB_Some;\n";
             Assert.Equal(expected, actual);

@@ -22,7 +22,7 @@ Pull requests are the best way to propose changes to the codebase (we use [GitHu
 4. Issue that pull request!
 
 ## Any contributions you make will be under the MIT Software License
-In short, when you submit code changes, your submissions are understood to be under the 
+In short, when you submit code changes, your submissions are understood to be under the
 same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
 
 ## Report bugs/ideas using GitHub's [issues](https://github.com/Roald87/TcBlack/issues)
@@ -38,15 +38,15 @@ We use GitHub issues to track public bugs and collect ideas. Report a bug or sug
   - Give sample code if you can.
 - What you expected would happen.
 - What actually happens.
-- Notes (possibly including why you think this might be happening, or stuff you tried 
+- Notes (possibly including why you think this might be happening, or stuff you tried
 that didn't work).
 
 ## Build environment
-* Make sure to edit the project with the same version of Visual Studio as the master 
+* Make sure to edit the project with the same version of Visual Studio as the master
 branch. TcBlack has been developed using Visual Studio 2017. You can download
 [VS2017 Community edition](https://visualstudio.microsoft.com/vs/older-downloads/) for free.
-* Although most of the development will take place in C#, it is good to use the same 
-TwinCAT version if you're making changes to the TwinCAT projects. TcBlack currently 
+* Although most of the development will take place in C#, it is good to use the same
+TwinCAT version if you're making changes to the TwinCAT projects. TcBlack currently
 uses **TwinCAT 4024.7**.
 
 ## Use a Consistent Coding Style
@@ -55,10 +55,10 @@ uses **TwinCAT 4024.7**.
 Furthermore use the following TwinCAT editor settings:
 
 * Make sure that your TwinCAT development environment uses spaces instead of tabs. The default behavior of the TwinCAT development environment is to use tabs so it needs to be changed. The option can be found under **Tools → Options → TwinCAT → PLC Environment → Text editor**. Here you want to de-select **Keep tabs**. See also [this guide](https://alltwincat.com/2017/04/14/replace-tabs-with-whitespaces/).
-* Make sure to set your TwinCAT development environment to use Separate LineIDs. This 
+* Make sure to set your TwinCAT development environment to use Separate LineIDs. This
 is available in the TwinCAT XAE under **Tools → Options → TwinCAT → Write options → Separate LineIDs** (set this to TRUE, more information is available [here](https://infosys.beckhoff.com/english.php?content=../content/1033/tc3_userinterface/18014403202147467.html&id=)).
 
-## Testing 
+## Testing
 If you've implemented a new feature, you can try it by formatting or adding a file to the ShowcaseProject. Please only commit pre-formatted versions of these files, otherwise others can't use it. To show the new feature you can update the README's Current state section.
 
 ## License

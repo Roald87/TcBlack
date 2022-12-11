@@ -1,0 +1,44 @@
+exclude: '.*\.(resx|Designer.cs|xti|tcscopex|tsproj|csproj|vsixmanifest|config|TcPOU)'
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      # Removes trailing white spaces
+      - id: trailing-whitespace
+      # Checks yaml files for parseable syntax
+      - id: check-yaml
+      # Prevents git from committing large files
+      - id: check-added-large-files
+  - repo: local
+    hooks:
+      - id: CSharpier
+        name: Format C# files
+        entry: dotnet csharpier
+        language: system
+        files: '.*\.(cs$)'
+  - repo: https://github.com/psf/black
+    rev: 22.6.0
+    hooks:
+      - id: black
+  - repo: https://gitlab.com/rruiter87/pre-commit-hooks
+    rev: v1.3.0
+    hooks:
+      - id: check-poetry
+  - repo: https://github.com/PyCQA/flake8
+    rev: 4.0.1
+    hooks:
+      - id: flake8
+        exclude: ^templates/
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        args: ["--profile", "black", "--filter-files"]
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v2.7.1
+    hooks:
+      - id: prettier
+        exclude_types: ["markdown", "svg"]
+        additional_dependencies:
+          - prettier@2.6.2
+          - "@prettier/plugin-xml@0.12.0"

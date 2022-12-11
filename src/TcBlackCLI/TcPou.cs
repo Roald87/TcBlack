@@ -57,7 +57,7 @@ namespace TcBlackCLI
         /// Which indentation to use in the formatted file.
         /// </param>
         /// <param name="windowsLineEnding">If true use '\r\n' else uses '\n'.</param>
-        public TcPou(string path, string indentation, bool windowsLineEnding) 
+        public TcPou(string path, string indentation, bool windowsLineEnding)
             : this(path, windowsLineEnding)
         {
             Globals.indentation = indentation;
@@ -73,8 +73,7 @@ namespace TcBlackCLI
             XmlNodeList nodes = doc.SelectNodes(".//Declaration");
             foreach (XmlNode node in nodes)
             {
-                string formattedCode = 
-                    new CompositeCode(node.InnerText).Format(ref indents);
+                string formattedCode = new CompositeCode(node.InnerText).Format(ref indents);
                 node.InnerXml = $"<![CDATA[{formattedCode}]]>";
             }
 
@@ -86,11 +85,12 @@ namespace TcBlackCLI
         /// </summary>
         public void Save()
         {
-            using (var w = XmlWriter.Create(tcPouPath, new XmlWriterSettings
-            {
-                Indent = true,
-                NewLineChars = Globals.lineEnding,
-            }))
+            using (
+                var w = XmlWriter.Create(
+                    tcPouPath,
+                    new XmlWriterSettings { Indent = true, NewLineChars = Globals.lineEnding, }
+                )
+            )
             {
                 doc.Save(w);
             }

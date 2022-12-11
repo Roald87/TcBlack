@@ -4,17 +4,17 @@
 
 Opinionated code formatter for TwinCAT. Currently in the **alpha state**. Use at your **own risk** and only with files which are under source control.
 
-_TcBlack_ is available as a command line tool ([TcBlackCLI](https://github.com/Roald87/TcBlack/releases/tag/v0.2.0)) as well as a visual studio extension ([TcBlackExtension](https://github.com/Roald87/TcBlack/releases/tag/TcBlackExtension_v0.1.0)). 
+_TcBlack_ is available as a command line tool ([TcBlackCLI](https://github.com/Roald87/TcBlack/releases/tag/v0.2.0)) as well as a visual studio extension ([TcBlackExtension](https://github.com/Roald87/TcBlack/releases/tag/TcBlackExtension_v0.1.0)).
 
-## Current state 
+## Current state
 
-`FB_Child` from ShowcaseProject formatted using the _TcBlackExtension_ for Visual Studio. 
+`FB_Child` from ShowcaseProject formatted using the _TcBlackExtension_ for Visual Studio.
 
 ![tcblack_extension](tcblack_extension.gif)
 
 ## _TcBlackCLI_ usage
 
-1. [Download](https://github.com/Roald87/TcBlack/releases/latest) the latest release. 
+1. [Download](https://github.com/Roald87/TcBlack/releases/latest) the latest release.
 1. Open the windows command prompt and navigate to the folder containing `TcBlack.exe`.
 1. Reformat one or more file by giving their full path names:
 
@@ -27,14 +27,14 @@ _TcBlack_ is available as a command line tool ([TcBlackCLI](https://github.com/R
     ```
     > TcBlack --safe -f C:\Full\Path\To\Filename.TcPOU
     ```
-    
+
     or format a whole project at once and replace all indentation by a two spaces:
 
     ```
     > TcBlack --safe -f C:\Full\Path\To\Project.plcproj --indentation "  "
     ```
 
-For more info enter `> TcBlack --help` in the command prompt or check the 
+For more info enter `> TcBlack --help` in the command prompt or check the
 [manual](docs/manual.md).
 
 ## Installing the extension
@@ -51,12 +51,12 @@ FUNCTION_BLOCK  FB_Child EXTENDS FB_Base  IMPLEMENTS I_Interface,I_Interface2
 VAR_INPUT
 END_VAR
 VAR
-    
+
 SomeText: STRING;
 	Counter		: DINT:= 1 ;
   Result		: DINT :=2;
-    
-    
+
+
       Base:FB_Base;
 END_VAR
 ===================================
@@ -80,8 +80,8 @@ AddTwoInts(    Variable1 :=4,
 Into
 
 ```
-FUNCTION_BLOCK FB_Child 
-EXTENDS FB_Base 
+FUNCTION_BLOCK FB_Child
+EXTENDS FB_Base
 IMPLEMENTS I_Interface, I_Interface2
 VAR
     SomeText : STRING;
@@ -94,13 +94,13 @@ END_VAR
 ===================================
 SomeText := 'Current counts';
 
-IF 
-    Conditions[1] 
+IF
+    Conditions[1]
     AND Conditions[2]
-    AND Conditions[3] 
-    AND Conditions[4] 
+    AND Conditions[3]
+    AND Conditions[4]
     AND Conditions[5]
-    AND Conditions[6] 
+    AND Conditions[6]
 THEN
     Counter := Counter + 1;
 
@@ -110,10 +110,10 @@ THEN
 END_IF
 
 Base(
-    Variable1:=2, 
-    Variable2:=3 , 
+    Variable1:=2,
+    Variable2:=3 ,
     Variable3:=5,
-    Sentence:='Entropy is a real bitch.', 
+    Sentence:='Entropy is a real bitch.',
     Conditions:=Conditions
 );
 

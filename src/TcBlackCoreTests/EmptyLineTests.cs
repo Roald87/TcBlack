@@ -10,9 +10,7 @@ namespace TcBlackTests
         [InlineData("", 0, "")]
         [InlineData("\t\t", 1, " ")]
         [InlineData("\t      ", 2, "  ")]
-        public void DifferentEmptyLines(
-            string unformattedCode, int initialIndents, string expected
-        )
+        public void DifferentEmptyLines(string unformattedCode, int initialIndents, string expected)
         {
             Globals.indentation = " ";
             Globals.lineEnding = "\n";

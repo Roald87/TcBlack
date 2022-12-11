@@ -7,6 +7,7 @@ using CommandLine;
 using TcBlackCore;
 
 [assembly: CLSCompliant(true)]
+
 namespace TcBlackCLI
 {
     class Program
@@ -14,53 +15,55 @@ namespace TcBlackCLI
         [STAThread]
         static void Main(string[] args)
         {
-            Parser.Default.ParseArguments<Options>(args).WithParsed(options =>
-            {
-                string[] filenames;
-                try
+            Parser.Default
+                .ParseArguments<Options>(args)
+                .WithParsed(options =>
                 {
-                    filenames = FilesToFormat(options);
-                }
-                catch (ArgumentException)
-                {
-                    Console.WriteLine($"Unable to find file {options.Project}");
-                    return;
-                }
-
-                string fileListForCommandPrompt = string.Join(
-                    "\n",
-                    filenames.Select(filename => $"  - {filename}").ToArray()
-                );
-
-                if (options.Safe)
-                {
-                    Console.WriteLine(
-                        $"\nFormatting {filenames.Length} file(s) "
-                        + $"in safe mode:\n{fileListForCommandPrompt}\n"
-                    );
-                    SafeFormat(filenames, options);
-                }
-                else
-                {
-                    Console.WriteLine(
-                        $"\nFormatting {filenames.Length} file(s) "
-                        + $"in fast non-safe mode:\n{fileListForCommandPrompt}\n"
-                    );
+                    string[] filenames;
                     try
                     {
-                        CreateBackups(options.File.ToArray());
+                        filenames = FilesToFormat(options);
                     }
-                    catch (FileNotFoundException)
+                    catch (ArgumentException)
                     {
-                        Console.WriteLine(
-                            $"One of the files doesn't exist. " +
-                            $"Check the filenames and try again."
-                        );
+                        Console.WriteLine($"Unable to find file {options.Project}");
                         return;
                     }
-                    FormatAll(filenames, options);
-                }
-            });
+
+                    string fileListForCommandPrompt = string.Join(
+                        "\n",
+                        filenames.Select(filename => $"  - {filename}").ToArray()
+                    );
+
+                    if (options.Safe)
+                    {
+                        Console.WriteLine(
+                            $"\nFormatting {filenames.Length} file(s) "
+                                + $"in safe mode:\n{fileListForCommandPrompt}\n"
+                        );
+                        SafeFormat(filenames, options);
+                    }
+                    else
+                    {
+                        Console.WriteLine(
+                            $"\nFormatting {filenames.Length} file(s) "
+                                + $"in fast non-safe mode:\n{fileListForCommandPrompt}\n"
+                        );
+                        try
+                        {
+                            CreateBackups(options.File.ToArray());
+                        }
+                        catch (FileNotFoundException)
+                        {
+                            Console.WriteLine(
+                                $"One of the files doesn't exist. "
+                                    + $"Check the filenames and try again."
+                            );
+                            return;
+                        }
+                        FormatAll(filenames, options);
+                    }
+                });
         }
 
         /// <summary>
@@ -74,9 +77,10 @@ namespace TcBlackCLI
             {
                 Regex extensions = new Regex(@"(TcPOU|TcIO)$");
                 string projectDirectory = Path.GetDirectoryName(options.Project);
-                return Directory.EnumerateFiles(
-                    projectDirectory, "*.*", SearchOption.AllDirectories
-                ).Where(f => extensions.IsMatch(f)).ToArray();
+                return Directory
+                    .EnumerateFiles(projectDirectory, "*.*", SearchOption.AllDirectories)
+                    .Where(f => extensions.IsMatch(f))
+                    .ToArray();
             }
             else
             {
@@ -109,11 +113,9 @@ namespace TcBlackCLI
             {
                 hashBeforeFormat = tcProject.Build(options.Verbose).Hash;
             }
-            catch(ProjectBuildFailedException)
+            catch (ProjectBuildFailedException)
             {
-                Console.WriteLine(
-                    "Initial project build failed! No formatting will be done."
-                );
+                Console.WriteLine("Initial project build failed! No formatting will be done.");
                 return;
             }
 
@@ -125,8 +127,7 @@ namespace TcBlackCLI
             catch (FileNotFoundException)
             {
                 Console.WriteLine(
-                    $"One of the files doesn't exist. " +
-                    $"Check the filenames and try again."
+                    $"One of the files doesn't exist. " + $"Check the filenames and try again."
                 );
                 return;
             }
@@ -138,20 +139,16 @@ namespace TcBlackCLI
             {
                 hashAfterFormat = tcProject.Build(options.Verbose).Hash;
             }
-            catch(ProjectBuildFailedException)
+            catch (ProjectBuildFailedException)
             {
-                Console.WriteLine(
-                    "Project build failed after formatting! Undoing it."
-                );
+                Console.WriteLine("Project build failed after formatting! Undoing it.");
                 backups.ForEach(backup => backup.Restore().Delete());
                 return;
             }
 
             if (hashBeforeFormat != hashAfterFormat)
             {
-                Console.WriteLine(
-                    "Something when wrong during formatting! Undoing it."
-                );
+                Console.WriteLine("Something when wrong during formatting! Undoing it.");
                 backups.ForEach(backup => backup.Restore().Delete());
             }
             else
@@ -170,7 +167,7 @@ namespace TcBlackCLI
             foreach (string filename in filenames)
             {
                 if (
-                    options.Indentation.Length > 0 
+                    options.Indentation.Length > 0
                     && (options.WindowsLineEnding || options.UnixLineEnding)
                 )
                 {

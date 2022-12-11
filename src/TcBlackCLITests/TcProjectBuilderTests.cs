@@ -8,17 +8,22 @@ namespace TcBlackTests
     public class TcProjectBuilderTests
     {
         private static readonly string currentDirectory = Environment.CurrentDirectory;
-        private static readonly string testDirectory = 
-            Directory.GetParent(currentDirectory).Parent.FullName;
-        private static readonly string projectDirectory = 
-            Path.Combine(testDirectory, "..", "..", "twincat");
+        private static readonly string testDirectory = Directory
+            .GetParent(currentDirectory)
+            .Parent.FullName;
+        private static readonly string projectDirectory = Path.Combine(
+            testDirectory,
+            "..",
+            "..",
+            "twincat"
+        );
 
         [Fact]
         public void GetHashOfProjectWithHash()
         {
-            var plcProject = new TcProjectBuilder(Path.Combine(
-                projectDirectory, "WorkingProjectForUnitTests", "PLC", "PLC.plcproj"
-            ));
+            var plcProject = new TcProjectBuilder(
+                Path.Combine(projectDirectory, "WorkingProjectForUnitTests", "PLC", "PLC.plcproj")
+            );
 
             Assert.Equal("E7C52539-BBF0-7365-BEC4-14FF9FECC46D", plcProject.Hash);
         }
@@ -35,20 +40,21 @@ namespace TcBlackTests
         public void BuildMockBrokenProjectShouldRaiseException()
         {
             string brokenProjectPath = Path.Combine(
-                projectDirectory, "BrokenProjectForUnitTests", "PLC2", "PLC2.plcproj"
+                projectDirectory,
+                "BrokenProjectForUnitTests",
+                "PLC2",
+                "PLC2.plcproj"
             );
             string failedBuildLogPath = Path.Combine(
-                testDirectory, 
-                "TcProjectBuildTestData", 
+                testDirectory,
+                "TcProjectBuildTestData",
                 "failedBuildWithExtraTextBelow.log"
             );
-            var plcProject = new MockTcProjectBuilder(
-                brokenProjectPath, failedBuildLogPath
-            );
-            Assert.Throws<ProjectBuildFailedException>(() => plcProject.Build(verbose:true));
+            var plcProject = new MockTcProjectBuilder(brokenProjectPath, failedBuildLogPath);
+            Assert.Throws<ProjectBuildFailedException>(() => plcProject.Build(verbose: true));
         }
 
-        //// Only uncomment this if you want to test the real build process. 
+        //// Only uncomment this if you want to test the real build process.
         //// Takes ~30 s to complete.
         //[Fact]
         //public void BuildRealBrokenProjectShouldRaiseException()
@@ -65,31 +71,33 @@ namespace TcBlackTests
         [InlineData("Non/Existing/Path/PLC.plcproj")]
         public void TryGetHashOfNonExistingProject(string projectPath)
         {
-            Assert.Throws<FileNotFoundException>(
-                ()=> new TcProjectBuilder(projectPath)
-            );
+            Assert.Throws<FileNotFoundException>(() => new TcProjectBuilder(projectPath));
         }
 
         private static readonly string testDataDirectory = Path.Combine(
-            testDirectory, "TcProjectBuildTestData"
+            testDirectory,
+            "TcProjectBuildTestData"
         );
+
         [Theory]
         [InlineData("succesfulBuild.log", false)]
         [InlineData("failedBuildWithExtraTextBelow.log", true)]
         [InlineData("firstBuildOkSecondBuildFailed.log", true)]
         public void CheckIfBuildFailedFromLogFile(string logFile, bool buildFailed)
         {
-            string logFileContent = File.ReadAllText(
-                Path.Combine(testDataDirectory, logFile)
-            );
+            string logFileContent = File.ReadAllText(Path.Combine(testDataDirectory, logFile));
             bool actual = TcProjectBuilder.BuildFailed(logFileContent);
 
             Assert.Equal(buildFailed, actual);
         }
 
         private static readonly string workingProjectPouDirectory = Path.Combine(
-            projectDirectory, "WorkingProjectForUnitTests", "PLC", "POUs"
+            projectDirectory,
+            "WorkingProjectForUnitTests",
+            "PLC",
+            "POUs"
         );
+
         [Theory]
         [InlineData("Sum.TcPOU")]
         [InlineData("MAIN.TcPOU")]
@@ -105,12 +113,9 @@ namespace TcBlackTests
         public void TryToBuildProjectWithoutPlcprojFile()
         {
             string path = "C:/Program Files";
-            var exception = Assert.Throws<FileNotFoundException>(
-                () => new TcProjectBuilder(path)
-            );
+            var exception = Assert.Throws<FileNotFoundException>(() => new TcProjectBuilder(path));
             Assert.Equal(
-                $"Unable to find a .plcproj file in any of the parent folders of "
-                + $"{path}.",
+                $"Unable to find a .plcproj file in any of the parent folders of " + $"{path}.",
                 exception.Message
             );
         }
@@ -118,9 +123,7 @@ namespace TcBlackTests
         [Fact]
         public void TryToBuildProjectWithoutSlnFile()
         {
-            string tempPlcProjFile = Path.Combine(
-                projectDirectory, "../UnitTest.plcproj"
-            );
+            string tempPlcProjFile = Path.Combine(projectDirectory, "../UnitTest.plcproj");
             if (!File.Exists(tempPlcProjFile))
             {
                 File.Create(tempPlcProjFile).Close();
@@ -129,19 +132,21 @@ namespace TcBlackTests
                 () => new TcProjectBuilder(tempPlcProjFile)
             );
             Assert.Equal(
-                $"Unable to find a .sln file in any of the parent folders of " 
-                + $"{tempPlcProjFile}.",
+                $"Unable to find a .sln file in any of the parent folders of "
+                    + $"{tempPlcProjFile}.",
                 exception.Message
             );
             File.Delete(tempPlcProjFile);
         }
 
-
         [Fact]
         public void FindOnlyExactExtensionForThreeCharacterExtensions()
         {
             string projectPath = Path.Combine(
-                projectDirectory, "WorkingProjectForUnitTests", "PLC", "plcproj"
+                projectDirectory,
+                "WorkingProjectForUnitTests",
+                "PLC",
+                "plcproj"
             );
             var exception = Record.Exception(() => new TcProjectBuilder(projectPath));
             Assert.Null(exception);

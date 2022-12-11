@@ -25,13 +25,11 @@
             }
 
             var other = (TcDeclaration)obj;
-            return 
-                Name == other.Name 
-                && Allocation == other.Allocation 
+            return Name == other.Name
+                && Allocation == other.Allocation
                 && DataType == other.DataType
-                && Initialization == other.Initialization 
-                && Comment == other.Comment
-            ;
+                && Initialization == other.Initialization
+                && Comment == other.Comment;
         }
 
         public override int GetHashCode()
@@ -39,7 +37,7 @@
             return base.GetHashCode();
         }
 
-        public static bool operator==(TcDeclaration obj1, TcDeclaration obj2)
+        public static bool operator ==(TcDeclaration obj1, TcDeclaration obj2)
         {
             if (obj1 == null)
             {

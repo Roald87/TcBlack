@@ -11,9 +11,9 @@ namespace TcBlackTests
         [InlineData("   END_VAR     ", 2, "    END_VAR", 1)]
         [InlineData("   END_VAR     ", 0, "END_VAR", 0)]
         public void DifferentIndents(
-            string originalCode, 
-            int indents, 
-            string expectedCode, 
+            string originalCode,
+            int indents,
+            string expectedCode,
             int expectedIndents
         )
         {

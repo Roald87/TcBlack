@@ -157,7 +157,7 @@ namespace TcBlackCore
             "pvoid",
         };
         static Regex KeywordsRegex = new Regex(
-           @"(?<!\w)(" + string.Join("|", KeywordList) + @")(?!\w)",
+            @"(?<!\w)(" + string.Join("|", KeywordList) + @")(?!\w)",
             RegexOptions.IgnoreCase
         );
 
@@ -170,13 +170,7 @@ namespace TcBlackCore
 
         public static string Upper(string data)
         {
-            return SpacingRegex.Replace(
-                KeywordsRegex.Replace(
-                    data,
-                    KeywordsEval
-                ),
-                " "
-            );
+            return SpacingRegex.Replace(KeywordsRegex.Replace(data, KeywordsEval), " ");
         }
     }
 }

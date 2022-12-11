@@ -4,29 +4,28 @@ namespace TcBlackCore
 {
     public class VariableDeclaration : CodeLineBase
     {
-        public VariableDeclaration(string unformattedCode) : base(unformattedCode)
-        {
-        }
+        public VariableDeclaration(string unformattedCode) : base(unformattedCode) { }
 
         public override string Format(ref int indents)
         {
             TcDeclaration tokens = Tokenize();
             string formattedDatatype = (
-                InsertSpacesAroundOperators(tokens.DataType)
-                .Replace(",", ", ")
+                InsertSpacesAroundOperators(tokens.DataType).Replace(",", ", ")
             );
-                
+
             string formattedCode = (
-                    Globals.indentation.Repeat(indents)
-                    + tokens.Name
-                    + (tokens.Allocation.Length > 0 ? $" AT {tokens.Allocation}" : "")
-                    + $" : {formattedDatatype}"
-                    + (tokens.Initialization.Length > 0 ? 
-                        $" := {tokens.Initialization.Replace(",", ", ")}" : ""
-                    )
-                    + ";"
-                    + (tokens.Comment.Length > 0 ? $" {tokens.Comment}" : "")
-                );
+                Globals.indentation.Repeat(indents)
+                + tokens.Name
+                + (tokens.Allocation.Length > 0 ? $" AT {tokens.Allocation}" : "")
+                + $" : {formattedDatatype}"
+                + (
+                    tokens.Initialization.Length > 0
+                        ? $" := {tokens.Initialization.Replace(",", ", ")}"
+                        : ""
+                )
+                + ";"
+                + (tokens.Comment.Length > 0 ? $" {tokens.Comment}" : "")
+            );
 
             return formattedCode;
         }
@@ -38,13 +37,13 @@ namespace TcBlackCore
             string array_pattern = @"ARRAY\[.*\]\s+OF\s+[\w.]+";
             string unit_pattern =
                 $@"({array_pattern}\(.*\)|{array_pattern}\[.*\]|{array_pattern}"
-                + @"|\w+\(.*\)|\w+\[.*\]|[^;:]*)\s*"; 
+                + @"|\w+\(.*\)|\w+\[.*\]|[^;:]*)\s*";
             string initialization = $@"(?::=)?(?s)\s*(.*?)?";
             string comment = $@"\s*(\/\/[^\n]+|\(\*.*?\*\))?";
-            string pattern = 
+            string pattern =
                 $@"{variable_pattern}{address_pattern}:\s*"
                 + $@"{unit_pattern}{initialization};{comment}";
-            
+
             string strInitRegex = $@"([""'])(?:(?=(\$?))\2.)*?\1(?=\s*;)";
 
             Match match = Regex.Match(unformattedCode, strInitRegex);
@@ -57,8 +56,8 @@ namespace TcBlackCore
 
             MatchCollection matches = Regex.Matches(
                 unformattedCode,
-                pattern, 
-               RegexOptions.IgnoreCase
+                pattern,
+                RegexOptions.IgnoreCase
             );
             TcDeclaration variable;
             if (matches.Count > 0)
@@ -66,16 +65,12 @@ namespace TcBlackCore
                 match = matches[0];
                 if (strInit.Length == 0)
                 {
-                    strInit = Keywords.Upper(
-                        RemoveWhiteSpaceIfPossible(match.Groups[4].Value)
-                    );
+                    strInit = Keywords.Upper(RemoveWhiteSpaceIfPossible(match.Groups[4].Value));
                 }
                 variable = new TcDeclaration(
                     name: RemoveWhiteSpaceIfPossible(match.Groups[1].Value),
                     allocation: RemoveWhiteSpaceIfPossible(match.Groups[2].Value),
-                    dataType: Keywords.Upper(
-                        RemoveWhiteSpaceIfPossible(match.Groups[3].Value)
-                    ),
+                    dataType: Keywords.Upper(RemoveWhiteSpaceIfPossible(match.Groups[3].Value)),
                     initialization: strInit,
                     comment: match.Groups[5].Value.Trim()
                 );
@@ -118,7 +113,7 @@ namespace TcBlackCore
         }
 
         /// <summary>
-        /// Return string with single spaces around +, -, * and / operators. 
+        /// Return string with single spaces around +, -, * and / operators.
         /// </summary>
         /// <example>
         /// "a+b" => "a + b"

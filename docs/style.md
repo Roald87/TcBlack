@@ -1,20 +1,20 @@
 # The _TcBlack_ code style
 
-_This document is an edited version of _Black_'s 
+_This document is an edited version of _Black_'s
 [code style document](https://raw.githubusercontent.com/psf/black/master/docs/the_TcBlack_code_style.md)._
 
 ## Code style
 
-_TcBlack_ reformats entire files in place and creates a `.bak` file of the original one. 
-It is not configurable. It doesn't take previous formatting into account. It doesn't reformat 
-blocks that start with `// fmt: off` and end with `// fmt: on` [#16](https://github.com/Roald87/TcBlack/issues/16). 
+_TcBlack_ reformats entire files in place and creates a `.bak` file of the original one.
+It is not configurable. It doesn't take previous formatting into account. It doesn't reformat
+blocks that start with `// fmt: off` and end with `// fmt: on` [#16](https://github.com/Roald87/TcBlack/issues/16).
 
 ### How _TcBlack_ wraps lines (Milestone 0.5+)
 
 _TcBlack_ ignores previous formatting and applies uniform horizontal and vertical
 whitespace to your code. The rules for horizontal whitespace can be summarized as: do
 whatever makes `pycodestyle` happy. The coding style used by _TcBlack_ can be viewed as a
-strict subset of PEP 8/[Black](https://raw.githubusercontent.com/psf/black/master/docs/the_TcBlack_code_style.md). 
+strict subset of PEP 8/[Black](https://raw.githubusercontent.com/psf/black/master/docs/the_TcBlack_code_style.md).
 Furthermore, formatting is done in such a way to reduce potential diffs.
 
 As for vertical whitespace, _TcBlack_ tries to render one full expression or simple
@@ -50,8 +50,8 @@ SomeImportantFunctionBlock.WithAMethod(
 
 If that still doesn't fit the bill, it will decompose the internal expression further
 using the same rule, indenting matching brackets every time. If the contents of the
-matching brackets pair are comma-separated like an argument list then _TcBlack_ will 
-first try to keep them on the same line with the matching brackets. If that doesn't work, 
+matching brackets pair are comma-separated like an argument list then _TcBlack_ will
+first try to keep them on the same line with the matching brackets. If that doesn't work,
 it will put all of them in separate lines.
 
 ```
@@ -62,12 +62,12 @@ AnotherFunctionBlock(without:='a', method:=', ', which:='has', quite:='a', bit:=
 // out:
 
 AnotherFunctionBlock(
-	without:='a', 
-	method:=', ', 
-	which:='has', 
-	quite:='a', 
-	bit:='more', 
-	variables:='to', 
+	without:='a',
+	method:=', ',
+	which:='has',
+	quite:='a',
+	bit:='more',
+	variables:='to',
 	worry:='about',
 );
 ```
@@ -86,7 +86,7 @@ significantly shorter files than sticking with 80 (the most popular), or even 79
 by the standard library). In general,
 [90-ish seems like the wise choice](https://youtu.be/wf-BqAjZb8M?t=260).
 
-If you're paid by the line of code you write, you can pass `--line-length` 
+If you're paid by the line of code you write, you can pass `--line-length`
 [#17](https://github.com/Roald87/TcBlack/issues/17) with a lower
 number. _TcBlack_ will try to respect that. However, sometimes it won't be able to without
 breaking other rules. In those rare cases, auto-formatted code will exceed your allotted
@@ -107,11 +107,11 @@ parenthesized expressions. Since such expressions are always reformatted to fit 
 space, this whitespace is lost.
 
 Finally _TcBlack_ will add a single whiteline to a function or function block definition and
-implementation. This is to prevent unessesarry diffs in the raw TcPOU xml file, especially in the 
+implementation. This is to prevent unessesarry diffs in the raw TcPOU xml file, especially in the
 implementation part. Since the declaration part will usually end with a `END_VAR` anyway, but
 for consistency the declaration part will also get a trailing white space.
 
-Take the following diffs where an extra statement gets added, but this version doesn't have a 
+Take the following diffs where an extra statement gets added, but this version doesn't have a
 trailing white line:
 
 ```diff
@@ -165,7 +165,7 @@ multiple lines. This is so that _TcBlack_ is compliant with the recent changes i
 [PEP 8](https://www.python.org/dev/peps/pep-0008/#should-a-line-break-before-or-after-a-binary-operator)
 style guide, which emphasizes that this approach improves readability.
 
-So instead of 
+So instead of
 
 ```
 // Wrong:
@@ -179,7 +179,7 @@ income := (
 );
 ```
 
-do 
+do
 
 ```
 // Correct:
@@ -190,7 +190,7 @@ income := (
     + (dividends - qualified_dividends)
     - ira_deduction
     - student_loan_interest
-);		  
+);
 ```
 
 ### Parentheses (Milestone 0.5+)
@@ -248,13 +248,13 @@ For example:
 
 ```
 Thermocouples : ARRAY[1..2] OF FB_Tc = [
-	(Pos:='4 Left'), 
+	(Pos:='4 Left'),
 	(Pos:='5 Below'),
 ];
 ```
 
-In principle this statement fits on a single 88 character line. However, you can communicate that 
-you don't want to format it, by putting a trailing comma in the collection yourself. When 
+In principle this statement fits on a single 88 character line. However, you can communicate that
+you don't want to format it, by putting a trailing comma in the collection yourself. When
 you do, _TcBlack_ will know to always explode your collection into one item per line.
 
 How do you make it stop? Just delete that trailing comma and _TcBlack_ will collapse your

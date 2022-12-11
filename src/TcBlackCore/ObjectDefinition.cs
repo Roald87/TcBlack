@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 namespace TcBlackCore
 {
     /// <summary>
-    /// Format the definition of a FUNCTION, FUNCTION_BLOCK, etc. including the 
+    /// Format the definition of a FUNCTION, FUNCTION_BLOCK, etc. including the
     /// IMPLEMENTS and EXTENDS.
     /// </summary>
     public class ObjectDefinition : CodeLineBase
@@ -38,9 +38,7 @@ namespace TcBlackCore
             public string Implements { get; }
         }
 
-        public ObjectDefinition(string unformattedCode) : base(unformattedCode)
-        {
-        }
+        public ObjectDefinition(string unformattedCode) : base(unformattedCode) { }
 
         /// <summary>
         /// Return the formatted code.
@@ -57,16 +55,14 @@ namespace TcBlackCore
                 + (tokens.AccessModifier.Length > 0 ? $" {tokens.AccessModifier}" : "")
                 + $" {tokens.Name}"
                 + (tokens.DataType.Length > 0 ? $" : {tokens.DataType}" : "")
-                + (tokens.Extends.Length > 0 ?
-                    $" EXTENDS {tokens.Extends}" : "")
-                + (tokens.Implements.Length > 0 ?
-                    $" IMPLEMENTS {tokens.Implements}" : "");
+                + (tokens.Extends.Length > 0 ? $" EXTENDS {tokens.Extends}" : "")
+                + (tokens.Implements.Length > 0 ? $" IMPLEMENTS {tokens.Implements}" : "");
 
             return formattedCode;
         }
 
         /// <summary>
-        /// Return the split object definition. 
+        /// Return the split object definition.
         /// </summary>
         /// <returns>The split object defination.</returns>
         private TcObject Tokenize()
@@ -90,7 +86,9 @@ namespace TcBlackCore
             string pattern = @"INTERFACE\s+(\w+)\s*(?:EXTENDS((?:[\s,]+[\w\.]+)+))?";
 
             MatchCollection matches = Regex.Matches(
-                unformattedCode, pattern, RegexOptions.IgnoreCase
+                unformattedCode,
+                pattern,
+                RegexOptions.IgnoreCase
             );
             if (matches.Count > 0)
             {
@@ -114,11 +112,7 @@ namespace TcBlackCore
         private TcObject TokenizeFunctionBlock()
         {
             string[] splitDefinition = Regex
-                .Split(
-                    unformattedCode,
-                    @",|\s+",
-                    RegexOptions.IgnorePatternWhitespace
-                )
+                .Split(unformattedCode, @",|\s+", RegexOptions.IgnorePatternWhitespace)
                 .Where(s => !string.IsNullOrEmpty(s))
                 .ToArray();
 
@@ -155,7 +149,8 @@ namespace TcBlackCore
                     part.ToUpperInvariant() == "ABSTRACT"
                     || part.ToUpperInvariant() == "FINAL"
                     || part.ToUpperInvariant() == "INTERNAL"
-                    || part.ToUpperInvariant() == "PUBLIC")
+                    || part.ToUpperInvariant() == "PUBLIC"
+                )
                 {
                     accessModifiers.Add(part);
                 }
@@ -186,8 +181,8 @@ namespace TcBlackCore
             if (matches.Count > 0)
             {
                 Match match = matches[0];
-                bool twoModifers = match.Groups[2].Value.Length > 0
-                                && match.Groups[3].Value.Length > 0;
+                bool twoModifers =
+                    match.Groups[2].Value.Length > 0 && match.Groups[3].Value.Length > 0;
                 return new TcObject(
                     objectType: match.Groups[1].Value,
                     accessModifier: match.Groups[2].Value
