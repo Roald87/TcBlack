@@ -15,8 +15,8 @@ jobs:
         with:
           dotnet-version: "7.x"
       - run: |
-          dotnet tool install csharpier
-          dotnet tool install fantomas
+          dotnet tool install --global csharpier
+          dotnet tool install --global fantomas
       - uses: pre-commit/action@v3.0.0
       - uses: pre-commit-ci/lite-action@v1.0.0
         if: always()
