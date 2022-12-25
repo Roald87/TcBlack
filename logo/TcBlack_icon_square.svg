@@ -2,12 +2,15 @@
 <svg
    version="1.1"
    preserveAspectRatio="xMidYMid meet"
-   viewBox="277.5238095238097 165.33465326429067 83.99999999999994 103.99999999999997"
-   width="200"
-   height="250"
+   viewBox="277.52381 165.33465 74.973294 74.259263"
+   width="178.50784"
+   height="178.50784"
    id="svg285"
-   sodipodi:docname="TcBlack_icon.svg"
+   sodipodi:docname="TcBlack_icon_square.svg"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04, custom)"
+   inkscape:export-filename="C:\Users\roald\Source\Repos\TcBlack\logo\TcBlack_icon_squar128.png"
+   inkscape:export-xdpi="51.630253"
+   inkscape:export-ydpi="51.630253"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -22,50 +25,60 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      showgrid="false"
-     inkscape:zoom="3.328"
-     inkscape:cx="51.382212"
-     inkscape:cy="125"
+     inkscape:zoom="2.3532514"
+     inkscape:cx="13.810679"
+     inkscape:cy="66.29126"
      inkscape:window-width="1920"
      inkscape:window-height="1057"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g283" />
+     inkscape:current-layer="g283"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
   <defs
      id="defs257">
     <path
-       d="M278.52 166.33L358.52 166.33L358.52 266.33L278.52 266.33L278.52 166.33Z"
+       d="m 278.52,166.33 h 80 v 100 h -80 z"
        id="c1GjzOCrds" />
     <path
-       d="M292.27 175L332.27 175L332.27 186L292.27 186L292.27 175Z"
+       d="m 292.27,175 h 40 v 11 h -40 z"
        id="j8mFnADfA" />
     <path
-       d="M347.27 192L317.27 192L317.27 203L347.27 203L347.27 192Z"
+       d="m 347.27,192 h -30 v 11 h 30 z"
        id="cbqjvosZl" />
     <path
-       d="M322.27 209L292.27 209L292.27 220L322.27 220L322.27 209Z"
+       d="m 322.27,209 h -30 v 11 h 30 z"
        id="aU3SrzpIZ" />
     <path
-       d="M347.27 228L317.27 228L317.27 239L347.27 239L347.27 228Z"
+       d="m 347.27,228 h -30 v 11 h 30 z"
        id="f35lZwJfpg" />
     <path
-       d="M292.27 245L332.27 245L332.27 256L292.27 256L292.27 245Z"
+       d="m 292.27,245 h 40 v 11 h -40 z"
        id="b1aB768ROj" />
   </defs>
   <g
-     id="g283">
+     id="g283"
+     transform="translate(-5.5388159,-14.241103)">
     <g
-       id="g261">
+       id="g261"
+       transform="matrix(0.93716618,0,0,0.74973294,22.043101,54.372676)">
       <use
          xlink:href="#c1GjzOCrds"
          opacity="1"
          fill="#000000"
          fill-opacity="1"
-         id="use259" />
+         id="use259"
+         x="0"
+         y="0"
+         width="100%"
+         height="100%" />
     </g>
     <g
-       id="g195"
-       transform="translate(-1.25,0.83)">
+       id="g401"
+       transform="matrix(0.75003296,0,0,0.75003296,80.711234,54.133464)">
       <g
          id="g265">
         <use
